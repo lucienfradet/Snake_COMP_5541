@@ -1,4 +1,5 @@
-FROM openjdk:17-jdk-slim
+# FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk-jammy
 
 # Install required libraries for GUI, including libfreetype6 for font rendering
 RUN apt-get update && \
@@ -8,6 +9,7 @@ RUN apt-get update && \
     libxrender1 \
     libxtst6 \
     libfreetype6 \
+    libxi6 \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
