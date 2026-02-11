@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.awt.Color;
+import javax.swing.SwingUtilities;
 
 public class DataOfSquare {
 
@@ -17,7 +18,9 @@ public class DataOfSquare {
 		color=col;
 		square = new SquarePanel(C.get(color));
 	}
-	public void lightMeUp(int c){
-		square.ChangeColor(C.get(c));
-	}
+  public void lightMeUp(int c) {
+    SwingUtilities.invokeLater(() -> {
+      square.ChangeColor(C.get(c));
+    });
+  }
 }

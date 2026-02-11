@@ -6,7 +6,7 @@ public class ThreadsController extends Thread {
 	 ArrayList<ArrayList<DataOfSquare>> Squares= new ArrayList<ArrayList<DataOfSquare>>();
 	 Tuple headSnakePos;
 	 int sizeSnake=3;
-	 long speed = 50;
+	 long speed = 150;
 	 public static int directionSnake ;
 
 	 ArrayList<Tuple> positions = new ArrayList<Tuple>();
@@ -30,15 +30,31 @@ public class ThreadsController extends Thread {
 	 }
 	 
 	 //Important part :
-	 public void run() {
-		 while(true){
-			 moveInterne(directionSnake);
-			 checkCollision();
-			 moveExterne();
-			 deleteTail();
-			 pauser();
-		 }
-	 }
+   public void run() {
+     long lastTime = System.nanoTime();
+     final double TARGET_FPS = 1000000000.0 / 150_000_000; // ~6.67 ticks/sec (150ms interval)
+     double delta = 0;
+
+     while (true) {
+       long now = System.nanoTime();
+       delta += (now - lastTime) / TARGET_FPS;
+       lastTime = now;
+
+       while (delta >= 1) {
+         moveInterne(directionSnake);
+         checkCollision();
+         moveExterne();
+         deleteTail();
+         delta--;
+       }
+
+       try {
+         Thread.sleep(1); // Small sleep to prevent CPU spinning
+       } catch (InterruptedException e) {
+         e.printStackTrace();
+       }
+     }
+   }
 	 
 	 //delay between each move of the snake
 	 private void pauser(){
