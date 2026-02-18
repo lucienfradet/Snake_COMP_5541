@@ -1,8 +1,7 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
-import javax.swing.text.Segment;
+//import javax.swing.text.Segment;
 
 
 //Controls all the game logic .. most important class in this project.
@@ -49,20 +48,36 @@ public class ThreadsController extends Thread {
 
 	 }
 	 
-	 //Important part :
+	 //GAME LOOP
+	 //=========
 	 public void run() {
 		 while(gameActive){
-			 moveInterne(directionSnake);
-			 checkCollision();
+			 PollInput();
+			 Update();
 			 Draw();
 			 pauser();
 		 }
 	 }
 	 
+	 //POLL INPUT
+	 //==========
+	 private void PollInput()
+	 {
+
+	 }
+	 
+	 //UPDATE
+	 //======
+	 private void Update()
+	 {
+		UpdateSnakePosition(directionSnake);
+		checkCollision();
+	 }
+
 	 //delay between each move of the snake
 	 private void pauser(){
 		 try {
-			 System.out.printf("Sleeping for %d milliseconds\n", speed);
+			 //System.out.printf("Sleeping for %d milliseconds\n", speed);
 			 sleep(speed);
 		 } catch (InterruptedException e) {
 				e.printStackTrace();
@@ -72,6 +87,8 @@ public class ThreadsController extends Thread {
 	 //Checking if the snake bites itself or is eating
 	 private void checkCollision() {
 
+		//check for food collisions
+		//-------------------------
 		if(foodPositions.contains(head.GetPos()))	//SquareType.food = 1
 		{
 			foodPositions.remove(head.GetPos());
@@ -82,7 +99,18 @@ public class ThreadsController extends Thread {
 		 	spawnFood(foodPosition);
 		}
 		
-		//TO DO: SNAKE ON SNAKE COLLISION
+		//check for self-collisions
+		//-------------------------
+		//We start at index 1 because we don't want to compare the head's position against
+		//itself
+		for(int i = 1; i < sizeSnake; i++)
+		{
+			if(head.GetPos() == segments.get(i).GetPos())
+			{
+				GameOver();
+			}
+		}
+
 	 }
 	 
 	public void IncreaseSnakeSize()
@@ -97,9 +125,8 @@ public class ThreadsController extends Thread {
 		}
 	}
 
-	//TO DO: FIX SNAKE ON SNAKE COLLISIONS
-	 //Stops The Game
-	 private void stopTheGame(){
+	//Stops The Game
+	 private void GameOver(){
 
 		 System.out.println("COLISION! \n");
 		 gameActive = false;
@@ -148,7 +175,7 @@ public class ThreadsController extends Thread {
 
 	 //Moves the head of the snake and refreshes the positions in the arraylist
 	 //1:right 2:left 3:top 4:bottom 0:nothing
-	 private void moveInterne(int dir){
+	 private void UpdateSnakePosition(int dir){
 		 switch(dir){
 		 	case 4:
 				 moveSnakeBody(head.GetPos().x,(head.GetPos().y+1)%20);
