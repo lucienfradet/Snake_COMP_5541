@@ -22,7 +22,6 @@ public class ThreadsController extends Thread {
 	final Integer EMPTY = 2;
 
 	ArrayList<ArrayList<DataOfSquare>> Squares= new ArrayList<ArrayList<DataOfSquare>>();
-	HashMap<Tuple, Integer> cells = new HashMap<>();
 	HashSet<Tuple> foodPositions = new HashSet<>();
 	
 	//Snake Data
@@ -37,23 +36,11 @@ public class ThreadsController extends Thread {
 		Squares=Window.Grid;
 		directionSnake = 1;
 
-		//initialize cells set all cells to empty
-		for(int x = 0; x < 20; x ++)
-		{
-			for (int y = 0; y < 20; y++)
-			{
-				Tuple t = new Tuple(x, y);
-				cells.put(t,EMPTY);
-				//System.out.println("New cell at " + x + y);
-			}
-		}
-
 		//Initialize snake body
 		for(int i = sizeSnake - 1; i >= 0; i--)
 		{
 			Tuple pos = new Tuple(positionDepart.getX(), positionDepart.getY() - i);
 			segments.add(new SnakeSegment(pos));
-			cells.put(pos, SNAKE);
 		}
 		head = segments.get(0);
 		
@@ -67,8 +54,7 @@ public class ThreadsController extends Thread {
 		 while(gameActive){
 			 moveInterne(directionSnake);
 			 checkCollision();
-			 moveExterne();
-			 //deleteTail();
+			 Draw();
 			 pauser();
 		 }
 	 }
@@ -95,11 +81,8 @@ public class ThreadsController extends Thread {
 
 		 	spawnFood(foodPosition);
 		}
-
-		if(cells.get(head.GetPos()) == SNAKE)	//SquareType.snake = 0
-		{
-			//stopTheGame();
-		}
+		
+		//TO DO: SNAKE ON SNAKE COLLISION
 	 }
 	 
 	public void IncreaseSnakeSize()
@@ -111,7 +94,6 @@ public class ThreadsController extends Thread {
 		if(lastPos != null)
 		{
 			segments.add(new SnakeSegment(lastPos));
-			cells.put(lastPos, SNAKE);
 		}
 	}
 
@@ -127,7 +109,6 @@ public class ThreadsController extends Thread {
 	 private void spawnFood(Tuple foodPositionIn){
 
 			foodPositions.add(foodPositionIn);
-			cells.put(foodPositionIn, FOOD); //SquareContent.food = 1
 	 }
 	 
 	 //return a position not occupied by the snake
@@ -137,7 +118,7 @@ public class ThreadsController extends Thread {
 		 int ranY= 0 + (int)(Math.random()*19); 
 		 p=new Tuple(ranX,ranY);
 
-		while(cells.get(p) != EMPTY)	//EMPTY = 2
+		while(foodPositions.contains(p))	//EMPTY = 2
 		{
 			ranX= 0 + (int)(Math.random()*19); 
 		 	ranY= 0 + (int)(Math.random()*19); 
@@ -150,8 +131,6 @@ public class ThreadsController extends Thread {
 	 public void moveSnakeBody(Tuple newHeadPos)
 	 {
 		head.Move(newHeadPos);
-		//set new head position cell to snake type
-		cells.put(newHeadPos, SNAKE);
 
 		for(int i = 1; i < segments.size(); i++)
 		{
@@ -201,16 +180,30 @@ public class ThreadsController extends Thread {
 	 }
 	 
 	 //Refresh the squares that needs to be 
-	 private void moveExterne(){
+	 private void Draw(){
 
 		//Update screen
 		for(int x = 0; x < 20; x ++)
 		{
 			for (int y = 0; y < 20; y++)
 			{
-				Tuple t = new Tuple(x, y);
-				Squares.get(y).get(x).lightMeUp(cells.get(t));
+				Squares.get(y).get(x).lightMeUp(EMPTY);
 			}
+		}
+
+		//Draw snake
+		for(SnakeSegment seg : segments)
+		{
+			int posX = seg.GetPos().x;
+			int posY = seg.GetPos().y;
+
+			Squares.get(posY).get(posX).lightMeUp(SNAKE);
+		}
+
+		//Draw food
+		for(Tuple pos : foodPositions)
+		{
+			Squares.get(pos.y).get(pos.x).lightMeUp(FOOD);
 		}
 	 }
 	 
