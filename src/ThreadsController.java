@@ -12,7 +12,7 @@ public class ThreadsController extends Thread {
 	public Boolean gameActive = true;
 	public static int inputDirection;
 	private int currentDirection;		//1:right 2:left 3:top 4:bottom 0:nothing
-	public int FPS = 2;
+	public int FPS = 10;
 
 	//Map
 	//===
@@ -53,7 +53,6 @@ public class ThreadsController extends Thread {
 		SpawnFood(foodPosition);
 
 	 }
-
 	 
 	 //GAME LOOP
 	 //===========================================================================================

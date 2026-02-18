@@ -45,6 +45,8 @@ class Window extends JFrame{
 		//Let's start the game now..
 		c.start();
 
+		System.out.println("Hello");
+
 		// Links the window to the keyboardlistenner.
 		this.addKeyListener((KeyListener) new KeyboardListener());
 
