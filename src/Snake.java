@@ -84,7 +84,7 @@ public class Snake {
 
     //IncreaseSnakeSize - increases snake size by adding one snake segment to 'segments'
 	//===========================================================================================
-	public void IncreaseSnakeSize()
+	public Integer IncreaseSnakeSize()
 	{
 		size = size + 1;
 
@@ -94,6 +94,9 @@ public class Snake {
 		{
 			segments.add(new SnakeSegment(lastPos));
 		}
+
+        //Return current size
+        return size;
 	}
 
     //SelfCollisionCheck - check for self-collisions

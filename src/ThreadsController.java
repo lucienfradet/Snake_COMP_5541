@@ -40,8 +40,8 @@ public class ThreadsController extends Thread {
 		//Initialize snake 
 		snake = new Snake(3, positionDepart);
 		
-		Tuple foodPosition= new Tuple(Window.height-1,Window.width-1);
-		SpawnFood(foodPosition);
+		//Spawn food
+		SpawnFood();
 
 	 }
 	 
@@ -131,9 +131,8 @@ public class ThreadsController extends Thread {
 			foodPositions.remove(snake.GetHeadPos());
 
 			snake.IncreaseSnakeSize();
-		 	Tuple foodPosition = GetEmptyCoords();
 
-		 	SpawnFood(foodPosition);
+		 	SpawnFood();
 		}
 		
 		//check for self-collisions
@@ -149,11 +148,14 @@ public class ThreadsController extends Thread {
 		 gameActive = false;
 	 }
 	 
-	 //SpawnFood - Put food in a position and displays it
+	 //SpawnFood - Spawn food at a random empty spot, then return its position
 	 //===========================================================================================
-	 private void SpawnFood(Tuple foodPositionIn){
+	 private Tuple SpawnFood()
+	 {
+		Tuple foodPosition = GetEmptyCoords();
+		foodPositions.add(foodPosition);
 
-		foodPositions.add(foodPositionIn);
+		return foodPosition;
 	 }
 	 
 	 //GetEmptyCoords - returns a position not occupied by the snake
