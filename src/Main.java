@@ -5,13 +5,13 @@ public class Main {
 	public static void main(String[] args) {
 
 		//Creating the window with all its awesome snaky features
-		Window f1= new Window();
+		Window window= new Window();
 		
 		//Setting up the window settings
-		f1.setTitle("Snake");
-		f1.setSize(300,300);
-		f1.setVisible(true);
-		f1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);             
+		window.setTitle("Snake");
+		window.setSize(300,300);
+		window.setVisible(true);
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);             
 
 	}
 }
