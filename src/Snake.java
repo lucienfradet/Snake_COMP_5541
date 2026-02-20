@@ -31,13 +31,13 @@ public class Snake {
 	//===========================================================================================
 	private void MoveSnakeBody(Tuple newHeadPos)
 	{
-        snakeHead.Move(newHeadPos);
+        snakeHead.UpdatePosition(newHeadPos);
 
         for(int i = 1; i < segments.size(); i++)
         {
             //set each segment's position to last segment's last position
             SnakeSegment prevSegment = segments.get(i - 1);
-            segments.get(i).Move(prevSegment.GetLastPos());
+            segments.get(i).UpdatePosition(prevSegment.GetLastPos());
         }
 	}
 

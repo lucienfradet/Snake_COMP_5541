@@ -48,7 +48,7 @@ class Window extends JFrame{
 		System.out.println("Hello");
 
 		// Links the window to the keyboardlistenner.
-		this.addKeyListener((KeyListener) new KeyboardListener());
+		this.addKeyListener((KeyListener) new InputManager());
 
 		//To do : handle multiplayers .. The above works, test it and see what happens
 		

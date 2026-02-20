@@ -9,7 +9,7 @@ public class SnakeSegment {
     }
 
     //Move
-    public void Move(Tuple newPos)
+    public void UpdatePosition(Tuple newPos)
     {
         lastPosition = position;
         position = newPos;

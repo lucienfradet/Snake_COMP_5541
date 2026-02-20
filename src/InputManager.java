@@ -1,7 +1,7 @@
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
- public class KeyboardListener extends KeyAdapter{
+ public class InputManager extends KeyAdapter{
  	
  		public void keyPressed(KeyEvent e){
 			//System.out.println(e.getKeyChar());

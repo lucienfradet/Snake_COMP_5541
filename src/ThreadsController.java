@@ -160,6 +160,7 @@ public class ThreadsController extends Thread {
 	 
 	 //GetEmptyCoords - returns a position not occupied by the snake
 	 //===========================================================================================
+	 //NEEDS FIXING: right now this returns a spot not occupied by food, not by the snake.
 	 private Tuple GetEmptyCoords(){
 		 Tuple p ;
 		 int ranX= 0 + (int)(Math.random()*19); 
