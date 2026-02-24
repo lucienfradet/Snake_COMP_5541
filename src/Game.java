@@ -1,13 +1,11 @@
 import java.util.ArrayList;
 
-//import javax.swing.text.Segment;
-
-
 //Controls all the game logic .. most important class in this project.
-public class ThreadsController extends Thread {
+public class Game extends Thread {
 
 	//Game Settings
 	//=============
+	private ScreenGame gameScreen;
 	public Boolean gameActive = true;
 	public static int inputDirection;
 	public int FPS = 10;
@@ -17,12 +15,11 @@ public class ThreadsController extends Thread {
 	//===
 	//Content states of a square
 	final Integer SNAKE = 0;
-	final Integer FOOD = 1;
+	final Integer WALL = 1;
 	final Integer EMPTY = 2;
 
-	// ArrayList<ArrayList<DataOfSquare>> Squares= new ArrayList<ArrayList<DataOfSquare>>();
-	private ScreenGame gameScreen;
 	private ArrayList<Tuple> foodPositions = new ArrayList<>();
+	private ArrayList<Tuple> wallPositions = new ArrayList<>();
 	
 	//Snake Data
 	//==========
@@ -30,7 +27,7 @@ public class ThreadsController extends Thread {
 
 	//Constructor
 	//===========================================================================================
-	ThreadsController(Tuple positionDepart){
+	Game(Tuple positionDepart){
 		//Get all the threads
 		//Squares=ScreenGame.Grid;
 		gameScreen = Window.gScreen;
@@ -40,6 +37,13 @@ public class ThreadsController extends Thread {
 
 		//Initialize snake 
 		snake = new Snake(3, positionDepart);
+
+		//Initialize walls
+		wallPositions.add(new Tuple(5, 5));
+		wallPositions.add(new Tuple(5, 15));
+		wallPositions.add(new Tuple(15, 5));
+		wallPositions.add(new Tuple(15, 15));
+		gameScreen.UpdateWallPos(wallPositions);	//Wall positions are only updated once
 		
 		//Spawn food
 		SpawnFood();
@@ -120,6 +124,14 @@ public class ThreadsController extends Thread {
 		//-------------------------
 		if(snake.SelfCollisionCheck()) GameOver();
 
+		//check for wall collisions
+		//-------------------------
+		if(wallPositions.contains(snake.GetHeadPos())) 
+		{
+			System.out.println("Collided with a wall!");
+			GameOver();
+		}
+
 	 }
 
 	//GameOver - sets game active state to false
@@ -148,7 +160,8 @@ public class ThreadsController extends Thread {
 		 int ranY= 0 + (int)(Math.random()*19); 
 		 p=new Tuple(ranX,ranY);
 
-		while(foodPositions.contains(p))	//EMPTY = 2
+		while(wallPositions.contains(p) ||
+				snake.ContainsPosition(p))	//EMPTY = 2
 		{
 			ranX= 0 + (int)(Math.random()*19); 
 		 	ranY= 0 + (int)(Math.random()*19); 

@@ -16,10 +16,11 @@ public class ScreenGame extends JPanel{
 
     private Color emptyColor;
     private Color snakeColor;
-    private Color foodColor;
+    private Color wallColor;
 
     private ArrayList<Point> snakePos = new ArrayList<>();
     private ArrayList<Point> foodPos = new ArrayList<>();
+    private ArrayList<Point> wallPos = new ArrayList<>();
 
     //CONSTRUCTOR
 	//===========================================================================================
@@ -33,7 +34,7 @@ public class ScreenGame extends JPanel{
 
         emptyColor = _emptyColor;
         snakeColor = _snakeColor;
-        foodColor = _foodColor;
+        wallColor = _foodColor;
 
         //JPanel suggestion, swing can override it to avoid conflicts
         setPreferredSize(new Dimension(columns * cellSize, rows * cellSize));
@@ -42,8 +43,9 @@ public class ScreenGame extends JPanel{
 
     //DRAW CELL - Draw one single square (grid cell)
 	//===========================================================================================
-    public void DrawCell(int i, int j, Graphics g)
+    public void DrawCell(int i, int j, Graphics g, Color targetColor)
     {
+        g.setColor(targetColor);
         int x = i * cellSize;
         int y = j * cellSize;
         g.fillRect(x, y, cellSize, cellSize); //FillRect might be better
@@ -75,6 +77,16 @@ public class ScreenGame extends JPanel{
         }
     }
 
+    //UPDATE FOOD POS - Updates internal positional data for food items
+	//===========================================================================================
+    public void UpdateWallPos(ArrayList<Tuple> wallPositions)
+    {
+        for(Tuple tuple : wallPositions)
+        {
+            wallPos.add(new Point (tuple.getX(), tuple.getY()));
+        }
+    }
+
     //REPAINT OVERRIDE - roverrides JPanel's ".repaint()" function. This draws each frame.
 	//===========================================================================================
     @Override
@@ -84,26 +96,30 @@ public class ScreenGame extends JPanel{
         //System.out.println("Panel size: " + getWidth() + " x " + getHeight());
 
         //Flush Background
-        g.setColor(emptyColor);
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < columns; j++)
             {
-                DrawCell(i, j, g);
+                DrawCell(i, j, g, emptyColor);
             }
         }
-
+        
         //Draw Snake
-        g.setColor(snakeColor);
         for(Point p : snakePos)
-        {
-            DrawCell(p.x, p.y, g);  
-        }
-
+            {
+                DrawCell(p.x, p.y, g, snakeColor);  
+            }
+            
         //Draw Food
-        g.setColor(foodColor);
         for(Point p : foodPos)
+            {
+                DrawCell(p.x, p.y, g, snakeColor);
+            }
+
+        //Draw Walls
+        for(Point p : wallPos)
         {
-            DrawCell(p.x, p.y, g);
+            DrawCell(p.x, p.y, g, wallColor);  
         }
+                
     }
 }

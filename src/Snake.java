@@ -119,6 +119,18 @@ public class Snake {
         return false;
     }
 
+    //Contains Position - Returns true if there is a snake segment in the given Tuple coordinates
+    //===========================================================================================
+    public boolean ContainsPosition(Tuple pos)
+    {
+        for(SnakeSegment seg : segments)
+        {
+            if(seg.GetPos() == pos) return true;
+        }
+
+        return false;
+    }
+
     //Getters
     //===========================================================================================
     public ArrayList<SnakeSegment>  GetSegments()   {return segments;}
