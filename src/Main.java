@@ -9,9 +9,10 @@ public class Main {
 		
 		//Setting up the window settings
 		window.setTitle("Snake");
-		window.setSize(300,300);
-		window.setVisible(true);
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);             
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.pack();	//Fit window sizet to preferred JPanel sizes
+		window.setLocationRelativeTo(null);
+		window.setVisible(true);             
 
 	}
 }

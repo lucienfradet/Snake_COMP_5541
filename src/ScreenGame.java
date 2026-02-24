@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-public class GameGrid extends JPanel{
+public class ScreenGame extends JPanel{
     
     private static final long serialVersionUID = 1L;
 
@@ -23,10 +23,12 @@ public class GameGrid extends JPanel{
 
     //CONSTRUCTOR
 	//===========================================================================================
-    GameGrid(int panelSize, Color _emptyColor, Color _snakeColor, Color _foodColor)
+    ScreenGame(int panelSize, Color _emptyColor, Color _snakeColor, Color _foodColor)
     {
         //Make cell size fit grid dimensions
         // cellSize = (int)(panelSize / rows);
+
+        //TO FIX: Row and column 19 are hidden beyond the edges of the window
         cellSize = 15;
 
         emptyColor = _emptyColor;
@@ -34,7 +36,7 @@ public class GameGrid extends JPanel{
         foodColor = _foodColor;
 
         //JPanel suggestion, swing can override it to avoid conflicts
-        setPreferredSize(new Dimension(panelSize, panelSize));
+        setPreferredSize(new Dimension(columns * cellSize, rows * cellSize));
         setBackground(emptyColor);
     }
 
@@ -79,6 +81,7 @@ public class GameGrid extends JPanel{
     protected void paintComponent(Graphics g)
     {
         super.paintComponent(g);
+        //System.out.println("Panel size: " + getWidth() + " x " + getHeight());
 
         //Flush Background
         g.setColor(emptyColor);

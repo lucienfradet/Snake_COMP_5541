@@ -32,7 +32,7 @@ public class Snake {
 	private void MoveSnakeBody(Tuple newHeadPos)
 	{
         snakeHead.UpdatePosition(newHeadPos);
-        System.out.printf("Head Position: %d, %d\n", snakeHead.GetPos().x, snakeHead.GetPos().y); //Debugging
+        //System.out.printf("Head Position: %d, %d\n", snakeHead.GetPos().x, snakeHead.GetPos().y); //Debugging
 
         for(int i = 1; i < segments.size(); i++)
         {
@@ -53,32 +53,33 @@ public class Snake {
 	//===========================================================================================
 	public void UpdateSnakePosition(int dir){
 
+        //1:right 2:left 3:top 4:bottom 0:nothing
         switch(dir){
             case 4:
-                MoveSnakeBody(snakeHead.GetPos().x,(snakeHead.GetPos().y+1)%20);
+                MoveSnakeBody(snakeHead.GetPos().x,(snakeHead.GetPos().y+1) % 20);
                 break;
             case 3:
-                if(snakeHead.GetPos().y-1<0){
+                if(snakeHead.GetPos().y - 1 < 0){
                     MoveSnakeBody(snakeHead.GetPos().x,19);
                 }
                 else{
-                MoveSnakeBody(snakeHead.GetPos().x,Math.abs(snakeHead.GetPos().y-1)%20);
+                MoveSnakeBody(snakeHead.GetPos().x,Math.abs(snakeHead.GetPos().y-1) % 20);
                 }
                 break;
             case 2:
-                if(snakeHead.GetPos().x-1<0){
+                if(snakeHead.GetPos().x - 1 < 0){
                     MoveSnakeBody(19,snakeHead.GetPos().y);
                 }
                 else{
-                    MoveSnakeBody(Math.abs(snakeHead.GetPos().x-1)%20,snakeHead.GetPos().y);
+                    MoveSnakeBody(Math.abs(snakeHead.GetPos().x - 1) % 20,snakeHead.GetPos().y);
                 }
                 break;
             case 1:
-                MoveSnakeBody(Math.abs(snakeHead.GetPos().x+1)%20,snakeHead.GetPos().y);
+                MoveSnakeBody(Math.abs(snakeHead.GetPos().x + 1) % 20,snakeHead.GetPos().y);
                 break;
 
             default:
-                MoveSnakeBody(snakeHead.GetPos().x,(snakeHead.GetPos().y+1)%20);
+                MoveSnakeBody(snakeHead.GetPos().x,(snakeHead.GetPos().y + 1) % 20);
                 break;
         }
 	}

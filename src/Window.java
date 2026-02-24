@@ -1,4 +1,3 @@
-import java.awt.GridLayout;
 import java.awt.Color;
 import java.awt.event.KeyListener;
 
@@ -13,16 +12,15 @@ class Window extends JFrame{
     private Color snakeColor = new Color(91, 112, 72);
     private Color foodColor = new Color(94, 64, 23);
 
-	public static GameGrid gGrid;
+	public static ScreenGame gScreen;
+
 	public Window(){
 		
-		getContentPane().setLayout(new GridLayout(1, 1, 0, 0));
-		gGrid = new GameGrid(300, emptyColor, snakeColor, foodColor);
-		getContentPane().add(gGrid);
-		
+		gScreen = new ScreenGame(300, emptyColor, snakeColor, foodColor);
+		add(gScreen);
+
 		// initial position of the snake
 		Tuple position = new Tuple(10,10);
-		// passing this value to the controller
 		ThreadsController c = new ThreadsController(position);
 		//Let's start the game now..
 		c.start();

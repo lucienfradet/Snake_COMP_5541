@@ -21,7 +21,7 @@ public class ThreadsController extends Thread {
 	final Integer EMPTY = 2;
 
 	// ArrayList<ArrayList<DataOfSquare>> Squares= new ArrayList<ArrayList<DataOfSquare>>();
-	private GameGrid gameGrid;
+	private ScreenGame gameScreen;
 	private ArrayList<Tuple> foodPositions = new ArrayList<>();
 	
 	//Snake Data
@@ -33,7 +33,7 @@ public class ThreadsController extends Thread {
 	ThreadsController(Tuple positionDepart){
 		//Get all the threads
 		//Squares=ScreenGame.Grid;
-		gameGrid = Window.gGrid;
+		gameScreen = Window.gScreen;
 		
 		//Initialize direction values
 		currentDirection = 1;
@@ -84,9 +84,9 @@ public class ThreadsController extends Thread {
 	 //===========================================================================================
 	 private void Draw(){
 
-		gameGrid.UpdateSnakePos(snake);
-		gameGrid.UpdateFoodPos(foodPositions);
-		gameGrid.repaint();
+		gameScreen.UpdateSnakePos(snake);
+		gameScreen.UpdateFoodPos(foodPositions);
+		gameScreen.repaint();
 	 }
 	
 	 //Wait - waiting time between game cycle
