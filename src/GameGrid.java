@@ -21,17 +21,25 @@ public class GameGrid extends JPanel{
     private ArrayList<Point> snakePos = new ArrayList<>();
     private ArrayList<Point> foodPos = new ArrayList<>();
 
+    //CONSTRUCTOR
+	//===========================================================================================
     GameGrid(int panelSize, Color _emptyColor, Color _snakeColor, Color _foodColor)
     {
-        cellSize = panelSize / rows;
+        //Make cell size fit grid dimensions
+        // cellSize = (int)(panelSize / rows);
+        cellSize = 15;
+
         emptyColor = _emptyColor;
         snakeColor = _snakeColor;
         foodColor = _foodColor;
 
+        //JPanel suggestion, swing can override it to avoid conflicts
         setPreferredSize(new Dimension(panelSize, panelSize));
         setBackground(emptyColor);
     }
 
+    //DRAW CELL - Draw one single square (grid cell)
+	//===========================================================================================
     public void DrawCell(int i, int j, Graphics g)
     {
         int x = i * cellSize;
@@ -39,6 +47,8 @@ public class GameGrid extends JPanel{
         g.fillRect(x, y, cellSize, cellSize); //FillRect might be better
     }
 
+    //UPDATE SNAKE POS - Updates internal positional data for the snake
+	//===========================================================================================
     public void UpdateSnakePos(Snake snake)
     {
         //Flush all previous snakePos information
@@ -50,6 +60,8 @@ public class GameGrid extends JPanel{
         }
     }
 
+    //UPDATE FOOD POS - Updates internal positional data for food items
+	//===========================================================================================
     public void UpdateFoodPos(ArrayList<Tuple> foodPositions)
     {
         //Flush all previous foodPos information
@@ -61,6 +73,8 @@ public class GameGrid extends JPanel{
         }
     }
 
+    //REPAINT OVERRIDE - roverrides JPanel's ".repaint()" function. This draws each frame.
+	//===========================================================================================
     @Override
     protected void paintComponent(Graphics g)
     {

@@ -7,13 +7,17 @@ import javax.swing.JFrame;
 class Window extends JFrame{
 
 	private static final long serialVersionUID = -2542001418764869760L;
+
+	//Game Color Palette - To move to a separate Class/Container
+	private Color emptyColor = new Color(251, 240, 216);
+    private Color snakeColor = new Color(91, 112, 72);
+    private Color foodColor = new Color(94, 64, 23);
+
 	public static GameGrid gGrid;
-	public static int width = 20;
-	public static int height = 20;
 	public Window(){
 		
 		getContentPane().setLayout(new GridLayout(1, 1, 0, 0));
-		gGrid = new GameGrid(300, Color.WHITE, Color.BLACK, Color.BLUE);
+		gGrid = new GameGrid(300, emptyColor, snakeColor, foodColor);
 		getContentPane().add(gGrid);
 		
 		// initial position of the snake

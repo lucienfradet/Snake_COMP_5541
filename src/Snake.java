@@ -32,6 +32,7 @@ public class Snake {
 	private void MoveSnakeBody(Tuple newHeadPos)
 	{
         snakeHead.UpdatePosition(newHeadPos);
+        System.out.printf("Head Position: %d, %d\n", snakeHead.GetPos().x, snakeHead.GetPos().y); //Debugging
 
         for(int i = 1; i < segments.size(); i++)
         {

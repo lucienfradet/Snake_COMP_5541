@@ -35,7 +35,6 @@ public class ThreadsController extends Thread {
 		//Squares=ScreenGame.Grid;
 		gameGrid = Window.gGrid;
 		
-
 		//Initialize direction values
 		currentDirection = 1;
 
