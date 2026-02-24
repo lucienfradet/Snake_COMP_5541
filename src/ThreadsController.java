@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.HashSet;
 
 //import javax.swing.text.Segment;
 
@@ -21,8 +20,9 @@ public class ThreadsController extends Thread {
 	final Integer FOOD = 1;
 	final Integer EMPTY = 2;
 
-	ArrayList<ArrayList<DataOfSquare>> Squares= new ArrayList<ArrayList<DataOfSquare>>();
-	HashSet<Tuple> foodPositions = new HashSet<>();
+	// ArrayList<ArrayList<DataOfSquare>> Squares= new ArrayList<ArrayList<DataOfSquare>>();
+	private GameGrid gameGrid;
+	private ArrayList<Tuple> foodPositions = new ArrayList<>();
 	
 	//Snake Data
 	//==========
@@ -32,7 +32,9 @@ public class ThreadsController extends Thread {
 	//===========================================================================================
 	ThreadsController(Tuple positionDepart){
 		//Get all the threads
-		Squares=Window.Grid;
+		//Squares=ScreenGame.Grid;
+		gameGrid = Window.gGrid;
+		
 
 		//Initialize direction values
 		currentDirection = 1;
@@ -83,29 +85,9 @@ public class ThreadsController extends Thread {
 	 //===========================================================================================
 	 private void Draw(){
 
-		//Flush screen
-		for(int x = 0; x < 20; x ++)
-		{
-			for (int y = 0; y < 20; y++)
-			{
-				Squares.get(y).get(x).ChangeColor(EMPTY);
-			}
-		}
-
-		//Draw snake
-		for(SnakeSegment seg : snake.GetSegments())
-		{
-			int posX = seg.GetPos().x;
-			int posY = seg.GetPos().y;
-
-			Squares.get(posY).get(posX).ChangeColor(SNAKE);
-		}
-
-		//Draw food
-		for(Tuple pos : foodPositions)
-		{
-			Squares.get(pos.y).get(pos.x).ChangeColor(FOOD);
-		}
+		gameGrid.UpdateSnakePos(snake);
+		gameGrid.UpdateFoodPos(foodPositions);
+		gameGrid.repaint();
 	 }
 	
 	 //Wait - waiting time between game cycle

@@ -1,0 +1,92 @@
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.util.ArrayList;
+
+import javax.swing.JPanel;
+
+public class GameGrid extends JPanel{
+    
+    private static final long serialVersionUID = 1L;
+
+    private final int rows = 20;
+    private final int columns = 20;
+    private final int cellSize;
+
+    private Color emptyColor;
+    private Color snakeColor;
+    private Color foodColor;
+
+    private ArrayList<Point> snakePos = new ArrayList<>();
+    private ArrayList<Point> foodPos = new ArrayList<>();
+
+    GameGrid(int panelSize, Color _emptyColor, Color _snakeColor, Color _foodColor)
+    {
+        cellSize = panelSize / rows;
+        emptyColor = _emptyColor;
+        snakeColor = _snakeColor;
+        foodColor = _foodColor;
+
+        setPreferredSize(new Dimension(panelSize, panelSize));
+        setBackground(emptyColor);
+    }
+
+    public void DrawCell(int i, int j, Graphics g)
+    {
+        int x = i * cellSize;
+        int y = j * cellSize;
+        g.fillRect(x, y, cellSize, cellSize); //FillRect might be better
+    }
+
+    public void UpdateSnakePos(Snake snake)
+    {
+        //Flush all previous snakePos information
+        snakePos.clear();
+
+        for(SnakeSegment seg : snake.segments)
+        {
+            snakePos.add(new Point(seg.GetPos().x, seg.GetPos().y));
+        }
+    }
+
+    public void UpdateFoodPos(ArrayList<Tuple> foodPositions)
+    {
+        //Flush all previous foodPos information
+        foodPos.clear();
+
+        for(Tuple tuple : foodPositions)
+        {
+            foodPos.add(new Point (tuple.getX(), tuple.getY()));
+        }
+    }
+
+    @Override
+    protected void paintComponent(Graphics g)
+    {
+        super.paintComponent(g);
+
+        //Flush Background
+        g.setColor(emptyColor);
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < columns; j++)
+            {
+                DrawCell(i, j, g);
+            }
+        }
+
+        //Draw Snake
+        g.setColor(snakeColor);
+        for(Point p : snakePos)
+        {
+            DrawCell(p.x, p.y, g);  
+        }
+
+        //Draw Food
+        g.setColor(foodColor);
+        for(Point p : foodPos)
+        {
+            DrawCell(p.x, p.y, g);
+        }
+    }
+}
