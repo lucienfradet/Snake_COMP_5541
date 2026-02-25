@@ -39,7 +39,10 @@ public class Game extends Thread {
 		//Initialize snake 
 		snake = new Snake(3, positionDepart);
 
-		//Initialize walls, load desired map layout
+		//Initialize walls, load desired map layout. Map is selected by index:
+		//0 - "Square" Map
+		//1 - "Walls" Map
+		//else - Empty Map
 		wallPositions = maps.GetArrayList(1);
 		gameScreen.UpdateWallPos(wallPositions);	//Wall positions are only updated once
 		
