@@ -18,6 +18,7 @@ public class Game extends Thread {
 	final Integer WALL = 1;
 	final Integer EMPTY = 2;
 
+	private MapDB maps = new MapDB();
 	private ArrayList<Tuple> foodPositions = new ArrayList<>();
 	private ArrayList<Tuple> wallPositions = new ArrayList<>();
 	
@@ -38,11 +39,8 @@ public class Game extends Thread {
 		//Initialize snake 
 		snake = new Snake(3, positionDepart);
 
-		//Initialize walls
-		wallPositions.add(new Tuple(5, 5));
-		wallPositions.add(new Tuple(5, 15));
-		wallPositions.add(new Tuple(15, 5));
-		wallPositions.add(new Tuple(15, 15));
+		//Initialize walls, load desired map layout
+		wallPositions = maps.GetArrayList(1);
 		gameScreen.UpdateWallPos(wallPositions);	//Wall positions are only updated once
 		
 		//Spawn food
