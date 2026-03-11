@@ -24,7 +24,7 @@ public class Game extends Thread {
 
 	//Constructor
 	//===========================================================================================
-	Game(Tuple positionDepart, int fps){
+	Game(int mapSelection, Tuple positionDepart, int fps){
 		//Get all the threads
 		//Squares=ScreenGame.Grid;
 		gameScreen = Window.gScreen;

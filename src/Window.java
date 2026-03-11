@@ -21,7 +21,12 @@ class Window extends JFrame{
 
 		// initial position of the snake
 		Tuple position = new Tuple(10,10);
-		Game c = new Game(position, 10);
+
+		//Initialize walls, load desired map layout. Map is selected by index:
+		//0 - "Square" Map
+		//1 - "Walls" Map
+		//else - Empty Map
+		Game c = new Game(0, position, 10);
 		//Let's start the game now..
 		c.start();
 
