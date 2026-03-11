@@ -1,8 +1,12 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+// import javax.imageio.ImageIO;
+// import java.io.IOException;
 
 import javax.swing.JPanel;
 
@@ -10,9 +14,15 @@ public class ScreenGame extends JPanel{
     
     private static final long serialVersionUID = 1L;
 
-    private final int rows = 20;
-    private final int columns = 20;
-    private final int cellSize;
+    private int rows;
+    private int columns;
+    private int cellSize;
+    private int maxCellSize = 50;
+    private int minCellSize = 1;
+    private int maxRows = 30;
+    private int minRows = 10;
+    private int maxColumns = 30;
+    private int minColumns = 10;
 
     private Color emptyColor;
     private Color snakeColor;
@@ -22,19 +32,40 @@ public class ScreenGame extends JPanel{
     private ArrayList<Point> foodPos = new ArrayList<>();
     private ArrayList<Point> wallPos = new ArrayList<>();
 
+    private BufferedImage snakeImg;
+
     //CONSTRUCTOR
 	//===========================================================================================
-    ScreenGame(int panelSize, Color _emptyColor, Color _snakeColor, Color _foodColor)
+    ScreenGame(
+        int _cellSize, 
+        int _rows, 
+        int _columns, 
+        Color _emptyColor, 
+        Color _snakeColor, 
+        Color _foodColor)
     {
-        //Make cell size fit grid dimensions
-        // cellSize = (int)(panelSize / rows);
+        //Validate and Initialize variables
+        cellSize =  _cellSize <= maxCellSize    ? _cellSize : maxCellSize;
+        cellSize =  cellSize > minCellSize      ? cellSize : minCellSize;
+        rows =      _rows <= maxRows            ? _rows : maxRows;
+        rows =      rows > minRows              ? rows : minRows;
+        columns =   _columns <= maxColumns      ? _columns : maxColumns;
+        columns =   columns > minColumns        ? columns : minColumns;
 
-        //TO FIX: Row and column 19 are hidden beyond the edges of the window
-        cellSize = 15;
-
+        //Initialize colors
         emptyColor = _emptyColor;
         snakeColor = _snakeColor;
         wallColor = _foodColor;
+
+        //Load Sprites
+        /*try{
+            //Learn to implement Gradle
+            snakeImg = ImageIO.read(getClass().getResource("/resources/sprites/snake00.png"));
+        }
+        catch(IOException | IllegalArgumentException e)
+        {
+            throw new RuntimeException("Failed to load sprites.", e);
+        }*/
 
         //JPanel suggestion, swing can override it to avoid conflicts
         setPreferredSize(new Dimension(columns * cellSize, rows * cellSize));
@@ -48,7 +79,17 @@ public class ScreenGame extends JPanel{
         g.setColor(targetColor);
         int x = i * cellSize;
         int y = j * cellSize;
-        g.fillRect(x, y, cellSize, cellSize); //FillRect might be better
+        g.fillRect(x, y, cellSize, cellSize);
+    }
+
+    //WIP: DRAW SPRITE - Draw a given sprite
+	//===========================================================================================
+    public void DrawSprite(int i, int j, Graphics g, Image img)
+    {
+        int x = i * cellSize;
+        int y = j * cellSize;
+
+        g.drawImage(snakeImg, x, y, getFocusCycleRootAncestor());
     }
 
     //UPDATE SNAKE POS - Updates internal positional data for the snake
@@ -105,15 +146,15 @@ public class ScreenGame extends JPanel{
         
         //Draw Snake
         for(Point p : snakePos)
-            {
-                DrawCell(p.x, p.y, g, snakeColor);  
-            }
+        {
+            DrawCell(p.x, p.y, g, snakeColor);  
+        }
             
         //Draw Food
         for(Point p : foodPos)
-            {
-                DrawCell(p.x, p.y, g, snakeColor);
-            }
+        {
+            DrawCell(p.x, p.y, g, snakeColor);
+        }
 
         //Draw Walls
         for(Point p : wallPos)

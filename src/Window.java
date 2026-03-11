@@ -16,12 +16,12 @@ class Window extends JFrame{
 
 	public Window(){
 		
-		gScreen = new ScreenGame(300, emptyColor, snakeColor, wallColor);
+		gScreen = new ScreenGame(15, 20, 20, emptyColor, snakeColor, wallColor);
 		add(gScreen);
 
 		// initial position of the snake
 		Tuple position = new Tuple(10,10);
-		Game c = new Game(position);
+		Game c = new Game(position, 10);
 		//Let's start the game now..
 		c.start();
 

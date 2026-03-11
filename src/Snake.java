@@ -14,7 +14,7 @@ public class Snake {
     Snake(int initSize, Tuple initPosition)
     {
         //initialize variables
-        size = initSize;
+        size = initSize > 0 ? initSize : 3; //min length: 3
 
         for(int i = 0; i < size; i++)
 		{
@@ -135,4 +135,5 @@ public class Snake {
     //===========================================================================================
     public ArrayList<SnakeSegment>  GetSegments()   {return segments;}
     public Tuple                    GetHeadPos()    {return snakeHead.GetPos();}
+    public Integer                  GetSize()       {return size;}
 }

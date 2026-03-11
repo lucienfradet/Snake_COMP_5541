@@ -8,18 +8,14 @@ public class Game extends Thread {
 	private ScreenGame gameScreen;
 	public Boolean gameActive = true;
 	public static int inputDirection;
-	public int FPS = 10;
+	public int FPS;
 	private int currentDirection;		//1:right 2:left 3:top 4:bottom 0:nothing
 
 	//Map
 	//===
-	//Content states of a square
-	final Integer SNAKE = 0;
-	final Integer WALL = 1;
-	final Integer EMPTY = 2;
-
 	private MapDB maps = new MapDB();
-	private ArrayList<Tuple> foodPositions = new ArrayList<>();
+	//If performance becomes an issue, turn these ArrayLists into HashMaps for O(1) lookup
+	private ArrayList<Tuple> foodPositions = new ArrayList<>();		
 	private ArrayList<Tuple> wallPositions = new ArrayList<>();
 	
 	//Snake Data
@@ -28,22 +24,26 @@ public class Game extends Thread {
 
 	//Constructor
 	//===========================================================================================
-	Game(Tuple positionDepart){
+	Game(Tuple positionDepart, int fps){
 		//Get all the threads
 		//Squares=ScreenGame.Grid;
 		gameScreen = Window.gScreen;
 		
 		//Initialize direction values
 		currentDirection = 1;
+		FPS = fps >= 1 ? fps : 1;		//minimum fps value = 1
+		FPS = fps <= 120 ? fps : 120;	//maximum fps value = 120
 
 		//Initialize snake 
-		snake = new Snake(3, positionDepart);
+		snake = positionDepart == null ? 
+			new Snake(3, new Tuple(10, 10)) : 
+			new Snake(3, positionDepart);
 
 		//Initialize walls, load desired map layout. Map is selected by index:
 		//0 - "Square" Map
 		//1 - "Walls" Map
 		//else - Empty Map
-		wallPositions = maps.GetArrayList(1);
+		wallPositions = maps.GetArrayList(0);
 		gameScreen.UpdateWallPos(wallPositions);	//Wall positions are only updated once
 		
 		//Spawn food
@@ -154,19 +154,22 @@ public class Game extends Thread {
 	 
 	 //GetEmptyCoords - returns a position not occupied by the snake
 	 //===========================================================================================
-	 //NEEDS FIXING: right now this returns a spot not occupied by food, not by the snake.
-	 private Tuple GetEmptyCoords(){
-		 Tuple p ;
-		 int ranX= 0 + (int)(Math.random()*19); 
-		 int ranY= 0 + (int)(Math.random()*19); 
-		 p=new Tuple(ranX,ranY);
+	 private Tuple GetEmptyCoords()
+	 {
+		//Get random coordinates between [0, 19]
+		Tuple p ;
+		int ranX = (int)(Math.random()*19); 
+		int ranY = (int)(Math.random()*19); 
+		p = new Tuple(ranX,ranY);
 
+		//If either the snake or a wall is currently occupying those coordinates,
+		//reroll the dice.
 		while(wallPositions.contains(p) ||
-				snake.ContainsPosition(p))	//EMPTY = 2
+				snake.ContainsPosition(p))
 		{
-			ranX= 0 + (int)(Math.random()*19); 
-		 	ranY= 0 + (int)(Math.random()*19); 
-		 	p=new Tuple(ranX,ranY);
+			ranX = (int)(Math.random()*19); 
+		 	ranY = (int)(Math.random()*19); 
+		 	p = new Tuple(ranX,ranY);
 		}
 
 		 return p;
