@@ -44,3 +44,25 @@ export DISPLAY=:0.0
 
 #### Academia:
 - [NCU CSIE Taiwan Uni.](https://www.csie.ntu.edu.tw/~d00922011/java/304/java.html)
+
+### using sqlite
+```
+project/
+├── lib/
+│   └── sqlite-jdbc-3.45.0.0.jar  ← Put the downloaded JAR here
+├── db/
+│   └── UserDB.java
+└── Main.java
+```
+Compile:
+```bash
+javac -cp "lib/sqlite-jdbc-3.45.0.0.jar" db/UserDB.java Main.java
+```
+Run:
+```bash
+java -cp ".:lib/sqlite-jdbc-3.45.0.0.jar" Main
+```
+on Windows:
+```bash
+java -cp ".;lib/sqlite-jdbc-3.45.0.0.jar" Main
+```
