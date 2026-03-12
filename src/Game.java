@@ -32,7 +32,7 @@ public class Game extends Thread {
 		//Initialize direction values
 		currentDirection = 1;
 		FPS = fps >= 1 ? fps : 1;		//minimum fps value = 1
-		FPS = fps <= 120 ? fps : 120;	//maximum fps value = 120
+		FPS = FPS <= 120 ? FPS : 120;	//maximum fps value = 120
 
 		//Initialize snake 
 		snake = positionDepart == null ? 

@@ -82,7 +82,7 @@ public class ScreenGame extends JPanel{
         g.fillRect(x, y, cellSize, cellSize);
     }
 
-    //WIP: DRAW SPRITE - Draw a given sprite
+    //(WIP - NOT YET IMPLEMENTED): DRAW SPRITE - Draw a given sprite 
 	//===========================================================================================
     public void DrawSprite(int i, int j, Graphics g, Image img)
     {
