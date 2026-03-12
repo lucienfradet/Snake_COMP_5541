@@ -1,7 +1,5 @@
 import javax.swing.JFrame;
 
-import db.UserDB;
-
 public class Main {
 
 	public static void main(String[] args) {
@@ -10,14 +8,15 @@ public class Main {
       System.setProperty("sun.java2d.opengl", "true");
     }
 
-		// //Creating the window with all its awesome snaky features
-		// Window f1= new Window();
-		//
-		// //Setting up the window settings
-		// f1.setTitle("Snake");
-		// f1.setSize(300,300);
-		// f1.setVisible(true);
-		// f1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);             
+		//Creating the window with all its awesome snaky features
+		// Window window= new Window();
+		
+		//Setting up the window settings
+		// window.setTitle("Snake");
+		// window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// window.pack();	//Fit window sizet to preferred JPanel sizes
+		// window.setLocationRelativeTo(null);
+		// window.setVisible(true);             
 
     UserDB.createDatabase();
 	}
