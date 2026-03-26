@@ -5,7 +5,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		//Creating the window with all its awesome snaky features
-		Window window= new Window();
+		Window window = new Window();
 		
 		//Setting up the window settings
 		window.setTitle("Snake");
