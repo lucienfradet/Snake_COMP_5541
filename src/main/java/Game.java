@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 //Controls all the game logic .. most important class in this project.
 public class Game extends Thread {
 
@@ -7,20 +5,14 @@ public class Game extends Thread {
 	//=============
 	private ScreenGame gameScreen;
 	public Boolean gameActive = true;
-	public static int inputDirection;
 	public int FPS;
+
+	public static int inputDirection;
 	private int currentDirection;		//1:right 2:left 3:top 4:bottom 0:nothing
 
 	//Map
 	//===
-	private MapDB maps = new MapDB();
-	//If performance becomes an issue, turn these ArrayLists into HashMaps for O(1) lookup
-	private ArrayList<Tuple> foodPositions = new ArrayList<>();		
-	private ArrayList<Tuple> wallPositions = new ArrayList<>();
-	
-	//Snake Data
-	//==========
-	private Snake snake;
+	private TileManager tileManager;
 
 	//Constructor
 	//===========================================================================================
@@ -34,21 +26,13 @@ public class Game extends Thread {
 		FPS = fps >= 1 ? fps : 1;		//minimum fps value = 1
 		FPS = FPS <= 120 ? FPS : 120;	//maximum fps value = 120
 
-		//Initialize snake 
-		snake = positionDepart == null ? 
-			new Snake(3, new Tuple(10, 10)) : 
-			new Snake(3, positionDepart);
-
-		//Initialize walls, load desired map layout. Map is selected by index:
-		//0 - "Square" Map
-		//1 - "Walls" Map
-		//else - Empty Map
-		wallPositions = maps.GetArrayList(0);
-		gameScreen.UpdateWallPos(wallPositions);	//Wall positions are only updated once
+		//Initialize TileManager
+		tileManager = new TileManager(mapSelection, positionDepart);
 		
-		//Spawn food
-		SpawnFood();
-
+		gameScreen.UpdateWallPos(tileManager.GetWallPositions());	//Wall positions are only updated once
+		
+		//Spawn first food
+		tileManager.SpawnFood();
 	 }
 	 
 	 //GAME LOOP
@@ -81,7 +65,7 @@ public class Game extends Thread {
 	 //===========================================================================================
 	 private void Update()
 	 {
-		snake.UpdateSnakePosition(currentDirection);
+		tileManager.GetSnake().UpdateSnakePosition(currentDirection);
 		CheckCollisions();
 	 }
 
@@ -89,8 +73,8 @@ public class Game extends Thread {
 	 //===========================================================================================
 	 private void Draw(){
 
-		gameScreen.UpdateSnakePos(snake);
-		gameScreen.UpdateFoodPos(foodPositions);
+		gameScreen.UpdateSnakePos(tileManager.GetSnake());
+		gameScreen.UpdateFoodPos(tileManager.GetFoodPos());
 		gameScreen.repaint();
 	 }
 	
@@ -110,24 +94,14 @@ public class Game extends Thread {
 	 //===========================================================================================
 	 private void CheckCollisions() {
 		
-		//check for food collisions
-		//-------------------------
-		if(foodPositions.contains(snake.GetHeadPos()))
-		{
-			foodPositions.remove(snake.GetHeadPos());
-
-			snake.IncreaseSnakeSize();
-
-		 	SpawnFood();
-		}
+		//check food collisions
+		tileManager.CheckFoodCollisions();
 		
 		//check for self-collisions
-		//-------------------------
-		if(snake.SelfCollisionCheck()) GameOver();
+		if(tileManager.GetSnake().SelfCollisionCheck()) GameOver();
 
 		//check for wall collisions
-		//-------------------------
-		if(wallPositions.contains(snake.GetHeadPos())) 
+		if(tileManager.CheckWallCollisions()) 
 		{
 			System.out.println("Collided with a wall!");
 			GameOver();
@@ -140,39 +114,6 @@ public class Game extends Thread {
 	 private void GameOver(){
 
 		 gameActive = false;
-	 }
-	 
-	 //SpawnFood - Spawn food at a random empty spot, then return its position
-	 //===========================================================================================
-	 private Tuple SpawnFood()
-	 {
-		Tuple foodPosition = GetEmptyCoords();
-		foodPositions.add(foodPosition);
-
-		return foodPosition;
-	 }
-	 
-	 //GetEmptyCoords - returns a position not occupied by the snake
-	 //===========================================================================================
-	 private Tuple GetEmptyCoords()
-	 {
-		//Get random coordinates between [0, 19]
-		Tuple p ;
-		int ranX = (int)(Math.random()*19); 
-		int ranY = (int)(Math.random()*19); 
-		p = new Tuple(ranX,ranY);
-
-		//If either the snake or a wall is currently occupying those coordinates,
-		//reroll the dice.
-		while(wallPositions.contains(p) ||
-				snake.ContainsPosition(p))
-		{
-			ranX = (int)(Math.random()*19); 
-		 	ranY = (int)(Math.random()*19); 
-		 	p = new Tuple(ranX,ranY);
-		}
-
-		 return p;
 	 }
 
 }
