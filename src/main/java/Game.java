@@ -4,15 +4,22 @@ public class Game extends Thread {
 	//Game Settings
 	//=============
 	private ScreenGame gameScreen;
-	public Boolean gameActive = true;
+	public Boolean gameActive = true;	//false value ends the game
+	public Boolean gamePaused = false;
 	public int FPS;
 
+	//Input
+	//=====
 	public static int inputDirection;
 	private int currentDirection;		//1:right 2:left 3:top 4:bottom 0:nothing
+	public static boolean pausePressed;
 
-	//Map
-	//===
+	//Managers
+	//========
 	private TileManager tileManager;
+	private Timer timer;
+
+	private int score;
 
 	//Constructor
 	//===========================================================================================
@@ -33,6 +40,9 @@ public class Game extends Thread {
 		
 		//Spawn first food
 		tileManager.SpawnFood();
+
+		//Start game timer
+		timer = new Timer();
 	 }
 	 
 	 //GAME LOOP
@@ -50,6 +60,15 @@ public class Game extends Thread {
 	 //===========================================================================================
 	 private void PollInput()
 	 {
+		//Check if pause was pressed
+		if(pausePressed)
+		{
+			PauseToggle();
+			pausePressed = false;
+		}
+
+		if(gamePaused) return;
+
 		//If input direction is opposite to current direction, dont update
 		if(
 			(currentDirection == 1 && inputDirection == 2) ||
@@ -65,14 +84,16 @@ public class Game extends Thread {
 	 //===========================================================================================
 	 private void Update()
 	 {
+		if(gamePaused) return;
 		tileManager.GetSnake().UpdateSnakePosition(currentDirection);
 		CheckCollisions();
 	 }
 
 	 //DRAW - Draw game elements
 	 //===========================================================================================
-	 private void Draw(){
-
+	 private void Draw()
+	 {
+		if(gamePaused) return;
 		gameScreen.UpdateSnakePos(tileManager.GetSnake());
 		gameScreen.UpdateFoodPos(tileManager.GetFoodPos());
 		gameScreen.repaint();
@@ -95,7 +116,7 @@ public class Game extends Thread {
 	 private void CheckCollisions() {
 		
 		//check food collisions
-		tileManager.CheckFoodCollisions();
+		if(tileManager.CheckFoodCollisions()) score++;
 		
 		//check for self-collisions
 		if(tileManager.GetSnake().SelfCollisionCheck()) GameOver();
@@ -106,14 +127,40 @@ public class Game extends Thread {
 			System.out.println("Collided with a wall!");
 			GameOver();
 		}
-
 	 }
 
-	//GameOver - sets game active state to false
+	//GameOver 
 	//===========================================================================================
-	 private void GameOver(){
+	//Ends game
+	private void GameOver(){
+		
+		System.out.printf("Game Over.\nPlayer for: %.3f seconds.\nFinal score: %d", 
+		(float)timer.GetAccumulatedTime()/1000.0f,
+		score);
+		
+		gameActive = false;
+	}
+	
+	//PauseToggle
+	//===========================================================================================
+	//sets gameActive status to false and stops timer if game is not paused
+	//Sets gameActive status to true and resumes timer if game is paused
+	public void PauseToggle()
+	{
+		if(!gamePaused)
+		{
+			gamePaused = true;
+			timer.StopTimer();
+		}
+		else
+		{
+			gamePaused = false;
+			timer.StartTimer();
+		}
+	}
 
-		 gameActive = false;
-	 }
-
+	//Getters
+	//===========================================================================================
+	public ScreenGame GetScreenGame() {return gameScreen;}
+	public long GetAccumulatedTime() {return timer.GetAccumulatedTime();}
 }
