@@ -1,5 +1,5 @@
 package game;
-import app.Window;
+import screens.ScreenGame;
 
 //Controls all the game logic .. most important class in this project.
 public class Game extends Thread {
@@ -16,6 +16,8 @@ public class Game extends Thread {
 	public static int inputDirection;
 	private int currentDirection;		//1:right 2:left 3:top 4:bottom 0:nothing
 	public static boolean pausePressed;
+	private final Runnable onGameOver;
+	
 
 	//Managers
 	//========
@@ -26,15 +28,15 @@ public class Game extends Thread {
 
 	//Constructor
 	//===========================================================================================
-	public Game(int mapSelection, Tuple positionDepart, int fps){
+	public Game(int mapSelection, Tuple positionDepart, int fps, ScreenGame gameScreen, Runnable onGameOver){
 		//Get all the threads
 		//Squares=ScreenGame.Grid;
-		gameScreen = Window.gScreen;
+		// gameScreen = Window.gScreen;
+		this.gameScreen = gameScreen;
+		this.onGameOver = onGameOver;
 		
 		//Initialize direction values
 		currentDirection = 1;
-		FPS = fps >= 1 ? fps : 1;		//minimum fps value = 1
-		FPS = FPS <= 120 ? FPS : 120;	//maximum fps value = 120
 
 		//Initialize TileManager
 		tileManager = new TileManager(mapSelection, positionDepart);

@@ -1,4 +1,4 @@
-package UI;
+package screens.UI;
 
 import java.awt.Dimension;
 
