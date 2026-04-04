@@ -9,8 +9,8 @@ public class Main {
     if (System.getProperty("os.name").toLowerCase().contains("linux")) {
       System.setProperty("sun.java2d.opengl", "true");
     }
-
-		// Creating the window with all its awesome snaky features
+	
+		//Creating the window with all its awesome snaky features
 		Window window= new Window();
 		
 		// Setting up the window settings

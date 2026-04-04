@@ -1,5 +1,4 @@
 package game;
-
 import app.Window;
 
 //Controls all the game logic .. most important class in this project.

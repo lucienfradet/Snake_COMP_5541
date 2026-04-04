@@ -1,0 +1,190 @@
+package screens;
+
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import UI.Button;
+import UI.ColorPalette;
+import UI.FontPalette;
+
+public class ScreenUpdateAccount extends JPanel implements Screen{
+
+    public ScreenUpdateAccount() {
+
+        super();
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setBackground(ColorPalette.BLACK);
+        this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        
+        Button back = new Button("Back");
+        back.setAlignmentX(LEFT_ALIGNMENT);
+        back.setMaximumSize(new Dimension(140, 40));
+        back.setPreferredSize(new Dimension(140, 40));
+        back.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.ACCOUNT_MANAGER));
+
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        topPanel.setAlignmentX(CENTER_ALIGNMENT);
+        topPanel.setBackground(ColorPalette.BLACK);
+        topPanel.add(back);
+        
+        JLabel title = new JLabel("<html>Fill the fields you<br>wish to change</html>");
+        title.setHorizontalAlignment(SwingConstants.CENTER);
+        title.setFont(new Font("Yoster Island", Font.BOLD, 30));
+        title.setForeground(ColorPalette.WHITE);
+
+        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        titlePanel.setAlignmentX(CENTER_ALIGNMENT);
+        titlePanel.setBackground(ColorPalette.BLACK);
+        titlePanel.setPreferredSize(new Dimension(460, 110));
+        titlePanel.setMaximumSize(new Dimension(460, 110));
+        titlePanel.add(title);
+
+        JLabel username = new JLabel("Username");
+        username.setFont(FontPalette.TEXT);
+        username.setForeground(ColorPalette.WHITE);
+        username.setPreferredSize(new Dimension(120, 40));
+
+        JTextField usernameField = new JTextField(20);
+        usernameField.setFont(FontPalette.TEXT);
+        usernameField.setForeground(ColorPalette.BLACK);
+        usernameField.setBackground(ColorPalette.WHITE);
+        usernameField.setPreferredSize(new Dimension(200, 30));
+        usernameField.setMaximumSize(new Dimension(200, 30));
+
+        JPanel usernamePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        usernamePanel.setAlignmentX(CENTER_ALIGNMENT);
+        usernamePanel.setPreferredSize(new Dimension(452, 46));
+        usernamePanel.setMaximumSize(new Dimension(452, 46));
+        usernamePanel.setBackground(ColorPalette.BLACK);
+        usernamePanel.setBorder(null);
+        usernamePanel.add(username);
+        usernamePanel.add(Box.createHorizontalStrut(12));
+        usernamePanel.add(usernameField);
+
+        JLabel password1 = new JLabel("Password");
+        password1.setFont(FontPalette.TEXT);
+        password1.setForeground(ColorPalette.WHITE);
+        password1.setPreferredSize(new Dimension(120, 40));
+
+        JPasswordField passwordField1 = new JPasswordField(20);
+        passwordField1.setFont(FontPalette.TEXT);
+        passwordField1.setForeground(ColorPalette.BLACK);
+        passwordField1.setBackground(ColorPalette.WHITE);
+        passwordField1.setPreferredSize(new Dimension(200, 30));
+        passwordField1.setMaximumSize(new Dimension(200, 30));
+
+        JPanel passwordPanel1 = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        passwordPanel1.setAlignmentX(CENTER_ALIGNMENT);
+        passwordPanel1.setPreferredSize(new Dimension(452, 46));
+        passwordPanel1.setMaximumSize(new Dimension(452, 46));
+        passwordPanel1.setBackground(ColorPalette.BLACK);
+        passwordPanel1.setBorder(null);
+        passwordPanel1.add(password1);
+        passwordPanel1.add(Box.createHorizontalStrut(12));
+        passwordPanel1.add(passwordField1);
+
+        JLabel password2 = new JLabel("<html>Confirm<br>Password</html>");
+        password2.setFont(new Font("Yoster Island", Font.BOLD, 15));
+        password2.setForeground(ColorPalette.WHITE);
+        password2.setPreferredSize(new Dimension(120, 40));
+
+        JPasswordField passwordField2 = new JPasswordField(20);
+        passwordField2.setFont(FontPalette.TEXT);
+        passwordField2.setForeground(ColorPalette.BLACK);
+        passwordField2.setBackground(ColorPalette.WHITE);
+        passwordField2.setPreferredSize(new Dimension(200, 30));
+        passwordField2.setMaximumSize(new Dimension(200, 30));
+
+        JPanel passwordPanel2 = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        passwordPanel2.setAlignmentX(CENTER_ALIGNMENT);
+        passwordPanel2.setPreferredSize(new Dimension(452, 46));
+        passwordPanel2.setMaximumSize(new Dimension(452, 46));
+        passwordPanel2.setBackground(ColorPalette.BLACK);
+        passwordPanel2.setBorder(null);
+        passwordPanel2.add(password2);
+        passwordPanel2.add(Box.createHorizontalStrut(12));
+        passwordPanel2.add(passwordField2);
+
+        JLabel message = new JLabel("Error: some error message");
+        message.setAlignmentX(LEFT_ALIGNMENT);
+        message.setFont(FontPalette.TEXT);
+        message.setForeground(ColorPalette.RED);
+
+        JPanel messagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        messagePanel.setAlignmentX(CENTER_ALIGNMENT);
+        messagePanel.setBackground(ColorPalette.BLACK);
+        messagePanel.setPreferredSize(new Dimension(452, 40));
+        messagePanel.setMaximumSize(new Dimension(452, 40));
+        messagePanel.add(message);
+
+        Button update = new Button("Update");
+        update.setAlignmentX(CENTER_ALIGNMENT);
+        update.setMaximumSize(new Dimension(140, 40));
+        update.setPreferredSize(new Dimension(140, 40));
+        update.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.MAIN_MENU));
+        
+        JPanel middlePanel = new JPanel();
+        middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
+        middlePanel.setAlignmentX(CENTER_ALIGNMENT);
+        middlePanel.setBackground(ColorPalette.BLACK);
+        middlePanel.setBorder(BorderFactory.createEmptyBorder(0, 24, 0, 24));
+        middlePanel.add(titlePanel);
+        middlePanel.add(Box.createVerticalStrut(6));
+        middlePanel.add(usernamePanel);
+        middlePanel.add(Box.createVerticalStrut(8));
+        middlePanel.add(passwordPanel1);
+        middlePanel.add(Box.createVerticalStrut(8));
+        middlePanel.add(passwordPanel2);
+        middlePanel.add(Box.createVerticalStrut(8));
+        middlePanel.add(messagePanel);
+        middlePanel.add(Box.createVerticalStrut(8));
+        middlePanel.add(update);
+        middlePanel.add(Box.createVerticalGlue());
+
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        bottomPanel.setAlignmentX(CENTER_ALIGNMENT);
+        bottomPanel.setBackground(ColorPalette.BLACK);
+
+        JLabel loggedInAs = new JLabel("Logged in as");
+        loggedInAs.setFont(FontPalette.TEXT);
+        loggedInAs.setForeground(ColorPalette.GREEN);
+        loggedInAs.setAlignmentX(CENTER_ALIGNMENT);
+
+        JLabel currentUser = new JLabel("Bard Tarbox");
+        currentUser.setFont(FontPalette.TEXT);
+        currentUser.setForeground(ColorPalette.WHITE);
+        currentUser.setAlignmentX(CENTER_ALIGNMENT);
+        
+        JPanel loginInfoPanel = new JPanel();
+        loginInfoPanel.setLayout(new BoxLayout(loginInfoPanel, BoxLayout.Y_AXIS));
+        loginInfoPanel.setBackground(ColorPalette.BLACK);
+        loginInfoPanel.setAlignmentX(LEFT_ALIGNMENT);
+
+        loginInfoPanel.add(loggedInAs);
+        loginInfoPanel.add(currentUser);
+        bottomPanel.add(loginInfoPanel);
+
+        this.add(topPanel);
+        this.add(Box.createVerticalStrut(24));
+        this.add(middlePanel);
+        this.add(Box.createVerticalGlue());
+        this.add(bottomPanel);
+
+    }
+
+    @Override
+    public void onShow() {
+
+    }
+}
