@@ -15,6 +15,11 @@ public final class ScreenManager {
     public static final String LOGIN = "login";
     public static final String REGISTER = "register";
     public static final String MAIN_MENU = "main_menu";
+    public static final String MAP_SELECT = "map_select";
+    public static final String ACCOUNT_MANAGER = "account_manager";
+    public static final String UPDATE_ACCOUNT = "update_account";
+    public static final String DELETE_ACCOUNT = "delete_account";
+    public static final String STATS = "stats";
     public static final String GAME = "game";
     public static final String PAUSE = "pause";
     public static final String GAME_OVER = "game_over";
@@ -116,6 +121,11 @@ public final class ScreenManager {
             case LOGIN -> "Login";
             case REGISTER -> "Register";
             case MAIN_MENU -> "Main Menu";
+            case MAP_SELECT -> "Map Select";
+            case ACCOUNT_MANAGER -> "Manage Account";
+            case UPDATE_ACCOUNT -> "Update Account";
+            case DELETE_ACCOUNT -> "Delete Account";
+            case STATS -> "Stats";
             case GAME -> "Snake Game";
             case PAUSE -> "Pause";
             case GAME_OVER -> "Game Over";

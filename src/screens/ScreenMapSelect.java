@@ -46,6 +46,11 @@ public class ScreenMapSelect extends JPanel implements Screen {
 
         Button back = new Button("Back");
         Button play = new Button("Play");
+        back.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.MAIN_MENU));
+        play.addActionListener(e -> {
+            ScreenManager.getInstance().refreshScreen(ScreenManager.GAME);
+            ScreenManager.getInstance().showScreen(ScreenManager.GAME);
+        });
 
         JLabel gameSettings = new JLabel("Game Settings");
         gameSettings.setFont(FontPalette.TITLE);
@@ -153,6 +158,6 @@ public class ScreenMapSelect extends JPanel implements Screen {
 
     @Override
     public void onShow() {
-        throw new UnsupportedOperationException("Unimplemented method 'onShow'");
+        
     }
 }

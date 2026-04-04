@@ -1,22 +1,22 @@
 package screens;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import UI.Button;
 import UI.ColorPalette;
 import UI.FontPalette;
 
-public class ScreenMainMenu extends JPanel implements Screen {
+public class ScreenAdminMainMenu extends JPanel implements Screen {
 
-    public ScreenMainMenu() {
+    public ScreenAdminMainMenu() {
 
         super();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -50,31 +50,42 @@ public class ScreenMainMenu extends JPanel implements Screen {
         Button play = new Button("Play");
         play.setAlignmentX(CENTER_ALIGNMENT);
         play.setMaximumSize(new Dimension(140, 40));
-        play.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.MAP_SELECT));
+        play.addActionListener(e -> {
+            ScreenManager.getInstance().refreshScreen(ScreenManager.GAME);
+            ScreenManager.getInstance().showScreen(ScreenManager.GAME);
+        });
 
         Button stats = new Button("Stats");
         stats.setAlignmentX(CENTER_ALIGNMENT);
         stats.setMaximumSize(new Dimension(140, 40));
-        stats.addActionListener(e -> {
-            ScreenManager.getInstance().refreshScreen(ScreenManager.STATS);
-            ScreenManager.getInstance().showScreen(ScreenManager.STATS);
-        });
 
         Button manageAccount = new Button("<html>Manage<br>Account</html>");
         manageAccount.setAlignmentX(CENTER_ALIGNMENT);
         manageAccount.setMaximumSize(new Dimension(140, 60));
         manageAccount.setPreferredSize(new Dimension(140, 60));
-        manageAccount.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.ACCOUNT_MANAGER));
 
-        middlePanel.add(Box.createVerticalGlue());
+        JLabel admin = new JLabel("Admin:");
+        admin.setAlignmentX(RIGHT_ALIGNMENT);
+        admin.setFont(FontPalette.TEXT);
+        admin.setForeground(ColorPalette.RED);
+
+        Button viewAllStats = new Button("<html>View All<br>Stats</html>");
+        viewAllStats.setAlignmentX(CENTER_ALIGNMENT);
+        viewAllStats.setMaximumSize(new Dimension(140, 60));
+        viewAllStats.setPreferredSize(new Dimension(140, 60));
+
+        middlePanel.add(Box.createVerticalStrut(5));
         middlePanel.add(snakeGame);
-        middlePanel.add(Box.createVerticalStrut(20));
+        middlePanel.add(Box.createVerticalStrut(5));
         middlePanel.add(play);
-        middlePanel.add(Box.createVerticalStrut(10));
+        middlePanel.add(Box.createVerticalStrut(5));
         middlePanel.add(stats);
-        middlePanel.add(Box.createVerticalStrut(10));
+        middlePanel.add(Box.createVerticalStrut(5));
         middlePanel.add(manageAccount);
-        middlePanel.add(Box.createVerticalStrut(20));
+        middlePanel.add(Box.createVerticalStrut(1));
+        middlePanel.add(admin);
+        middlePanel.add(Box.createVerticalStrut(1));
+        middlePanel.add(viewAllStats);
 
 
         JLabel loggedInAs = new JLabel("Logged in as");
@@ -97,7 +108,7 @@ public class ScreenMainMenu extends JPanel implements Screen {
 
         loginInfoPanel.add(loggedInAs);
         loginInfoPanel.add(currentUser);
-        bottomPanel.add(loginInfoPanel);       
+        bottomPanel.add(loginInfoPanel);
 
         this.add(topPanel);
         this.add(middlePanel);
