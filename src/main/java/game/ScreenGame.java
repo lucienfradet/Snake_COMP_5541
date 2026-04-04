@@ -16,15 +16,15 @@ public class ScreenGame extends JPanel{
     
     private static final long serialVersionUID = 1L;
 
-    private int rows;
-    private int columns;
+    private int rows = 20;
+    private int columns = 20;
     private int cellSize;
     private int maxCellSize = 50;
     private int minCellSize = 1;
-    private int maxRows = 30;
+    /*private int maxRows = 30;
     private int minRows = 10;
     private int maxColumns = 30;
-    private int minColumns = 10;
+    private int minColumns = 10;*/
 
     private Color emptyColor;
     private Color snakeColor;
@@ -39,20 +39,15 @@ public class ScreenGame extends JPanel{
     //CONSTRUCTOR
 	//===========================================================================================
     public ScreenGame(
-        int _cellSize, 
-        int _rows, 
-        int _columns, 
+        int screenSize, 
         Color _emptyColor, 
         Color _snakeColor, 
         Color _wallColor)
     {
         //Validate and Initialize variables
-        cellSize =  _cellSize <= maxCellSize    ? _cellSize : maxCellSize;
-        cellSize =  cellSize > minCellSize      ? cellSize : minCellSize;
-        rows =      _rows <= maxRows            ? _rows : maxRows;
-        rows =      rows > minRows              ? rows : minRows;
-        columns =   _columns <= maxColumns      ? _columns : maxColumns;
-        columns =   columns > minColumns        ? columns : minColumns;
+        /*cellSize =  _cellSize <= maxCellSize    ? _cellSize : maxCellSize;
+        cellSize =  cellSize > minCellSize      ? cellSize : minCellSize;*/
+        cellSize = (int)screenSize/columns;
 
         //Initialize colors
         emptyColor = _emptyColor;
