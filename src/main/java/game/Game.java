@@ -1,3 +1,7 @@
+package game;
+
+import app.Window;
+
 //Controls all the game logic .. most important class in this project.
 public class Game extends Thread {
 	//Game Settings
@@ -23,7 +27,7 @@ public class Game extends Thread {
 
 	//Constructor
 	//===========================================================================================
-	Game(int mapSelection, Tuple positionDepart, int fps){
+	public Game(int mapSelection, Tuple positionDepart, int fps){
 		//Get all the threads
 		//Squares=ScreenGame.Grid;
 		gameScreen = Window.gScreen;

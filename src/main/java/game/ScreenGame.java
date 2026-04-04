@@ -1,3 +1,5 @@
+package game;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -36,7 +38,7 @@ public class ScreenGame extends JPanel{
 
     //CONSTRUCTOR
 	//===========================================================================================
-    ScreenGame(
+    public ScreenGame(
         int _cellSize, 
         int _rows, 
         int _columns, 

@@ -1,3 +1,5 @@
+package game;
+
 public class SnakeSegment {
     private Tuple position;
     private Tuple lastPosition;

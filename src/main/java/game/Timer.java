@@ -1,3 +1,5 @@
+package game;
+
 public class Timer {
 
     private long startTime;
