@@ -42,7 +42,7 @@ public class ScreenGame extends JPanel{
         int _columns, 
         Color _emptyColor, 
         Color _snakeColor, 
-        Color _foodColor)
+        Color _wallColor)
     {
         //Validate and Initialize variables
         cellSize =  _cellSize <= maxCellSize    ? _cellSize : maxCellSize;
@@ -55,7 +55,7 @@ public class ScreenGame extends JPanel{
         //Initialize colors
         emptyColor = _emptyColor;
         snakeColor = _snakeColor;
-        wallColor = _foodColor;
+        wallColor = _wallColor;
 
         //Load Sprites
         /*try{

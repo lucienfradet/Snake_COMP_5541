@@ -1,27 +1,25 @@
-import java.util.ArrayList;
-
 //Controls all the game logic .. most important class in this project.
 public class Game extends Thread {
 	//Game Settings
 	//=============
 	private ScreenGame gameScreen;
-	public Boolean gameActive = true;
-	public static int inputDirection;
+	public Boolean gameActive = true;	//false value ends the game
+	public Boolean gamePaused = false;
 	public int FPS;
-	private int currentDirection;		//1:right 2:left 3:top 4:bottom 0:nothing
-
   public static final int START_SNAKE_LENGTH = 3;
 
-	//Map
-	//===
-	private MapDB maps = new MapDB();
-	//If performance becomes an issue, turn these ArrayLists into HashMaps for O(1) lookup
-	private ArrayList<Tuple> foodPositions = new ArrayList<>();		
-	private ArrayList<Tuple> wallPositions = new ArrayList<>();
-	
-	//Snake Data
-	//==========
-	private Snake snake;
+	//Input
+	//=====
+	public static int inputDirection;
+	private int currentDirection;		//1:right 2:left 3:top 4:bottom 0:nothing
+	public static boolean pausePressed;
+
+	//Managers
+	//========
+	private TileManager tileManager;
+	private Timer timer;
+
+	private int score;
 
 	//Constructor
 	//===========================================================================================
@@ -35,21 +33,16 @@ public class Game extends Thread {
 		FPS = fps >= 1 ? fps : 1;		//minimum fps value = 1
 		FPS = FPS <= 120 ? FPS : 120;	//maximum fps value = 120
 
-		//Initialize snake 
-		snake = positionDepart == null ? 
-			new Snake(3, new Tuple(10, 10)) : 
-			new Snake(3, positionDepart);
-
-		//Initialize walls, load desired map layout. Map is selected by index:
-		//0 - "Square" Map
-		//1 - "Walls" Map
-		//else - Empty Map
-		wallPositions = maps.GetArrayList(0);
-		gameScreen.UpdateWallPos(wallPositions);	//Wall positions are only updated once
+		//Initialize TileManager
+		tileManager = new TileManager(mapSelection, positionDepart);
 		
-		//Spawn food
-		SpawnFood();
+		gameScreen.UpdateWallPos(tileManager.GetWallPositions());	//Wall positions are only updated once
+		
+		//Spawn first food
+		tileManager.SpawnFood();
 
+		//Start game timer
+		timer = new Timer();
 	 }
 	 
 	 //GAME LOOP
@@ -67,6 +60,15 @@ public class Game extends Thread {
 	 //===========================================================================================
 	 private void PollInput()
 	 {
+		//Check if pause was pressed
+		if(pausePressed)
+		{
+			PauseToggle();
+			pausePressed = false;
+		}
+
+		if(gamePaused) return;
+
 		//If input direction is opposite to current direction, dont update
 		if(
 			(currentDirection == 1 && inputDirection == 2) ||
@@ -82,16 +84,18 @@ public class Game extends Thread {
 	 //===========================================================================================
 	 private void Update()
 	 {
-		snake.UpdateSnakePosition(currentDirection);
+		if(gamePaused) return;
+		tileManager.GetSnake().UpdateSnakePosition(currentDirection);
 		CheckCollisions();
 	 }
 
 	 //DRAW - Draw game elements
 	 //===========================================================================================
-	 private void Draw(){
-
-		gameScreen.UpdateSnakePos(snake);
-		gameScreen.UpdateFoodPos(foodPositions);
+	 private void Draw()
+	 {
+		if(gamePaused) return;
+		gameScreen.UpdateSnakePos(tileManager.GetSnake());
+		gameScreen.UpdateFoodPos(tileManager.GetFoodPos());
 		gameScreen.repaint();
 	 }
 	
@@ -111,69 +115,52 @@ public class Game extends Thread {
 	 //===========================================================================================
 	 private void CheckCollisions() {
 		
-		//check for food collisions
-		//-------------------------
-		if(foodPositions.contains(snake.GetHeadPos()))
-		{
-			foodPositions.remove(snake.GetHeadPos());
-
-			snake.IncreaseSnakeSize();
-
-		 	SpawnFood();
-		}
+		//check food collisions
+		if(tileManager.CheckFoodCollisions()) score++;
 		
 		//check for self-collisions
-		//-------------------------
-		if(snake.SelfCollisionCheck()) GameOver();
+		if(tileManager.GetSnake().SelfCollisionCheck()) GameOver();
 
 		//check for wall collisions
-		//-------------------------
-		if(wallPositions.contains(snake.GetHeadPos())) 
+		if(tileManager.CheckWallCollisions()) 
 		{
 			System.out.println("Collided with a wall!");
 			GameOver();
 		}
-
 	 }
 
-	//GameOver - sets game active state to false
+	//GameOver 
 	//===========================================================================================
-	 private void GameOver(){
-
-		 gameActive = false;
-	 }
-	 
-	 //SpawnFood - Spawn food at a random empty spot, then return its position
-	 //===========================================================================================
-	 private Tuple SpawnFood()
-	 {
-		Tuple foodPosition = GetEmptyCoords();
-		foodPositions.add(foodPosition);
-
-		return foodPosition;
-	 }
-	 
-	 //GetEmptyCoords - returns a position not occupied by the snake
-	 //===========================================================================================
-	 private Tuple GetEmptyCoords()
-	 {
-		//Get random coordinates between [0, 19]
-		Tuple p ;
-		int ranX = (int)(Math.random()*19); 
-		int ranY = (int)(Math.random()*19); 
-		p = new Tuple(ranX,ranY);
-
-		//If either the snake or a wall is currently occupying those coordinates,
-		//reroll the dice.
-		while(wallPositions.contains(p) ||
-				snake.ContainsPosition(p))
+	//Ends game
+	private void GameOver(){
+		
+		System.out.printf("Game Over.\nPlayer for: %.3f seconds.\nFinal score: %d", 
+		(float)timer.GetAccumulatedTime()/1000.0f,
+		score);
+		
+		gameActive = false;
+	}
+	
+	//PauseToggle
+	//===========================================================================================
+	//sets gameActive status to false and stops timer if game is not paused
+	//Sets gameActive status to true and resumes timer if game is paused
+	public void PauseToggle()
+	{
+		if(!gamePaused)
 		{
-			ranX = (int)(Math.random()*19); 
-		 	ranY = (int)(Math.random()*19); 
-		 	p = new Tuple(ranX,ranY);
+			gamePaused = true;
+			timer.StopTimer();
 		}
+		else
+		{
+			gamePaused = false;
+			timer.StartTimer();
+		}
+	}
 
-		 return p;
-	 }
-
+	//Getters
+	//===========================================================================================
+	public ScreenGame GetScreenGame() {return gameScreen;}
+	public long GetAccumulatedTime() {return timer.GetAccumulatedTime();}
 }
