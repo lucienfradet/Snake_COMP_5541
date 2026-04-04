@@ -1,3 +1,5 @@
+package rework;
+
 import java.util.ArrayList;
 
 public class Snake {
@@ -14,7 +16,7 @@ public class Snake {
     Snake(int initSize, Tuple initPosition)
     {
         //initialize variables
-        size = initSize > 0 ? initSize : 3; //min length: 3
+        size = initSize;
 
         for(int i = 0; i < size; i++)
 		{
@@ -135,5 +137,4 @@ public class Snake {
     //===========================================================================================
     public ArrayList<SnakeSegment>  GetSegments()   {return segments;}
     public Tuple                    GetHeadPos()    {return snakeHead.GetPos();}
-    public Integer                  GetSize()       {return size;}
 }

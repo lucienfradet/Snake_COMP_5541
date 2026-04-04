@@ -1,3 +1,5 @@
+package rework;
+
 public class SnakeSegment {
     private Tuple position;
     private Tuple lastPosition;
@@ -11,8 +13,6 @@ public class SnakeSegment {
     //Move
     public void UpdatePosition(Tuple newPos)
     {
-        if(newPos == null) return;
-        
         lastPosition = position;
         position = newPos;
     }
