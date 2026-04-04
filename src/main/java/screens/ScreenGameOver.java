@@ -8,7 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import UI.*;
+import screens.UI.*;
 
 public class ScreenGameOver extends JPanel implements Screen{
 

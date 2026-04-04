@@ -10,9 +10,9 @@ import javax.swing.JButton;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
-import UI.Button;
-import UI.ColorPalette;
-import UI.FontPalette;
+import screens.UI.Button;
+import screens.UI.ColorPalette;
+import screens.UI.FontPalette;
 
 public class ScreenMainMenu extends JPanel implements Screen {
 

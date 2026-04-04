@@ -19,9 +19,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-import UI.Button;
-import UI.ColorPalette;
-import UI.FontPalette;
+import screens.UI.Button;
+import screens.UI.ColorPalette;
+import screens.UI.FontPalette;
 
 public class ScreenStats extends JPanel implements Screen {
 

@@ -10,9 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import UI.Button;
-import UI.ColorPalette;
-import UI.FontPalette;
+import screens.UI.Button;
+import screens.UI.ColorPalette;
+import screens.UI.FontPalette;
 
 public class ScreenAccountManager extends JPanel implements Screen{
 

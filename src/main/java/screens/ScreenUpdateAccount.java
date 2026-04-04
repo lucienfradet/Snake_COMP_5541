@@ -13,9 +13,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import UI.Button;
-import UI.ColorPalette;
-import UI.FontPalette;
+import screens.UI.Button;
+import screens.UI.ColorPalette;
+import screens.UI.FontPalette;
 
 public class ScreenUpdateAccount extends JPanel implements Screen{
 

@@ -11,9 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import UI.Button;
-import UI.ColorPalette;
-import UI.FontPalette;
+import screens.UI.Button;
+import screens.UI.ColorPalette;
+import screens.UI.FontPalette;
 
 public class ScreenDeleteAccount extends JPanel implements Screen {
 

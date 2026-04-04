@@ -9,7 +9,7 @@ public class Game extends Thread {
 	public Boolean gameActive = true;	//false value ends the game
 	public Boolean gamePaused = false;
 	public int FPS;
-  public static final int START_SNAKE_LENGTH = 3;
+  	public static final int START_SNAKE_LENGTH = 3;
 
 	//Input
 	//=====
