@@ -35,9 +35,10 @@ public class Game extends Thread {
 		this.gameScreen = gameScreen;
 		this.onGameOver = onGameOver;
 
-		FPS = fps;
-		
 		//Initialize direction values
+		currentDirection = 1;
+		FPS = fps >= 1 ? fps : 1;		//minimum fps value = 1
+		FPS = FPS <= 120 ? FPS : 120;	//maximum fps value = 120
 		currentDirection = 1;
 
 		//Initialize TileManager
