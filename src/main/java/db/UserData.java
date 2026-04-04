@@ -4,25 +4,35 @@ import java.util.ArrayList;
 
 import enums.Difficulty;
 import enums.Direction;
+import game.Game;
 
 public class UserData {
-  int id;
-  String username;
-  boolean admin;
-  ArrayList<Direction> moveHistory;
-  int score;
-  int snakeLength;
-  long gameTime;
-  int pastGameId;
-  int maze;
-  Difficulty difficulty;
+  private int id;
+  private String username;
+  private boolean admin;
+  private ArrayList<Direction> moveHistory;
+  private int score;
+  private int snakeLength;
+  private long gameTime;
+  private int pastGameId;
+  private int maze;
+  private Difficulty difficulty;
 
+  /**
+   * Constructor when a user logs in.
+   * Use default Difficulty and Maze values
+   */
   public UserData(int id, String username, boolean admin) {
     this.id = id;
     this.username = username;
     this.admin = admin;
+    this.maze = 0;
+    this.difficulty = Difficulty.NORMAL;
   }
 
+  /**
+   * Constructor when use to store past games in UserData
+   */
   public UserData(
       int id, 
       String username, 
@@ -141,7 +151,9 @@ public class UserData {
   }
 
   public static void clearGameData(UserData user) {
-    user.score = 0;
-    // user.snakeLength = Game.START_SNAKE_LENGTH;
+    user.setScore(0);
+    user.setSnakeLength(Game.START_SNAKE_LENGTH);
+    user.setGameTime(0);
+    user.setMoveHistory(null);
   }
 }
