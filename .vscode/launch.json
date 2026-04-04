@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+        "type": "java",
+        "name": "Main",
+        "request": "launch",
+        "mainClass": "app.Main",
+        "projectName": "snake-game"
+    },
+    {
+        "type": "java",
+        "name": "Launch Main",
+        "request": "launch",
+        "mainClass": "main.java.app.Main",
+        "projectName": "your-project-name",
+        "cwd": "${workspaceFolder}"
+    }
+]
+}

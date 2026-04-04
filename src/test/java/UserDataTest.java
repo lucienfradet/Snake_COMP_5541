@@ -1,3 +1,5 @@
+import db.UserData;
+
 class UserDataTest {
 
     private UserData userData;
