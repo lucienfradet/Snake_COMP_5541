@@ -34,6 +34,8 @@ public class Game extends Thread {
 		// gameScreen = Window.gScreen;
 		this.gameScreen = gameScreen;
 		this.onGameOver = onGameOver;
+
+		FPS = fps;
 		
 		//Initialize direction values
 		currentDirection = 1;
