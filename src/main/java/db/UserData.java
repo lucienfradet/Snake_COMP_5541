@@ -139,4 +139,9 @@ public class UserData {
     }
     moveHistory.add(direction);
   }
+
+  public static void clearGameData(UserData user) {
+    user.score = 0;
+    // user.snakeLength = Game.START_SNAKE_LENGTH;
+  }
 }

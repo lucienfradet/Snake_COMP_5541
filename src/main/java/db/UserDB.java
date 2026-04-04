@@ -1,5 +1,7 @@
 package db;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -35,7 +37,7 @@ public class UserDB {
    * Creates the database and initializes the schema with default tables.
    * This method establishes a connection and creates tables if they don't exist.
    */
-  public static void createDatabase() {
+  public static void init() {
     try (Connection conn = DriverManager.getConnection(url)) {
       if (conn != null) {
         meta = conn.getMetaData();
@@ -63,8 +65,8 @@ public class UserDB {
       + "userId INT PRIMARY KEY AUTO_INCREMENT,\n"
       + "username VARCHAR(30) NOT NULL CHECK (char_length(username) >= 5),\n"
       + "password VARCHAR(64),\n"
-      + "isAdmin BOOLEAN,\n"
-      + "tombstone BOOLEAN\n"
+      + "isAdmin BOOLEAN DEFAULT 0,\n"
+      + "tombstone BOOLEAN DEFAULT 0\n"
       + ")";
 
     String createGameTable = 
@@ -98,6 +100,63 @@ public class UserDB {
     }
   }
 
+  public static UserData login(String username, String password) {
+    return null;
+  }
+
+  public static boolean newUser(String username, String password) throws Exception {
+    if (!UserDB.isUniqueUsername(username))
+      throw new Exception("Username is already taken.");
+
+    String sql = "INSERT INTO User (username, password) VALUES (?, ?)";
+
+    try {
+      String hashPassword = hashPassword(password);
+      Connection conn = DriverManager.getConnection(url);
+      PreparedStatement pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, username);
+      pstmt.setString(2, hashPassword);
+
+      int rowsInserted = pstmt.executeUpdate();
+      System.out.println("User inserted successfully. Rows affected: " + rowsInserted);
+      return true;
+    } catch (NoSuchAlgorithmException e) {
+      System.err.println("Error hashing password: " + e.getMessage());
+      throw new Exception("Hash error occured. Could not create account.");
+    } catch (SQLException e) {
+      System.err.println("Error inserting user: " + e.getMessage());
+      throw new Exception("Error occured. Could not create account.");
+    }
+  }
+
+  public static boolean updatePassword(String username, String newPassword) {
+    return false;
+  }
+
+  public static boolean updateUsername(String username) {
+    return false;
+  }
+
+  public static boolean isUniqueUsername(String username) {
+    return false;
+  }
+
+  public static UserData[] getUserData(int id) {
+    return null;
+  }
+
+  public static UserData[] getAllUserData() {
+    return null;
+  }
+
+  public static boolean deleteAccount(int id) {
+    return false;
+  }
+
+  public static boolean saveGame(UserData user) {
+    return false;
+  }
+
   /**
    * Example: Insert a new user into the database.
    * Demonstrates a WRITE operation using PreparedStatement.
@@ -117,6 +176,21 @@ public class UserDB {
     } catch (SQLException e) {
       System.err.println("Error inserting user: " + e.getMessage());
     }
+  }
+
+  /**
+   * Helper function to hash the passwords
+   */
+  private static String hashPassword(String password) throws NoSuchAlgorithmException {
+    MessageDigest md = MessageDigest.getInstance("SHA-256");
+    byte[] hash = md.digest(password.getBytes());
+
+    // Convert back to a String
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < hash.length; i++) {
+      sb.append(String.format("%02x", hash[i]));
+    }
+    return sb.toString(); // 64 char hex string
   }
 
   /**

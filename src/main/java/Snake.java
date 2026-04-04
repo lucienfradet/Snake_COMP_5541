@@ -14,7 +14,7 @@ public class Snake {
     Snake(int initSize, Tuple initPosition)
     {
         //initialize variables
-        size = initSize > 0 ? initSize : 3; //min length: 3
+        size = initSize > 0 ? initSize : Game.START_SNAKE_LENGTH; //min length: 3
 
         for(int i = 0; i < size; i++)
 		{

@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 //Controls all the game logic .. most important class in this project.
 public class Game extends Thread {
-
 	//Game Settings
 	//=============
 	private ScreenGame gameScreen;
@@ -10,6 +9,8 @@ public class Game extends Thread {
 	public static int inputDirection;
 	public int FPS;
 	private int currentDirection;		//1:right 2:left 3:top 4:bottom 0:nothing
+
+  public static final int START_SNAKE_LENGTH = 3;
 
 	//Map
 	//===
