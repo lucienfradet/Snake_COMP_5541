@@ -65,8 +65,8 @@ public class UserDB {
       + "userId INT PRIMARY KEY AUTO_INCREMENT,\n"
       + "username VARCHAR(30) NOT NULL CHECK (char_length(username) >= 5),\n"
       + "password VARCHAR(64),\n"
-      + "isAdmin BOOLEAN DEFAULT 0,\n"
-      + "tombstone BOOLEAN DEFAULT 0\n"
+      + "isAdmin BOOLEAN DEFAULT FALSE,\n"
+      + "tombstone BOOLEAN DEFAULT FALSE\n"
       + ")";
 
     String createGameTable = 
@@ -100,8 +100,36 @@ public class UserDB {
     }
   }
 
-  public static UserData login(String username, String password) {
-    return null;
+  public static UserData login(String username, String password) throws Exception {
+    String sql = "SELECT userId, username, isAdmin FROM User "
+      + "WHERE username = ? AND password = ? AND tombstone = FALSE;";
+
+    // NOTE:  try (...) {...} automatically closes connections on block exit!
+    //        As opposed to regular try {...} catch {...}
+    try (Connection conn = DriverManager.getConnection(url);
+        PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+      String hashPassword = hashPassword(password);
+      pstmt.setString(1, username);
+      pstmt.setString(2, hashPassword);
+      try (ResultSet rs = pstmt.executeQuery()) {
+        if (rs.next()) {
+          return new UserData(
+              rs.getInt("userId"),
+              rs.getString("username"),
+              rs.getBoolean("isAdmin")
+              );
+        } else {
+          throw new Exception("Invalid username or password.");
+        }
+      }
+    } catch (NoSuchAlgorithmException e) {
+      System.err.println("Error hashing password: " + e.getMessage());
+      throw new Exception("Hash error occurred. Could not create account.");
+    } catch (SQLException e) {
+      System.err.println("Error connecting to database: " + e.getMessage());
+      throw new Exception("Database connection error.");
+    }
   }
 
   public static boolean newUser(String username, String password) throws Exception {
@@ -110,16 +138,17 @@ public class UserDB {
 
     String sql = "INSERT INTO User (username, password) VALUES (?, ?)";
 
-    try {
+    try (Connection conn = DriverManager.getConnection(url);
+        PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
       String hashPassword = hashPassword(password);
-      Connection conn = DriverManager.getConnection(url);
-      PreparedStatement pstmt = conn.prepareStatement(sql);
+
       pstmt.setString(1, username);
       pstmt.setString(2, hashPassword);
-
       int rowsInserted = pstmt.executeUpdate();
       System.out.println("User inserted successfully. Rows affected: " + rowsInserted);
       return true;
+
     } catch (NoSuchAlgorithmException e) {
       System.err.println("Error hashing password: " + e.getMessage());
       throw new Exception("Hash error occured. Could not create account.");
@@ -137,23 +166,35 @@ public class UserDB {
     return false;
   }
 
-  public static boolean isUniqueUsername(String username) {
-    return false;
+  public static boolean isUniqueUsername(String username) throws Exception {
+    String sql = "SELECT username FROM User WHERE username = ? AND tombstone = FALSE;";
+    try (
+        Connection conn = DriverManager.getConnection(url);
+        PreparedStatement pstmt = conn.prepareStatement(sql)
+    ) {
+      pstmt.setString(1, username);
+      try (ResultSet rs = pstmt.executeQuery()) {
+        return !rs.next(); // false if a row exists, true if empty
+      }
+    } catch (SQLException e) {
+      System.err.println("Error connecting to database: " + e.getMessage());
+      throw new Exception("Database connection error.");
+    }
   }
 
-  public static UserData[] getUserData(int id) {
+  public static UserData[] getUserData(int id) throws Exception {
     return null;
   }
 
-  public static UserData[] getAllUserData() {
+  public static UserData[] getAllUserData() throws Exception {
     return null;
   }
 
-  public static boolean deleteAccount(int id) {
+  public static boolean deleteAccount(int id) throws Exception {
     return false;
   }
 
-  public static boolean saveGame(UserData user) {
+  public static boolean saveGame(UserData user) throws Exception {
     return false;
   }
 
@@ -161,7 +202,7 @@ public class UserDB {
    * Example: Insert a new user into the database.
    * Demonstrates a WRITE operation using PreparedStatement.
    */
-  public static void insertUser(String username, boolean admin, int score, int snakeLength) {
+  public static void insertUser(String username, boolean admin, int score, int snakeLength) throws Exception {
     String sql = "INSERT INTO users (username, admin, score, snake_length) VALUES (?, ?, ?, ?)";
 
     try (Connection conn = DriverManager.getConnection(url);
@@ -192,6 +233,8 @@ public class UserDB {
     }
     return sb.toString(); // 64 char hex string
   }
+
+  // TO DELETE!!!!!!!!!!
 
   /**
    * Example: Query all users from the database.
