@@ -37,7 +37,7 @@ public class UserDB {
    * Creates the database and initializes the schema with default tables.
    * This method establishes a connection and creates tables if they don't exist.
    */
-  public static void init() {
+  public static void init() throws Exception {
     try (Connection conn = DriverManager.getConnection(url)) {
       if (conn != null) {
         meta = conn.getMetaData();
@@ -49,6 +49,7 @@ public class UserDB {
       }
     } catch (SQLException e) {
       System.err.println(e.getMessage());
+      throw new Exception("Error: Can't communicate with the database.");
     }
   }
 
@@ -158,11 +159,11 @@ public class UserDB {
     }
   }
 
-  public static boolean updatePassword(String username, String newPassword) {
+  public static boolean updatePassword(String username, String newPassword) throws Exception {
     return false;
   }
 
-  public static boolean updateUsername(String username) {
+  public static boolean updateUsername(String username) throws Exception {
     return false;
   }
 
