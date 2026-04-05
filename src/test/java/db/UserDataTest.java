@@ -56,15 +56,8 @@ class UserDataTest {
 
     @Test
     void incrementScore_atMaxValue_overflowIsDetected() {
-        // Documents known overflow risk at Integer.MAX_VALUE
         user.setScore(Integer.MAX_VALUE);
-        int before = user.getScore();
-        user.incrementScore();
-        int after = user.getScore();
-
-        // If this fails, you need overflow protection in incrementScore()
-        assertTrue(after > before,
-            "Integer overflow detected: score went from " + before + " to " + after);
+        assertThrows(RuntimeException.class, () -> user.incrementScore());
     }
 
     // ─── TC-11: addMove ────────────────────────────────────────────────────────

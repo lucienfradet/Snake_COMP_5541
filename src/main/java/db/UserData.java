@@ -145,7 +145,9 @@ public class UserData {
   }
 
   // Additional methods
-  public void incrementScore() {
+  public void incrementScore() throws RuntimeException {
+    if (this.score == Integer.MAX_VALUE)
+      throw new RuntimeException("Score has reached maximum value.");
     this.score++;
   }
 
@@ -153,7 +155,7 @@ public class UserData {
     this.snakeLength++;
   }
 
-  public void addMove(Direction direction) {
+  public void addMove(Direction direction) throws IllegalArgumentException {
     if (direction == null) throw new IllegalArgumentException("Direction cannot be null");
     if (moveHistory == null) moveHistory = new ArrayList<>();
     moveHistory.add(direction);
