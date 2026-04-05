@@ -73,16 +73,15 @@ public class UserDB {
    */
   private static void createSchema(Connection conn) {
     String createUsersTable = 
-      "CREATE TABLE User (\n"
+      "CREATE TABLE IF NOT EXISTS User (\n"
       + "userId INTEGER PRIMARY KEY AUTOINCREMENT,\n"
       + "username VARCHAR(30) NOT NULL CHECK (length(username) >= 5),\n"
       + "password VARCHAR(64),\n"
-      + "isAdmin BOOLEAN DEFAULT FALSE,\n"
-      + "tombstone BOOLEAN DEFAULT FALSE\n"
+      + "isAdmin BOOLEAN DEFAULT FALSE\n"
       + ")";
 
     String createGameTable = 
-      "CREATE TABLE Game (\n"
+      "CREATE TABLE IF NOT EXISTS Game (\n"
       + "userId INTEGER NOT NULL,\n"
       + "gameId INTEGER PRIMARY KEY AUTOINCREMENT,\n"
       + "score INTEGER DEFAULT 0,\n"
@@ -94,7 +93,7 @@ public class UserDB {
       + ")";
 
     String createMovesTable =
-      "CREATE TABLE Moves ("
+      "CREATE TABLE IF NOT EXISTS Moves ("
       + "gameId INTEGER NOT NULL,\n"
       + "direction VARCHAR(5) CHECK(direction IN ('UP', 'DOWN', 'LEFT', 'RIGHT')),\n"
       + "numMoves INTEGER,\n"
@@ -114,7 +113,7 @@ public class UserDB {
 
   public static UserData login(String username, String password) throws Exception {
     String sql = "SELECT userId, username, isAdmin FROM User "
-      + "WHERE username = ? AND password = ? AND tombstone = FALSE;";
+      + "WHERE username = ? AND password = ?;";
 
     // NOTE:  try (...) {...} automatically closes connections on block exit!
     //        As opposed to regular try {...} catch {...}
@@ -228,7 +227,7 @@ public class UserDB {
   }
 
   public static boolean isUniqueUsername(String username) throws Exception {
-    String sql = "SELECT username FROM User WHERE username = ? AND tombstone = FALSE;";
+    String sql = "SELECT username FROM User WHERE username = ?";
     try (
         Connection conn = DriverManager.getConnection(url);
         PreparedStatement pstmt = conn.prepareStatement(sql)
