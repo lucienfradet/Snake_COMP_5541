@@ -2,14 +2,19 @@ package screens.UI;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.event.HierarchyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
 public class Button extends JButton {
+    private static final int BORDER_WIDTH = 3;
+    private static final int PADDING_VERTICAL = 5;
+    private static final int PADDING_HORIZONTAL = 10;
 
     public Button(String name) {
         
@@ -24,18 +29,25 @@ public class Button extends JButton {
         setBorderPainted(true);
         setRolloverEnabled(true);
         setBackground(ColorPalette.BLACK);
+        setHorizontalAlignment(SwingConstants.CENTER);
+        setVerticalAlignment(SwingConstants.CENTER);
+        setMargin(new Insets(0, 0, 0, 0));
 
         Border whiteBorder = BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(ColorPalette.WHITE, 3),
-            BorderFactory.createEmptyBorder(5, 10, 5, 10)
+            BorderFactory.createLineBorder(ColorPalette.WHITE, BORDER_WIDTH),
+            BorderFactory.createEmptyBorder(PADDING_VERTICAL, PADDING_HORIZONTAL, PADDING_VERTICAL, PADDING_HORIZONTAL)
         );
         Border dimmedBorder = BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(ColorPalette.DIMMED_WHITE, 3),
-            BorderFactory.createEmptyBorder(5, 10, 5, 10)
+            BorderFactory.createLineBorder(ColorPalette.DIMMED_WHITE, BORDER_WIDTH),
+            BorderFactory.createEmptyBorder(PADDING_VERTICAL, PADDING_HORIZONTAL, PADDING_VERTICAL, PADDING_HORIZONTAL)
         );
         Border pressedBorder = BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(ColorPalette.DIMMED_WHITE, 3),
-            BorderFactory.createEmptyBorder(5, 10, 5, 10)
+            BorderFactory.createLineBorder(ColorPalette.DIMMED_WHITE, BORDER_WIDTH),
+            BorderFactory.createEmptyBorder(PADDING_VERTICAL, PADDING_HORIZONTAL, PADDING_VERTICAL, PADDING_HORIZONTAL)
+        );
+        Border selectedBorder = BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(ColorPalette.GREEN, BORDER_WIDTH),
+            BorderFactory.createEmptyBorder(PADDING_VERTICAL, PADDING_HORIZONTAL, PADDING_VERTICAL, PADDING_HORIZONTAL)
         );
 
         Dimension preferredSize = super.getPreferredSize();
@@ -47,10 +59,6 @@ public class Button extends JButton {
             ButtonModel model = getModel();
             Color parentBackground = getParent() != null ? getParent().getBackground() : ColorPalette.BLACK;
             boolean selected = Boolean.TRUE.equals(getClientProperty("selected"));
-            Border selectedBorder = BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(ColorPalette.GREEN, 3),
-                BorderFactory.createEmptyBorder(5, 20, 5, 20)
-            );
 
             if (!model.isEnabled()) {
                 setForeground(ColorPalette.DIMMED_WHITE);
