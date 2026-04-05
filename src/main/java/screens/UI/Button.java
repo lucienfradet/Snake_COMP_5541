@@ -15,6 +15,10 @@ public class Button extends JButton {
     private static final int BORDER_WIDTH = 3;
     private static final int PADDING_VERTICAL = 5;
     private static final int PADDING_HORIZONTAL = 10;
+    private final Border whiteBorder;
+    private final Border dimmedBorder;
+    private final Border pressedBorder;
+    private final Border selectedBorder;
 
     public Button(String name) {
         
@@ -33,27 +37,29 @@ public class Button extends JButton {
         setVerticalAlignment(SwingConstants.CENTER);
         setMargin(new Insets(0, 0, 0, 0));
 
-        Border whiteBorder = BorderFactory.createCompoundBorder(
+        whiteBorder = BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(ColorPalette.WHITE, BORDER_WIDTH),
             BorderFactory.createEmptyBorder(PADDING_VERTICAL, PADDING_HORIZONTAL, PADDING_VERTICAL, PADDING_HORIZONTAL)
         );
-        Border dimmedBorder = BorderFactory.createCompoundBorder(
+        dimmedBorder = BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(ColorPalette.DIMMED_WHITE, BORDER_WIDTH),
             BorderFactory.createEmptyBorder(PADDING_VERTICAL, PADDING_HORIZONTAL, PADDING_VERTICAL, PADDING_HORIZONTAL)
         );
-        Border pressedBorder = BorderFactory.createCompoundBorder(
+        pressedBorder = BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(ColorPalette.DIMMED_WHITE, BORDER_WIDTH),
             BorderFactory.createEmptyBorder(PADDING_VERTICAL, PADDING_HORIZONTAL, PADDING_VERTICAL, PADDING_HORIZONTAL)
         );
-        Border selectedBorder = BorderFactory.createCompoundBorder(
+        selectedBorder = BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(ColorPalette.GREEN, BORDER_WIDTH),
             BorderFactory.createEmptyBorder(PADDING_VERTICAL, PADDING_HORIZONTAL, PADDING_VERTICAL, PADDING_HORIZONTAL)
         );
 
+        setBorder(whiteBorder);
         Dimension preferredSize = super.getPreferredSize();
-        Dimension buttonSize = new Dimension(preferredSize.width, buttonHeight);
+        Dimension buttonSize = new Dimension(preferredSize.width, Math.max(preferredSize.height, buttonHeight));
         setPreferredSize(buttonSize);
         setMaximumSize(buttonSize);
+        setMinimumSize(buttonSize);
 
         Runnable applyStyle = () -> {
             ButtonModel model = getModel();
@@ -102,5 +108,35 @@ public class Button extends JButton {
         });
 
         applyStyle.run();
+    }
+
+    @Override
+    public void setPreferredSize(Dimension preferredSize) {
+        super.setPreferredSize(clampToStyledSize(preferredSize));
+    }
+
+    @Override
+    public void setMaximumSize(Dimension maximumSize) {
+        super.setMaximumSize(clampToStyledSize(maximumSize));
+    }
+
+    @Override
+    public void setMinimumSize(Dimension minimumSize) {
+        super.setMinimumSize(clampToStyledSize(minimumSize));
+    }
+
+    private Dimension clampToStyledSize(Dimension requestedSize) {
+        Border previousBorder = getBorder();
+        super.setBorder(whiteBorder);
+        Dimension styledSize = super.getPreferredSize();
+        super.setBorder(previousBorder);
+
+        int width = styledSize.width;
+        int height = styledSize.height;
+        if (requestedSize != null) {
+            width = Math.max(width, requestedSize.width);
+            height = Math.max(height, requestedSize.height);
+        }
+        return new Dimension(width, height);
     }
 }

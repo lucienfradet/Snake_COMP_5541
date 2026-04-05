@@ -76,8 +76,6 @@ public class ScreenPause extends JPanel implements Screen{
         this.add(Box.createVerticalGlue());
         this.add(pause);
         this.add(Box.createVerticalStrut(20));
-        this.add(resume);
-        this.add(Box.createVerticalStrut(10));
         this.add(buttonPanel);
         this.add(Box.createVerticalGlue());
     }
