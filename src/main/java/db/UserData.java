@@ -11,10 +11,11 @@ public class UserData {
   private String username;
   private boolean admin;
   private ArrayList<Direction> moveHistory;
+  private int totalMoveCount; // Only used when retreiving data
   private int score;
   private int snakeLength;
   private long gameTime;
-  private int pastGameId;
+  private int gameId;
   private int maze;
   private Difficulty difficulty;
 
@@ -34,24 +35,21 @@ public class UserData {
    * Constructor when use to store past games in UserData
    */
   public UserData(
-      int id, 
       String username, 
-      boolean admin, 
-      ArrayList<Direction> moveHistory, 
-      int score, int snakeLength, 
+      int totalMoveCount,
+      int score, 
+      int snakeLength, 
       long gameTime, 
       int pastGameId, 
       int maze, 
       Difficulty difficulty
   ) {
-    this.id = id;
     this.username = username;
-    this.admin = admin;
-    this.moveHistory = moveHistory;
+    this.totalMoveCount = totalMoveCount;
     this.score = score;
     this.snakeLength = snakeLength;
     this.gameTime = gameTime;
-    this.pastGameId = pastGameId;
+    this.gameId = pastGameId;
     this.maze = maze;
     this.difficulty = difficulty;
   }
@@ -73,6 +71,10 @@ public class UserData {
     return moveHistory;
   }
 
+  public int getTotalMoveCount() {
+    return totalMoveCount;
+  }
+
   public int getScore() {
     return score;
   }
@@ -85,8 +87,8 @@ public class UserData {
     return gameTime;
   }
 
-  public int getPastGameId() {
-    return pastGameId;
+  public int getGameId() {
+    return gameId;
   }
 
   public int getMaze() {
@@ -114,6 +116,10 @@ public class UserData {
     this.moveHistory = moveHistory;
   }
 
+  public void setTotalMoveCount(int totalMoveCount) {
+    this.totalMoveCount = totalMoveCount;
+  }
+
   public void setScore(int score) {
     this.score = score;
   }
@@ -126,8 +132,8 @@ public class UserData {
     this.gameTime = gameTime;
   }
 
-  public void setPastGameId(int pastGameId) {
-    this.pastGameId = pastGameId;
+  public void setGameId(int pastGameId) {
+    this.gameId = pastGameId;
   }
 
   public void setMaze(int maze) {
@@ -139,8 +145,12 @@ public class UserData {
   }
 
   // Additional methods
-  public void incrementScore(int amount) {
-    this.score += amount;
+  public void incrementScore() {
+    this.score++;
+  }
+
+  public void incrementSnakeLength() {
+    this.snakeLength++;
   }
 
   public void addMove(Direction direction) {
