@@ -218,3 +218,9 @@ pip-log.txt
 ## CUSTOM LUCEIN ##
 ###################
 target/
+
+############
+## VSCODE ##
+############
+.vscode
+out/

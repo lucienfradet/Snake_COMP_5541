@@ -66,3 +66,20 @@ on Windows:
 ```bash
 java -cp ".;lib/sqlite-jdbc-3.45.0.0.jar" Main
 ```
+
+### Using Maeven Test
+- Run all tests:
+```bash
+mvn test
+```
+- Run only one test class:
+```bash
+mvn test -Dtest=UserDataTest
+mvn test -Dtest=UserDBTest
+mvn test -Dtest=UserDBIntegrationTest
+```
+
+- Run a single test method:
+```bash
+mvn test -Dtest="UserDBIntegrationTest#newUser_thenLogin_sameUserReturnedFromRealDB"
+```
