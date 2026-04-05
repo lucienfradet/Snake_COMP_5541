@@ -2,6 +2,7 @@ package app;
 
 import javax.swing.JFrame;
 
+import db.UserDB;
 import db.UserData;
 import screens.ScreenAccountManager;
 import screens.ScreenDeleteAccount;
@@ -52,6 +53,16 @@ public class Main {
     if (System.getProperty("os.name").toLowerCase().contains("linux")) {
       System.setProperty("sun.java2d.opengl", "true");
     }
+
+    // Make sure the Database is initialize (has tables and everything needed)
+    try{
+      UserDB.init();
+    }
+    catch (Exception e){
+      System.err.println("Could not initialize Database, exiting program");
+      System.exit(0);
+    }
+    
     startGame();
   }
 }
