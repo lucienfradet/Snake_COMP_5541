@@ -42,8 +42,9 @@ public class ScreenLogin extends JPanel implements Screen {
         login.setFont(FontPalette.TITLE);
         login.setForeground(ColorPalette.WHITE);
 
-        JPanel loginPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        loginPanel.setAlignmentX(LEFT_ALIGNMENT);
+        JPanel loginPanel = new JPanel();
+        loginPanel.setLayout(new BoxLayout(loginPanel, BoxLayout.Y_AXIS));
+        loginPanel.setAlignmentX(CENTER_ALIGNMENT);
         loginPanel.setBackground(ColorPalette.BLACK);
         loginPanel.setPreferredSize(new Dimension(452, 80));
         loginPanel.setMaximumSize(new Dimension(452, 80));
@@ -59,18 +60,21 @@ public class ScreenLogin extends JPanel implements Screen {
         usernameField.setForeground(ColorPalette.BLACK);
         usernameField.setBackground(ColorPalette.WHITE);
         usernameField.setBorder(BorderFactory.createLineBorder(ColorPalette.WHITE));
-        usernameField.setPreferredSize(new Dimension(300, 30));
-        usernameField.setMaximumSize(new Dimension(300, 30));
+        usernameField.setPreferredSize(new Dimension(200, 30));
+        usernameField.setMaximumSize(new Dimension(200, 30));
 
-        JPanel usernamePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        usernamePanel.setAlignmentX(LEFT_ALIGNMENT);
+        JPanel usernamePanel = new JPanel();
+        usernamePanel.setLayout(new BoxLayout(usernamePanel, BoxLayout.X_AXIS));
+        usernamePanel.setAlignmentX(CENTER_ALIGNMENT);
         usernamePanel.setPreferredSize(new Dimension(452, 40));
         usernamePanel.setMaximumSize(new Dimension(452, 40));
         usernamePanel.setBackground(ColorPalette.BLACK);
         usernamePanel.setBorder(null);
+        usernamePanel.add(Box.createHorizontalGlue());
         usernamePanel.add(username);
-        usernamePanel.add(Box.createHorizontalStrut(12));
+        usernamePanel.add(Box.createHorizontalStrut(10));
         usernamePanel.add(usernameField);
+        usernamePanel.add(Box.createHorizontalGlue());
 
         JLabel password = new JLabel("Password");
         password.setFont(FontPalette.TEXT);
@@ -82,25 +86,28 @@ public class ScreenLogin extends JPanel implements Screen {
         passwordField.setForeground(ColorPalette.BLACK);
         passwordField.setBackground(ColorPalette.WHITE);
         passwordField.setBorder(BorderFactory.createLineBorder(ColorPalette.WHITE));
-        passwordField.setPreferredSize(new Dimension(300, 30));
-        passwordField.setMaximumSize(new Dimension(300, 30));
+        passwordField.setPreferredSize(new Dimension(200, 30));
+        passwordField.setMaximumSize(new Dimension(200, 30));
 
-        JPanel passwordPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        passwordPanel.setAlignmentX(LEFT_ALIGNMENT);
+        JPanel passwordPanel = new JPanel();
+        passwordPanel.setLayout(new BoxLayout(passwordPanel, BoxLayout.X_AXIS));
+        passwordPanel.setAlignmentX(CENTER_ALIGNMENT);
         passwordPanel.setPreferredSize(new Dimension(452, 40));
         passwordPanel.setMaximumSize(new Dimension(452, 40));
         passwordPanel.setBackground(ColorPalette.BLACK);
-        passwordPanel.setBorder(null);
+        passwordPanel.add(Box.createHorizontalGlue());
         passwordPanel.add(password);
-        passwordPanel.add(Box.createHorizontalStrut(12));
+        passwordPanel.add(Box.createHorizontalStrut(10));
         passwordPanel.add(passwordField);
+        passwordPanel.add(Box.createHorizontalGlue());
 
         JLabel message = new JLabel("Error: some error message");
         message.setFont(FontPalette.TEXT);
         message.setForeground(ColorPalette.RED);
 
-        JPanel messagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        messagePanel.setAlignmentX(LEFT_ALIGNMENT);
+        JPanel messagePanel = new JPanel();
+        messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.Y_AXIS));
+        messagePanel.setAlignmentX(CENTER_ALIGNMENT);
         messagePanel.setBackground(ColorPalette.BLACK);
         messagePanel.setPreferredSize(new Dimension(452, 40));
         messagePanel.setMaximumSize(new Dimension(452, 40));
