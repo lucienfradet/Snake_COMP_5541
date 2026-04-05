@@ -59,18 +59,22 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         usernameField.setFont(FontPalette.TEXT);
         usernameField.setForeground(ColorPalette.BLACK);
         usernameField.setBackground(ColorPalette.WHITE);
+        usernameField.setBorder(BorderFactory.createLineBorder(ColorPalette.WHITE));
         usernameField.setPreferredSize(new Dimension(200, 30));
         usernameField.setMaximumSize(new Dimension(200, 30));
 
-        JPanel usernamePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        JPanel usernamePanel = new JPanel();
+        usernamePanel.setLayout(new BoxLayout(usernamePanel, BoxLayout.X_AXIS));
         usernamePanel.setAlignmentX(CENTER_ALIGNMENT);
-        usernamePanel.setPreferredSize(new Dimension(452, 46));
-        usernamePanel.setMaximumSize(new Dimension(452, 46));
+        usernamePanel.setPreferredSize(new Dimension(452, 40));
+        usernamePanel.setMaximumSize(new Dimension(452, 40));
         usernamePanel.setBackground(ColorPalette.BLACK);
         usernamePanel.setBorder(null);
+        usernamePanel.add(Box.createHorizontalGlue());
         usernamePanel.add(username);
-        usernamePanel.add(Box.createHorizontalStrut(12));
+        usernamePanel.add(Box.createHorizontalStrut(10));
         usernamePanel.add(usernameField);
+        usernamePanel.add(Box.createHorizontalGlue());
 
         JLabel password1 = new JLabel("Password");
         password1.setFont(FontPalette.TEXT);
@@ -81,21 +85,25 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         passwordField1.setFont(FontPalette.TEXT);
         passwordField1.setForeground(ColorPalette.BLACK);
         passwordField1.setBackground(ColorPalette.WHITE);
+        passwordField1.setBorder(BorderFactory.createLineBorder(ColorPalette.WHITE));
         passwordField1.setPreferredSize(new Dimension(200, 30));
         passwordField1.setMaximumSize(new Dimension(200, 30));
 
-        JPanel passwordPanel1 = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        passwordPanel1.setAlignmentX(CENTER_ALIGNMENT);
-        passwordPanel1.setPreferredSize(new Dimension(452, 46));
-        passwordPanel1.setMaximumSize(new Dimension(452, 46));
-        passwordPanel1.setBackground(ColorPalette.BLACK);
+        JPanel passwordPanel1 = new JPanel();
+        passwordPanel1.setLayout(new BoxLayout(passwordPanel1, BoxLayout.X_AXIS));
         passwordPanel1.setBorder(null);
+        passwordPanel1.setAlignmentX(CENTER_ALIGNMENT);
+        passwordPanel1.setPreferredSize(new Dimension(452, 40));
+        passwordPanel1.setMaximumSize(new Dimension(452, 40));
+        passwordPanel1.setBackground(ColorPalette.BLACK);
+        passwordPanel1.add(Box.createHorizontalGlue());
         passwordPanel1.add(password1);
-        passwordPanel1.add(Box.createHorizontalStrut(12));
+        passwordPanel1.add(Box.createHorizontalStrut(10));
         passwordPanel1.add(passwordField1);
+        passwordPanel1.add(Box.createHorizontalGlue());
 
-        JLabel password2 = new JLabel("<html>Confirm<br>Password</html>");
-        password2.setFont(new Font("Yoster Island", Font.BOLD, 15));
+        JLabel password2 = new JLabel("<html> Confirm <br> Password </html>");
+        password2.setFont(FontPalette.TEXT);
         password2.setForeground(ColorPalette.WHITE);
         password2.setPreferredSize(new Dimension(120, 40));
 
@@ -103,18 +111,22 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         passwordField2.setFont(FontPalette.TEXT);
         passwordField2.setForeground(ColorPalette.BLACK);
         passwordField2.setBackground(ColorPalette.WHITE);
+        passwordField2.setBorder(BorderFactory.createLineBorder(ColorPalette.WHITE));
         passwordField2.setPreferredSize(new Dimension(200, 30));
         passwordField2.setMaximumSize(new Dimension(200, 30));
 
-        JPanel passwordPanel2 = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        passwordPanel2.setAlignmentX(CENTER_ALIGNMENT);
-        passwordPanel2.setPreferredSize(new Dimension(452, 46));
-        passwordPanel2.setMaximumSize(new Dimension(452, 46));
-        passwordPanel2.setBackground(ColorPalette.BLACK);
+        JPanel passwordPanel2 = new JPanel();
+        passwordPanel2.setLayout(new BoxLayout(passwordPanel2, BoxLayout.X_AXIS));
         passwordPanel2.setBorder(null);
+        passwordPanel2.setAlignmentX(CENTER_ALIGNMENT);
+        passwordPanel2.setPreferredSize(new Dimension(452, 40));
+        passwordPanel2.setMaximumSize(new Dimension(452, 40));
+        passwordPanel2.setBackground(ColorPalette.BLACK);
+        passwordPanel2.add(Box.createHorizontalGlue());
         passwordPanel2.add(password2);
-        passwordPanel2.add(Box.createHorizontalStrut(12));
+        passwordPanel2.add(Box.createHorizontalStrut(10));
         passwordPanel2.add(passwordField2);
+        passwordPanel2.add(Box.createHorizontalGlue());
 
         JLabel message = new JLabel("Error: some error message");
         message.setAlignmentX(LEFT_ALIGNMENT);
@@ -140,15 +152,13 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         middlePanel.setBackground(ColorPalette.BLACK);
         middlePanel.setBorder(BorderFactory.createEmptyBorder(0, 24, 0, 24));
         middlePanel.add(titlePanel);
-        middlePanel.add(Box.createVerticalStrut(6));
         middlePanel.add(usernamePanel);
-        middlePanel.add(Box.createVerticalStrut(8));
+        middlePanel.add(Box.createVerticalStrut(15));
         middlePanel.add(passwordPanel1);
-        middlePanel.add(Box.createVerticalStrut(8));
+        middlePanel.add(Box.createVerticalStrut(10));
         middlePanel.add(passwordPanel2);
-        middlePanel.add(Box.createVerticalStrut(8));
+        middlePanel.add(Box.createVerticalStrut(10));
         middlePanel.add(messagePanel);
-        middlePanel.add(Box.createVerticalStrut(8));
         middlePanel.add(update);
         middlePanel.add(Box.createVerticalGlue());
 
