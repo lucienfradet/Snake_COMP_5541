@@ -15,8 +15,13 @@ import screens.ScreenStartMenu;
 import screens.ScreenStats;
 import screens.ScreenUpdateAccount;
 
+import db.UserData;
+
 public class Main {
+  public static UserData loginUser = new UserData(0, null, false);
+
   public static void startGame() {
+
     JFrame window = new JFrame();
     window.setTitle("Snake Game");
     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -48,7 +53,6 @@ public class Main {
     if (System.getProperty("os.name").toLowerCase().contains("linux")) {
       System.setProperty("sun.java2d.opengl", "true");
     }
-
     startGame();
   }
 }
