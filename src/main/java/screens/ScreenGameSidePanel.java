@@ -185,7 +185,13 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
 
 			// initial position of the snake
 			Tuple position = new Tuple(10,10);
-			gameThread = new Game(0, position, 20, game, () -> ScreenManager.getInstance().showScreen(ScreenManager.GAME_OVER));
+			gameThread = new Game(
+                0, 
+                position, 
+                20, 
+                game, 
+                () -> ScreenManager.getInstance().showScreen(ScreenManager.GAME_OVER)
+            );
 
 			//Let's start the game now..
 			gameThread.start();
