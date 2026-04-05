@@ -73,7 +73,7 @@ public class UserDB {
    */
   private static void createSchema(Connection conn) {
     String createUsersTable = 
-      "CREATE TABLE User (\n"
+      "CREATE TABLE IF NOT EXISTS User (\n"
       + "userId INTEGER PRIMARY KEY AUTOINCREMENT,\n"
       + "username VARCHAR(30) NOT NULL CHECK (length(username) >= 5),\n"
       + "password VARCHAR(64),\n"
@@ -82,7 +82,7 @@ public class UserDB {
       + ")";
 
     String createGameTable = 
-      "CREATE TABLE Game (\n"
+      "CREATE TABLE IF NOT EXISTS Game (\n"
       + "userId INTEGER NOT NULL,\n"
       + "gameId INTEGER PRIMARY KEY AUTOINCREMENT,\n"
       + "score INTEGER DEFAULT 0,\n"
@@ -94,7 +94,7 @@ public class UserDB {
       + ")";
 
     String createMovesTable =
-      "CREATE TABLE Moves ("
+      "CREATE TABLE IF NOT EXISTS Moves ("
       + "gameId INTEGER NOT NULL,\n"
       + "direction VARCHAR(5) CHECK(direction IN ('UP', 'DOWN', 'LEFT', 'RIGHT')),\n"
       + "numMoves INTEGER,\n"
