@@ -154,6 +154,11 @@ public class ScreenMapSelect extends JPanel implements Screen {
                 }
             });
         }
+
+        easy.putClientProperty("selected", true);
+        easy.repaint();
+        zero.putClientProperty("selected", true);
+        zero.repaint();
     }
 
     @Override

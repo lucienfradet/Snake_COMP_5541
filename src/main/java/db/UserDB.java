@@ -1,5 +1,8 @@
 package db;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
@@ -40,6 +43,10 @@ public class UserDB {
    * This method establishes a connection and creates tables if they don't exist.
    */
   public static void init() throws Exception {
+    // Create directories if they don't exist
+    Path path = Paths.get("data/db");
+    Files.createDirectories(path);
+
     try (Connection conn = DriverManager.getConnection(url)) {
       if (conn != null) {
         meta = conn.getMetaData();
@@ -52,6 +59,8 @@ public class UserDB {
     } catch (SQLException e) {
       System.err.println(e.getMessage());
       throw new Exception("Error: Can't communicate with the database.");
+    } catch (Exception e) {
+      throw new Exception("Error: Can't access database directory.");
     }
   }
 
