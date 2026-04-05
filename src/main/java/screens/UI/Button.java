@@ -2,14 +2,23 @@ package screens.UI;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.event.HierarchyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
 public class Button extends JButton {
+    private static final int BORDER_WIDTH = 3;
+    private static final int PADDING_VERTICAL = 5;
+    private static final int PADDING_HORIZONTAL = 10;
+    private final Border whiteBorder;
+    private final Border dimmedBorder;
+    private final Border pressedBorder;
+    private final Border selectedBorder;
 
     public Button(String name) {
         
@@ -24,33 +33,38 @@ public class Button extends JButton {
         setBorderPainted(true);
         setRolloverEnabled(true);
         setBackground(ColorPalette.BLACK);
+        setHorizontalAlignment(SwingConstants.CENTER);
+        setVerticalAlignment(SwingConstants.CENTER);
+        setMargin(new Insets(0, 0, 0, 0));
 
-        Border whiteBorder = BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(ColorPalette.WHITE, 3),
-            BorderFactory.createEmptyBorder(5, 10, 5, 10)
+        whiteBorder = BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(ColorPalette.WHITE, BORDER_WIDTH),
+            BorderFactory.createEmptyBorder(PADDING_VERTICAL, PADDING_HORIZONTAL, PADDING_VERTICAL, PADDING_HORIZONTAL)
         );
-        Border dimmedBorder = BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(ColorPalette.DIMMED_WHITE, 3),
-            BorderFactory.createEmptyBorder(5, 10, 5, 10)
+        dimmedBorder = BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(ColorPalette.DIMMED_WHITE, BORDER_WIDTH),
+            BorderFactory.createEmptyBorder(PADDING_VERTICAL, PADDING_HORIZONTAL, PADDING_VERTICAL, PADDING_HORIZONTAL)
         );
-        Border pressedBorder = BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(ColorPalette.DIMMED_WHITE, 3),
-            BorderFactory.createEmptyBorder(5, 10, 5, 10)
+        pressedBorder = BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(ColorPalette.DIMMED_WHITE, BORDER_WIDTH),
+            BorderFactory.createEmptyBorder(PADDING_VERTICAL, PADDING_HORIZONTAL, PADDING_VERTICAL, PADDING_HORIZONTAL)
+        );
+        selectedBorder = BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(ColorPalette.GREEN, BORDER_WIDTH),
+            BorderFactory.createEmptyBorder(PADDING_VERTICAL, PADDING_HORIZONTAL, PADDING_VERTICAL, PADDING_HORIZONTAL)
         );
 
+        setBorder(whiteBorder);
         Dimension preferredSize = super.getPreferredSize();
-        Dimension buttonSize = new Dimension(preferredSize.width, buttonHeight);
+        Dimension buttonSize = new Dimension(preferredSize.width, Math.max(preferredSize.height, buttonHeight));
         setPreferredSize(buttonSize);
         setMaximumSize(buttonSize);
+        setMinimumSize(buttonSize);
 
         Runnable applyStyle = () -> {
             ButtonModel model = getModel();
             Color parentBackground = getParent() != null ? getParent().getBackground() : ColorPalette.BLACK;
             boolean selected = Boolean.TRUE.equals(getClientProperty("selected"));
-            Border selectedBorder = BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(ColorPalette.GREEN, 3),
-                BorderFactory.createEmptyBorder(5, 20, 5, 20)
-            );
 
             if (!model.isEnabled()) {
                 setForeground(ColorPalette.DIMMED_WHITE);
@@ -94,5 +108,35 @@ public class Button extends JButton {
         });
 
         applyStyle.run();
+    }
+
+    @Override
+    public void setPreferredSize(Dimension preferredSize) {
+        super.setPreferredSize(clampToStyledSize(preferredSize));
+    }
+
+    @Override
+    public void setMaximumSize(Dimension maximumSize) {
+        super.setMaximumSize(clampToStyledSize(maximumSize));
+    }
+
+    @Override
+    public void setMinimumSize(Dimension minimumSize) {
+        super.setMinimumSize(clampToStyledSize(minimumSize));
+    }
+
+    private Dimension clampToStyledSize(Dimension requestedSize) {
+        Border previousBorder = getBorder();
+        super.setBorder(whiteBorder);
+        Dimension styledSize = super.getPreferredSize();
+        super.setBorder(previousBorder);
+
+        int width = styledSize.width;
+        int height = styledSize.height;
+        if (requestedSize != null) {
+            width = Math.max(width, requestedSize.width);
+            height = Math.max(height, requestedSize.height);
+        }
+        return new Dimension(width, height);
     }
 }

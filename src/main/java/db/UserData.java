@@ -29,6 +29,7 @@ public class UserData {
     this.admin = admin;
     this.maze = 0;
     this.difficulty = Difficulty.NORMAL;
+    this.snakeLength = Game.START_SNAKE_LENGTH;
   }
 
   /**
