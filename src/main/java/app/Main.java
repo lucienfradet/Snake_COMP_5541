@@ -2,20 +2,20 @@ package app;
 
 import javax.swing.JFrame;
 
+import db.UserDB;
+import db.UserData;
 import screens.ScreenAccountManager;
 import screens.ScreenDeleteAccount;
 import screens.ScreenGameOver;
 import screens.ScreenLogin;
 import screens.ScreenMainMenu;
-import screens.ScreenMapSelect;
 import screens.ScreenManager;
+import screens.ScreenMapSelect;
 import screens.ScreenPause;
 import screens.ScreenRegister;
 import screens.ScreenStartMenu;
 import screens.ScreenStats;
 import screens.ScreenUpdateAccount;
-
-import db.UserData;
 
 public class Main {
   public static UserData loginUser = new UserData(0, null, false);
@@ -53,6 +53,16 @@ public class Main {
     if (System.getProperty("os.name").toLowerCase().contains("linux")) {
       System.setProperty("sun.java2d.opengl", "true");
     }
+
+    // Make sure the Database is initialize (has tables and everything needed)
+    try{
+      UserDB.init();
+    }
+    catch (Exception e){
+      System.err.println("Could not initialize Database, exiting program");
+      System.exit(0);
+    }
+    
     startGame();
   }
 }

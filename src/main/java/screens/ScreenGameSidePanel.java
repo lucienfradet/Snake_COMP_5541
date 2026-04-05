@@ -11,13 +11,14 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import screens.UI.Button;
-import screens.UI.ColorPalette;
-import screens.UI.FontPalette;
-
+import app.Main;
+import enums.Difficulty;
 import game.Game;
 import game.InputManager;
 import game.Tuple;
+import screens.UI.Button;
+import screens.UI.ColorPalette;
+import screens.UI.FontPalette;
 
 public class ScreenGameSidePanel extends JPanel implements Screen{
 
@@ -174,6 +175,13 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
         bottomPanel.add(Box.createHorizontalStrut(10));
         bottomPanel.add(gameInfo);
 
+        int fps;
+        fps = switch (Main.loginUser.getDifficulty()) {
+            case Difficulty.EASY -> 9;
+            case Difficulty.NORMAL -> 15;
+            default -> 69;
+        };
+
         this.add(topPanel);
         this.add(Box.createVerticalGlue());
         this.add(middlePanel);
@@ -183,9 +191,9 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
 			// initial position of the snake
 			Tuple position = new Tuple(10,10);
 			gameThread = new Game(
-                0, 
+                Main.loginUser.getMaze(), 
                 position, 
-                20, 
+                fps, 
                 game, 
                 () -> ScreenManager.getInstance().showScreen(ScreenManager.GAME_OVER)
             );
