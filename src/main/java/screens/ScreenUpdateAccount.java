@@ -102,7 +102,7 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         passwordPanel1.add(passwordField1);
         passwordPanel1.add(Box.createHorizontalGlue());
 
-        JLabel password2 = new JLabel("<html> Confirm <br> Password </html>");
+        JLabel password2 = new JLabel("Confirm\nPassword");
         password2.setFont(FontPalette.TEXT);
         password2.setForeground(ColorPalette.WHITE);
         password2.setPreferredSize(new Dimension(120, 40));
