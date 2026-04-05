@@ -28,15 +28,13 @@ public class ScreenMapSelect extends JPanel implements Screen {
         setBackground(defaultBackground);
 
         Button easy = new Button("Easy");
-        Button normal = new Button("Normal");
+        Button normal = new Button("Medium");
         Button hard = new Button("Hard");
         Button[] difficultyButtons = { easy, normal, hard };
         for (Button button : difficultyButtons) {
             button.setPreferredSize(difficultyButtonSize);
             button.setMaximumSize(difficultyButtonSize);
         }
-        
-        
         easy.addActionListener(e -> Main.loginUser.setDifficulty(Difficulty.EASY));
         normal.addActionListener(e -> Main.loginUser.setDifficulty(Difficulty.NORMAL));
         hard.addActionListener(e -> Main.loginUser.setDifficulty(Difficulty.HARD));
@@ -50,6 +48,11 @@ public class ScreenMapSelect extends JPanel implements Screen {
             button.setPreferredSize(mazeButtonSize);
             button.setMaximumSize(mazeButtonSize);
         }
+        one.addActionListener(e -> Main.loginUser.setMaze(1));
+        two.addActionListener(e -> Main.loginUser.setMaze(2));
+        three.addActionListener(e -> Main.loginUser.setMaze(3));
+        zero.addActionListener(e -> Main.loginUser.setMaze(0));
+
 
         Button back = new Button("Back");
         Button play = new Button("Play");

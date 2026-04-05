@@ -2,20 +2,19 @@ package app;
 
 import javax.swing.JFrame;
 
+import db.UserData;
 import screens.ScreenAccountManager;
 import screens.ScreenDeleteAccount;
 import screens.ScreenGameOver;
 import screens.ScreenLogin;
 import screens.ScreenMainMenu;
-import screens.ScreenMapSelect;
 import screens.ScreenManager;
+import screens.ScreenMapSelect;
 import screens.ScreenPause;
 import screens.ScreenRegister;
 import screens.ScreenStartMenu;
 import screens.ScreenStats;
 import screens.ScreenUpdateAccount;
-
-import db.UserData;
 
 public class Main {
   public static UserData loginUser = new UserData(0, null, false);

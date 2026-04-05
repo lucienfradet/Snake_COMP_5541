@@ -177,9 +177,9 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
 
         int fps;
         fps = switch (Main.loginUser.getDifficulty()) {
-            case Difficulty.EASY -> 7;
-            case Difficulty.NORMAL -> 13;
-            default -> 100;
+            case Difficulty.EASY -> 9;
+            case Difficulty.NORMAL -> 15;
+            default -> 69;
         };
 
         this.add(topPanel);
@@ -191,7 +191,7 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
 			// initial position of the snake
 			Tuple position = new Tuple(10,10);
 			gameThread = new Game(
-                0, 
+                Main.loginUser.getMaze(), 
                 position, 
                 fps, 
                 game, 
