@@ -115,6 +115,10 @@ public final class ScreenManager {
         }
     }
 
+    public Screen getScreen(String name) {
+        return screens.get(name);
+    }
+
     private String titleFor(String name) {
         return switch (name) {
             case START_MENU -> "Start Menu";

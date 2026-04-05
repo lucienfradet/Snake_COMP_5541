@@ -60,10 +60,7 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
         pause.setMargin(new Insets(0, 0, 0, 0));
         pause.setMaximumSize(new java.awt.Dimension(100, 36));
         pause.setPreferredSize(new java.awt.Dimension(100, 36));
-        pause.addActionListener(e -> {
-            stopGame();
-            ScreenManager.getInstance().showScreen(ScreenManager.PAUSE);
-        });
+        pause.addActionListener(e -> pauseGame());
 
         topPanel.add(snakeGame);
         topPanel.add(Box.createHorizontalGlue());
@@ -185,7 +182,13 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
 
 			// initial position of the snake
 			Tuple position = new Tuple(10,10);
-			gameThread = new Game(0, position, 20, game, () -> ScreenManager.getInstance().showScreen(ScreenManager.GAME_OVER));
+			gameThread = new Game(
+                0, 
+                position, 
+                20, 
+                game, 
+                () -> ScreenManager.getInstance().showScreen(ScreenManager.GAME_OVER)
+            );
 
 			//Let's start the game now..
 			gameThread.start();
@@ -200,9 +203,22 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
         javax.swing.SwingUtilities.invokeLater(this::requestFocusInWindow);
     }
 
-    private void stopGame() {
+    public void pauseGame() {
+        if (gameThread != null && gameThread.gameActive && !gameThread.gamePaused) {
+            gameThread.PauseToggle();
+        }
+    }
+
+    public void resumeGame() {
+        if (gameThread != null && gameThread.gameActive && gameThread.gamePaused) {
+            gameThread.PauseToggle();
+        }
+    }
+
+    public void stopGame() {
         if (gameThread != null) {
             gameThread.gameActive = false;
+            gameThread = null;
         }
     }
 }

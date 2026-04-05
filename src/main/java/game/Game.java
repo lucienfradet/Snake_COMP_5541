@@ -1,5 +1,6 @@
 package game;
 import screens.ScreenGame;
+import screens.ScreenManager;
 
 //Controls all the game logic .. most important class in this project.
 public class Game extends Thread {
@@ -8,16 +9,17 @@ public class Game extends Thread {
 	private ScreenGame gameScreen;
 	public Boolean gameActive = true;	//false value ends the game
 	public Boolean gamePaused = false;
+	public int mapSelection;
 	public int FPS;
   	public static final int START_SNAKE_LENGTH = 3;
+	public Tuple positionDepart;
+	public static boolean pausePressed;
+	private final Runnable onGameOver;
 
 	//Input
 	//=====
 	public static int inputDirection;
 	private int currentDirection;		//1:right 2:left 3:top 4:bottom 0:nothing
-	public static boolean pausePressed;
-	private final Runnable onGameOver;
-	
 
 	//Managers
 	//========
@@ -28,7 +30,12 @@ public class Game extends Thread {
 
 	//Constructor
 	//===========================================================================================
-	public Game(int mapSelection, Tuple positionDepart, int fps, ScreenGame gameScreen, Runnable onGameOver){
+	public Game(
+		int mapSelection, 
+		Tuple positionDepart, 
+		int fps, 
+		ScreenGame gameScreen, 
+		Runnable onGameOver){
 		//Get all the threads
 		//Squares=ScreenGame.Grid;
 		// gameScreen = Window.gScreen;
@@ -36,13 +43,16 @@ public class Game extends Thread {
 		this.onGameOver = onGameOver;
 
 		//Initialize direction values
+		inputDirection = 1;
 		currentDirection = 1;
 		FPS = fps >= 1 ? fps : 1;		//minimum fps value = 1
 		FPS = FPS <= 120 ? FPS : 120;	//maximum fps value = 120
 		currentDirection = 1;
 
 		//Initialize TileManager
-		tileManager = new TileManager(mapSelection, positionDepart);
+		this.mapSelection = mapSelection;
+		this.positionDepart = positionDepart;
+		tileManager = new TileManager(this.mapSelection, this.positionDepart);
 		
 		gameScreen.UpdateWallPos(tileManager.GetWallPositions());	//Wall positions are only updated once
 		
@@ -107,6 +117,18 @@ public class Game extends Thread {
 		gameScreen.repaint();
 	 }
 	
+	 //RELOAD - Refresh all game data
+	 //===========================================================================================
+	 public void Reload()
+	 {
+		tileManager = new TileManager(this.mapSelection, this.positionDepart);
+		
+		gameScreen.UpdateWallPos(tileManager.GetWallPositions());	//Wall positions are only updated once
+		
+		//Spawn first food
+		tileManager.SpawnFood();
+	 }
+	
 	 //Wait - waiting time between game cycle
 	 //===========================================================================================
 	 private void Wait(){
@@ -147,6 +169,7 @@ public class Game extends Thread {
 		score);
 		
 		gameActive = false;
+		onGameOver.run();
 	}
 	
 	//PauseToggle
@@ -159,11 +182,13 @@ public class Game extends Thread {
 		{
 			gamePaused = true;
 			timer.StopTimer();
+			ScreenManager.getInstance().showScreen(ScreenManager.PAUSE);
 		}
 		else
 		{
 			gamePaused = false;
 			timer.StartTimer();
+			ScreenManager.getInstance().showScreen(ScreenManager.GAME);
 		}
 	}
 
