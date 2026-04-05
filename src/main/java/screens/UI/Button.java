@@ -27,15 +27,15 @@ public class Button extends JButton {
 
         Border whiteBorder = BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(ColorPalette.WHITE, 3),
-            BorderFactory.createEmptyBorder(5, 20, 5, 20)
+            BorderFactory.createEmptyBorder(5, 10, 5, 10)
         );
         Border dimmedBorder = BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(ColorPalette.DIMMED_WHITE, 3),
-            BorderFactory.createEmptyBorder(5, 20, 5, 20)
+            BorderFactory.createEmptyBorder(5, 10, 5, 10)
         );
         Border pressedBorder = BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(ColorPalette.DIMMED_WHITE, 3),
-            BorderFactory.createEmptyBorder(5, 20, 5, 20)
+            BorderFactory.createEmptyBorder(5, 10, 5, 10)
         );
 
         Dimension preferredSize = super.getPreferredSize();
