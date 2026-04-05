@@ -27,20 +27,32 @@ public class ScreenPause extends JPanel implements Screen{
         Button resume = new Button("Resume");
         resume.setAlignmentX(CENTER_ALIGNMENT);
         resume.addActionListener(e -> {
-            ScreenManager.getInstance().refreshScreen(ScreenManager.GAME);
-            ScreenManager.getInstance().showScreen(ScreenManager.GAME);
+            ScreenGameSidePanel gameScreen = getGameScreen();
+            if (gameScreen != null) {
+                gameScreen.resumeGame();
+            }
         });
         
         Button restart = new Button("Restart");
         restart.setAlignmentX(CENTER_ALIGNMENT);
         restart.addActionListener(e -> {
+            ScreenGameSidePanel gameScreen = getGameScreen();
+            if (gameScreen != null) {
+                gameScreen.stopGame();
+            }
             ScreenManager.getInstance().refreshScreen(ScreenManager.GAME);
             ScreenManager.getInstance().showScreen(ScreenManager.GAME);
         });
 
         Button exit = new Button("Exit");
         exit.setAlignmentX(CENTER_ALIGNMENT);
-        exit.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.MAIN_MENU));
+        exit.addActionListener(e -> {
+            ScreenGameSidePanel gameScreen = getGameScreen();
+            if (gameScreen != null) {
+                gameScreen.stopGame();
+            }
+            ScreenManager.getInstance().showScreen(ScreenManager.MAIN_MENU);
+        });
         
         Dimension buttonDimension = new Dimension(140, 40);
         resume.setPreferredSize(buttonDimension);
@@ -68,5 +80,13 @@ public class ScreenPause extends JPanel implements Screen{
         this.add(Box.createVerticalStrut(10));
         this.add(buttonPanel);
         this.add(Box.createVerticalGlue());
+    }
+
+    private ScreenGameSidePanel getGameScreen() {
+        Screen screen = ScreenManager.getInstance().getScreen(ScreenManager.GAME);
+        if (screen instanceof ScreenGameSidePanel gameScreen) {
+            return gameScreen;
+        }
+        return null;
     }
 }
