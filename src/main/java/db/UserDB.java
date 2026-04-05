@@ -65,8 +65,8 @@ public class UserDB {
   private static void createSchema(Connection conn) {
     String createUsersTable = 
       "CREATE TABLE User (\n"
-      + "userId INT PRIMARY KEY AUTO_INCREMENT,\n"
-      + "username VARCHAR(30) NOT NULL CHECK (char_length(username) >= 5),\n"
+      + "userId INTEGER PRIMARY KEY AUTOINCREMENT,\n"
+      + "username VARCHAR(30) NOT NULL CHECK (length(username) >= 5),\n"
       + "password VARCHAR(64),\n"
       + "isAdmin BOOLEAN DEFAULT FALSE,\n"
       + "tombstone BOOLEAN DEFAULT FALSE\n"
@@ -74,23 +74,23 @@ public class UserDB {
 
     String createGameTable = 
       "CREATE TABLE Game (\n"
-      + "userId INT NOT NULL,\n"
-      + "gameId INT PRIMARY KEY AUTO_INCREMENT,\n"
-      + "score INT DEFAULT 0,\n"
-      + "snakeLength INT DEFAULT 3,\n"
-      + "time LONG,\n"
+      + "userId INTEGER NOT NULL,\n"
+      + "gameId INTEGER PRIMARY KEY AUTOINCREMENT,\n"
+      + "score INTEGER DEFAULT 0,\n"
+      + "snakeLength INTEGER DEFAULT 3,\n"
+      + "time INTEGER,\n"
       + "difficulty VARCHAR(6)  NOT NULL CHECK(difficulty IN ('EASY', 'NORMAL', 'HARD')),\n"
-      + "maze INT,\n"
-      + "FOREIGN KEY(userId) REFERENCES User(userId) ON CASCADE DELETE\n"
+      + "maze INTEGER,\n"
+      + "FOREIGN KEY(userId) REFERENCES User(userId) ON DELETE CASCADE\n"
       + ")";
 
     String createMovesTable =
       "CREATE TABLE Moves ("
-      + "gameId INT NOT NULL,\n"
+      + "gameId INTEGER NOT NULL,\n"
       + "direction VARCHAR(5) CHECK(direction IN ('UP', 'DOWN', 'LEFT', 'RIGHT')),\n"
-      + "numMoves INT,\n"
+      + "numMoves INTEGER,\n"
       + "PRIMARY KEY(gameId, direction),\n"
-      + "FOREIGN KEY(gameId) REFERENCES Game(gameId) ON CASCADE DELETE\n"
+      + "FOREIGN KEY(gameId) REFERENCES Game(gameId) ON DELETE CASCADE\n"
       + ")";
 
     try (Statement stmt = conn.createStatement()) {
@@ -316,6 +316,10 @@ public class UserDB {
       pstmt.setInt(1, id);
 
       int rowsDeleted = pstmt.executeUpdate();
+
+      if (rowsDeleted == 0) 
+        throw new Exception("Error: User not found.");
+
       System.out.println("User deleted. Rows affected: " + rowsDeleted);
     } catch (SQLException e) {
       System.err.println("Error deleting user: " + e.getMessage());
@@ -326,7 +330,7 @@ public class UserDB {
   public static void saveGame(UserData user) throws Exception {
     String sqlGame = "INSERT INTO Game(userId, score, snakeLength, time, difficulty, maze) "
       + "VALUES (?, ?, ?, ?, ?, ?)";
-    String sqlMove = "INSERT INTO Moves VALUES (LAST_INSERT_ID(), ?, ?)";
+    String sqlMove = "INSERT INTO Moves VALUES (last_insert_rowid(), ?, ?)";
 
     try (Connection conn = DriverManager.getConnection(url)) {
       conn.setAutoCommit(false); // we will do multiple write using the same connetion

@@ -154,9 +154,8 @@ public class UserData {
   }
 
   public void addMove(Direction direction) {
-    if (moveHistory == null) {
-      moveHistory = new ArrayList<>();
-    }
+    if (direction == null) throw new IllegalArgumentException("Direction cannot be null");
+    if (moveHistory == null) moveHistory = new ArrayList<>();
     moveHistory.add(direction);
   }
 
