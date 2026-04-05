@@ -31,11 +31,6 @@ public class ScreenAccountManager extends JPanel implements Screen{
         middlePanel.setBackground(ColorPalette.BLACK);
         middlePanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        bottomPanel.setBackground(ColorPalette.BLACK);
-        bottomPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
         JButton back = new Button("Back");
         back.setPreferredSize(new Dimension(140, 40));
         back.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.MAIN_MENU));
@@ -48,16 +43,18 @@ public class ScreenAccountManager extends JPanel implements Screen{
         manageAccount.setForeground(ColorPalette.WHITE);
         manageAccount.setAlignmentX(CENTER_ALIGNMENT);
 
-        Button changeCredentials = new Button("<html>Change<br>Credentials</html>");
+        Button changeCredentials = new Button("Change Credentials");
         changeCredentials.setAlignmentX(CENTER_ALIGNMENT);
-        changeCredentials.setMaximumSize(new Dimension(160, 60));
-        changeCredentials.setPreferredSize(new Dimension(160, 60));
+        changeCredentials.setLayout(new BoxLayout(changeCredentials, BoxLayout.Y_AXIS));
+        changeCredentials.setMaximumSize(new Dimension(300, 40));
+        changeCredentials.setPreferredSize(new Dimension(300, 40));
         changeCredentials.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.UPDATE_ACCOUNT));
 
-        Button deleteAccount = new Button("<html>Delete<br>Account</html>");
+        Button deleteAccount = new Button("Delete Account");
         deleteAccount.setAlignmentX(CENTER_ALIGNMENT);
-        deleteAccount.setMaximumSize(new Dimension(160, 60));
-        deleteAccount.setPreferredSize(new Dimension(160, 60));
+        deleteAccount.setLayout(new BoxLayout(deleteAccount, BoxLayout.Y_AXIS));
+        deleteAccount.setMaximumSize(new Dimension(300, 40));
+        deleteAccount.setPreferredSize(new Dimension(300, 40));
         deleteAccount.putClientProperty("destructive", true);
         deleteAccount.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.DELETE_ACCOUNT));
 
@@ -66,6 +63,11 @@ public class ScreenAccountManager extends JPanel implements Screen{
         middlePanel.add(changeCredentials);
         middlePanel.add(Box.createVerticalStrut(10));
         middlePanel.add(deleteAccount);
+
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        bottomPanel.setBackground(ColorPalette.BLACK);
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JLabel loggedInAs = new JLabel("Logged in as");
         loggedInAs.setFont(FontPalette.TEXT);

@@ -67,16 +67,6 @@ public class ScreenMapSelect extends JPanel implements Screen {
         maze.setForeground(ColorPalette.WHITE);
         maze.setAlignmentX(CENTER_ALIGNMENT);
 
-        JLabel loggedInAs = new JLabel("Logged in as");
-        loggedInAs.setFont(FontPalette.TEXT);
-        loggedInAs.setForeground(ColorPalette.GREEN);
-        loggedInAs.setAlignmentX(CENTER_ALIGNMENT);
-
-        JLabel currentUser = new JLabel("Bard Tarbox");
-        currentUser.setFont(FontPalette.TEXT);
-        currentUser.setForeground(ColorPalette.WHITE);
-        currentUser.setAlignmentX(CENTER_ALIGNMENT);
-
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBackground(defaultBackground);
@@ -108,17 +98,8 @@ public class ScreenMapSelect extends JPanel implements Screen {
         play.setPreferredSize(buttonDimension);
         play.setMaximumSize(buttonDimension);
 
-        JPanel loginInfoPanel = new JPanel();
-        loginInfoPanel.setLayout(new BoxLayout(loginInfoPanel, BoxLayout.Y_AXIS));
-        loginInfoPanel.setBackground(defaultBackground);
+        JPanel loginInfoPanel = ScreenManager.displayUserInfo();
         loginInfoPanel.setAlignmentX(LEFT_ALIGNMENT);
-        loginInfoPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        loginInfoPanel.add(loggedInAs);
-        loginInfoPanel.add(currentUser);
-        loggedInAs.setAlignmentX(LEFT_ALIGNMENT);
-        currentUser.setAlignmentX(LEFT_ALIGNMENT);
-        loginInfoPanel.setAlignmentX(LEFT_ALIGNMENT);
-        loginInfoPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         mainPanel.add(Box.createVerticalStrut(70));
         mainPanel.add(gameSettings);

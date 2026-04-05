@@ -86,8 +86,6 @@ public class ScreenAdminMainMenu extends JPanel implements Screen {
         middlePanel.add(admin);
         middlePanel.add(Box.createVerticalStrut(1));
         middlePanel.add(viewAllStats);
-
-
         JLabel loggedInAs = new JLabel("Logged in as");
         loggedInAs.setFont(FontPalette.TEXT);
         loggedInAs.setForeground(ColorPalette.GREEN);

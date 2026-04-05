@@ -46,10 +46,6 @@ public class ScreenStats extends JPanel implements Screen {
         middlePanel.setBackground(ColorPalette.BLACK);
         middlePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        bottomPanel.setBackground(ColorPalette.BLACK);
-        bottomPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
         JButton back = new Button("Back");
         back.setPreferredSize(new Dimension(140, 40));
         back.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.MAIN_MENU));
@@ -85,8 +81,8 @@ public class ScreenStats extends JPanel implements Screen {
         statsTable.getColumnModel().getColumn(0).setPreferredWidth(38);
         statsTable.getColumnModel().getColumn(1).setPreferredWidth(56);
         statsTable.getColumnModel().getColumn(2).setPreferredWidth(66);
-        statsTable.getColumnModel().getColumn(3).setPreferredWidth(68);
-        statsTable.getColumnModel().getColumn(4).setPreferredWidth(74);
+        statsTable.getColumnModel().getColumn(3).setPreferredWidth(75);
+        statsTable.getColumnModel().getColumn(4).setPreferredWidth(75);
         statsTable.getColumnModel().getColumn(5).setPreferredWidth(86);
 
         DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
@@ -136,6 +132,10 @@ public class ScreenStats extends JPanel implements Screen {
         middlePanel.add(pastGames);
         middlePanel.add(Box.createVerticalStrut(8));
         middlePanel.add(tablePanel);
+
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        bottomPanel.setBackground(ColorPalette.BLACK);
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JLabel loggedInAs = new JLabel("Logged in as");
         loggedInAs.setFont(FontPalette.TEXT);

@@ -60,8 +60,19 @@ public class ScreenMainMenu extends JPanel implements Screen {
             ScreenManager.getInstance().showScreen(ScreenManager.STATS);
         });
 
-        Button manageAccount = new Button("<html>Manage<br>Account</html>");
+        Button manageAccount = new Button("");
+        JLabel line1 = new JLabel("Manage");
+        line1.setAlignmentX(CENTER_ALIGNMENT);
+        line1.setForeground(ColorPalette.WHITE);
+        line1.setFont(FontPalette.TEXT);
+        JLabel line2 = new JLabel("Account");
+        line2.setAlignmentX(CENTER_ALIGNMENT);
+        line2.setForeground(ColorPalette.WHITE);
+        line2.setFont(FontPalette.TEXT);
+        manageAccount.add(line1);
+        manageAccount.add(line2);
         manageAccount.setAlignmentX(CENTER_ALIGNMENT);
+        manageAccount.setLayout(new BoxLayout(manageAccount, BoxLayout.Y_AXIS));
         manageAccount.setMaximumSize(new Dimension(140, 60));
         manageAccount.setPreferredSize(new Dimension(140, 60));
         manageAccount.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.ACCOUNT_MANAGER));
@@ -75,8 +86,7 @@ public class ScreenMainMenu extends JPanel implements Screen {
         middlePanel.add(Box.createVerticalStrut(10));
         middlePanel.add(manageAccount);
         middlePanel.add(Box.createVerticalStrut(20));
-
-
+        
         JLabel loggedInAs = new JLabel("Logged in as");
         loggedInAs.setFont(FontPalette.TEXT);
         loggedInAs.setForeground(ColorPalette.GREEN);

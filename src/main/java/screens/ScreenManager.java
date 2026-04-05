@@ -1,13 +1,19 @@
 package screens;
 
 import db.UserData;
+import screens.UI.ColorPalette;
+import screens.UI.FontPalette;
 
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.util.LinkedHashMap;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -36,6 +42,30 @@ public final class ScreenManager {
     private JFrame frame;
 
     private ScreenManager() {}
+
+    public static JPanel displayUserInfo(){
+        JLabel loggedInAs = new JLabel("Logged in as");
+        loggedInAs.setFont(FontPalette.TEXT);
+        loggedInAs.setForeground(ColorPalette.GREEN);
+        loggedInAs.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel currentUser = new JLabel("Bard Tarbox");
+        currentUser.setFont(FontPalette.TEXT);
+        currentUser.setForeground(ColorPalette.WHITE);
+        currentUser.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JPanel loginInfoPanel = new JPanel();
+        loginInfoPanel.setLayout(new BoxLayout(loginInfoPanel, BoxLayout.Y_AXIS));
+        loginInfoPanel.setBackground(ColorPalette.BLACK);
+        loginInfoPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        loginInfoPanel.add(loggedInAs);
+        loginInfoPanel.add(currentUser);
+        loggedInAs.setAlignmentX(Component.CENTER_ALIGNMENT);
+        currentUser.setAlignmentX(Component.CENTER_ALIGNMENT);
+        loginInfoPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        return loginInfoPanel;
+    }
 
     public static ScreenManager getInstance() {
         return INSTANCE;

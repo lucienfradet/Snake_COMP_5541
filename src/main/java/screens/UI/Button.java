@@ -1,5 +1,8 @@
 package screens.UI;
 
+import java.awt.IllegalComponentStateException;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
@@ -19,6 +22,7 @@ public class Button extends JButton {
     private final Border dimmedBorder;
     private final Border pressedBorder;
     private final Border selectedBorder;
+    private final Border destructiveBorder;
 
     public Button(String name) {
         
@@ -53,6 +57,10 @@ public class Button extends JButton {
             BorderFactory.createLineBorder(ColorPalette.GREEN, BORDER_WIDTH),
             BorderFactory.createEmptyBorder(PADDING_VERTICAL, PADDING_HORIZONTAL, PADDING_VERTICAL, PADDING_HORIZONTAL)
         );
+        destructiveBorder = BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(ColorPalette.RED, BORDER_WIDTH),
+            BorderFactory.createEmptyBorder(PADDING_VERTICAL, PADDING_HORIZONTAL, PADDING_VERTICAL, PADDING_HORIZONTAL)
+        );
 
         setBorder(whiteBorder);
         Dimension preferredSize = super.getPreferredSize();
@@ -65,11 +73,18 @@ public class Button extends JButton {
             ButtonModel model = getModel();
             Color parentBackground = getParent() != null ? getParent().getBackground() : ColorPalette.BLACK;
             boolean selected = Boolean.TRUE.equals(getClientProperty("selected"));
+            boolean destructive = Boolean.TRUE.equals(getClientProperty("destructive"));
 
             if (!model.isEnabled()) {
                 setForeground(ColorPalette.DIMMED_WHITE);
                 setBackground(parentBackground);
                 setBorder(dimmedBorder);
+                setBorderPainted(true);
+                setContentAreaFilled(true);
+            } else if (destructive) {
+                setForeground(model.isPressed() ? ColorPalette.BLACK : ColorPalette.RED);
+                setBackground(model.isPressed() || model.isRollover() ? ColorPalette.DIMMED_WHITE : parentBackground);
+                setBorder(destructiveBorder);
                 setBorderPainted(true);
                 setContentAreaFilled(true);
             } else if (selected) {
@@ -101,9 +116,13 @@ public class Button extends JButton {
 
         getModel().addChangeListener(e -> applyStyle.run());
         addPropertyChangeListener("selected", e -> applyStyle.run());
+        addPropertyChangeListener("destructive", e -> applyStyle.run());
         addHierarchyListener(e -> {
             if ((e.getChangeFlags() & HierarchyEvent.PARENT_CHANGED) != 0) {
                 applyStyle.run();
+            }
+            if ((e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0 && isShowing()) {
+                javax.swing.SwingUtilities.invokeLater(this::syncInitialHoverState);
             }
         });
 
@@ -138,5 +157,26 @@ public class Button extends JButton {
             height = Math.max(height, requestedSize.height);
         }
         return new Dimension(width, height);
+    }
+
+    private void syncInitialHoverState() {
+        if (!isShowing()) {
+            return;
+        }
+
+        try {
+            Point mouseLocation = MouseInfo.getPointerInfo() != null
+                ? MouseInfo.getPointerInfo().getLocation()
+                : null;
+            if (mouseLocation == null) {
+                return;
+            }
+
+            Point localPoint = new Point(mouseLocation);
+            javax.swing.SwingUtilities.convertPointFromScreen(localPoint, this);
+            getModel().setRollover(contains(localPoint));
+        } catch (IllegalComponentStateException ignored) {
+            // Component may not yet be ready for screen-coordinate conversion.
+        }
     }
 }

@@ -38,7 +38,7 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         topPanel.setBackground(ColorPalette.BLACK);
         topPanel.add(back);
         
-        JLabel title = new JLabel("<html>Fill the fields you<br>wish to change</html>");
+        JLabel title = new JLabel("<html>Enter the fields you<br>wish to change</html>");
         title.setHorizontalAlignment(SwingConstants.CENTER);
         title.setFont(new Font("Yoster Island", Font.BOLD, 30));
         title.setForeground(ColorPalette.WHITE);
@@ -76,7 +76,7 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         usernamePanel.add(usernameField);
         usernamePanel.add(Box.createHorizontalGlue());
 
-        JLabel password1 = new JLabel("Password");
+        JLabel password1 = new JLabel("<html> New <br> Password </html>");
         password1.setFont(FontPalette.TEXT);
         password1.setForeground(ColorPalette.WHITE);
         password1.setPreferredSize(new Dimension(120, 40));
@@ -102,7 +102,7 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         passwordPanel1.add(passwordField1);
         passwordPanel1.add(Box.createHorizontalGlue());
 
-        JLabel password2 = new JLabel("Confirm\nPassword");
+        JLabel password2 = new JLabel("<html> Confirm <br> Password </html>");
         password2.setFont(FontPalette.TEXT);
         password2.setForeground(ColorPalette.WHITE);
         password2.setPreferredSize(new Dimension(120, 40));
@@ -155,9 +155,9 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         middlePanel.add(usernamePanel);
         middlePanel.add(Box.createVerticalStrut(15));
         middlePanel.add(passwordPanel1);
-        middlePanel.add(Box.createVerticalStrut(10));
+        middlePanel.add(Box.createVerticalStrut(12));
         middlePanel.add(passwordPanel2);
-        middlePanel.add(Box.createVerticalStrut(10));
+        middlePanel.add(Box.createVerticalStrut(12));
         middlePanel.add(messagePanel);
         middlePanel.add(update);
         middlePanel.add(Box.createVerticalGlue());
