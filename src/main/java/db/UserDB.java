@@ -77,8 +77,7 @@ public class UserDB {
       + "userId INTEGER PRIMARY KEY AUTOINCREMENT,\n"
       + "username VARCHAR(30) NOT NULL CHECK (length(username) >= 5),\n"
       + "password VARCHAR(64),\n"
-      + "isAdmin BOOLEAN DEFAULT FALSE,\n"
-      + "tombstone BOOLEAN DEFAULT FALSE\n"
+      + "isAdmin BOOLEAN DEFAULT FALSE\n"
       + ")";
 
     String createGameTable = 
@@ -114,7 +113,7 @@ public class UserDB {
 
   public static UserData login(String username, String password) throws Exception {
     String sql = "SELECT userId, username, isAdmin FROM User "
-      + "WHERE username = ? AND password = ? AND tombstone = FALSE;";
+      + "WHERE username = ? AND password = ?;";
 
     // NOTE:  try (...) {...} automatically closes connections on block exit!
     //        As opposed to regular try {...} catch {...}
@@ -228,7 +227,7 @@ public class UserDB {
   }
 
   public static boolean isUniqueUsername(String username) throws Exception {
-    String sql = "SELECT username FROM User WHERE username = ? AND tombstone = FALSE;";
+    String sql = "SELECT username FROM User WHERE username = ?";
     try (
         Connection conn = DriverManager.getConnection(url);
         PreparedStatement pstmt = conn.prepareStatement(sql)

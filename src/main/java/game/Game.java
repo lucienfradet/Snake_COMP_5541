@@ -1,4 +1,5 @@
 package game;
+import app.Main;
 import screens.ScreenGame;
 import screens.ScreenManager;
 
@@ -15,6 +16,7 @@ public class Game extends Thread {
 	public Tuple positionDepart;
 	public static boolean pausePressed;
 	private final Runnable onGameOver;
+	private int score = 0;
 
 	//Input
 	//=====
@@ -25,8 +27,6 @@ public class Game extends Thread {
 	//========
 	private TileManager tileManager;
 	private Timer timer;
-
-	private int score;
 
 	//Constructor
 	//===========================================================================================
@@ -105,6 +105,12 @@ public class Game extends Thread {
 		if(gamePaused) return;
 		tileManager.GetSnake().UpdateSnakePosition(currentDirection);
 		CheckCollisions();
+
+		//update userData
+		Main.loginUser.setGameTime(timer.GetAccumulatedTime());
+		Main.loginUser.setScore(score);
+		Main.loginUser.setSnakeLength(tileManager.GetSnake().GetSize());
+
 	 }
 
 	 //DRAW - Draw game elements
@@ -166,7 +172,7 @@ public class Game extends Thread {
 		
 		System.out.printf("Game Over.\nPlayer for: %.3f seconds.\nFinal score: %d", 
 		(float)timer.GetAccumulatedTime()/1000.0f,
-		score);
+		Main.loginUser.getScore());
 		
 		gameActive = false;
 		onGameOver.run();
