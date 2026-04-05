@@ -10,6 +10,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import app.Main;
+import enums.Difficulty;
 import screens.UI.Button;
 import screens.UI.ColorPalette;
 import screens.UI.FontPalette;
@@ -33,6 +35,11 @@ public class ScreenMapSelect extends JPanel implements Screen {
             button.setPreferredSize(difficultyButtonSize);
             button.setMaximumSize(difficultyButtonSize);
         }
+        
+        
+        easy.addActionListener(e -> Main.loginUser.setDifficulty(Difficulty.EASY));
+        normal.addActionListener(e -> Main.loginUser.setDifficulty(Difficulty.NORMAL));
+        hard.addActionListener(e -> Main.loginUser.setDifficulty(Difficulty.HARD));
 
         Button zero = new Button("0");
         Button one = new Button("1");
