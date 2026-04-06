@@ -3,6 +3,8 @@ package screens;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -102,6 +104,26 @@ public class ScreenStats extends JPanel implements Screen {
         }
 
         JTableHeader header = statsTable.getTableHeader();
+        header.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int column = statsTable.columnAtPoint(e.getPoint());
+                String attribute = COLUMN_NAMES[column];
+
+                String sortKey = switch (attribute) {
+                    case "ID"    -> "id";
+                    case "Diff"  -> "difficulty";
+                    case "Maze"  -> "maze";
+                    case "Score" -> "score";
+                    case "Time"  -> "time";
+                    case "Moves" -> "moves";
+                    default -> "id";
+                };
+                sorter.sortBy(stats, sortKey);
+                refreshStatsTable();
+            }            
+        });
+
         header.setFont(FontPalette.TEXT);
         header.setForeground(ColorPalette.GREEN);
         header.setBackground(ColorPalette.WHITE);
@@ -171,18 +193,15 @@ public class ScreenStats extends JPanel implements Screen {
         add(Box.createVerticalGlue());
         add(bottomPanel);
 
-
-        
-
         try {
             this.stats = UserDB.getUserData(Main.loginUser.getId(), false);
+            refreshStatsTable();
             sorter.sortBy(stats, "id");
         } catch (Exception e1) {
             System.err.println(e1.getMessage());
         }
 
-
-
+        /*/
         setStatsRows(List.of(
             new GameStatRow(1, "med", 1, 10, "01:23", 137),
             new GameStatRow(2, "med", 1, 10, "01:23", 137),
@@ -193,7 +212,28 @@ public class ScreenStats extends JPanel implements Screen {
             new GameStatRow(7, "med", 1, 10, "01:23", 137),
             new GameStatRow(8, "med", 1, 10, "01:23", 137),
             new GameStatRow(9, "med", 1, 10, "01:23", 137)
-        ));
+        ));*/
+    }
+
+    private void refreshStatsTable() {
+        clearStatsRows();
+        for (UserData u : stats) {
+            addStatsRow(new GameStatRow(
+                u.getId(),
+                u.getDifficulty().toString(),
+                u.getMaze(),
+                u.getScore(),
+                formatTime(u.getGameTime()),
+                u.getTotalMoveCount()
+            ));
+        }
+    }
+
+    private String formatTime(long ms) {
+        long seconds = ms / 1000;
+        long minutes = seconds / 60;
+        seconds %= 60;
+        return String.format("%02d:%02d", minutes, seconds);
     }
 
     public void setCurrentUser(String username) {
