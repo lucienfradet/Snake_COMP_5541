@@ -11,86 +11,62 @@ public class MapDB {
   //===========================================================================================
   MapDB()
   {
-    //Square map - Index 0
+    //Blank map - index 0
+    ArrayList<Tuple> blankMap = new ArrayList<Tuple>();
+    maps.put(0, new ArrayList<Tuple>(blankMap));
+
+    //Square map - index 1
     ArrayList<Tuple> squareMap = new ArrayList<Tuple>();
+    squareMap.add(new Tuple(4, 5));
     squareMap.add(new Tuple(5, 5));
     squareMap.add(new Tuple(6, 5));
     squareMap.add(new Tuple(5, 6));
-
+    squareMap.add(new Tuple(5, 4));
+    squareMap.add(new Tuple(4, 15));
     squareMap.add(new Tuple(5, 15));
     squareMap.add(new Tuple(6, 15));
     squareMap.add(new Tuple(5, 14));
-
+    squareMap.add(new Tuple(5, 16));
+    squareMap.add(new Tuple(15, 4));
     squareMap.add(new Tuple(15, 5));
     squareMap.add(new Tuple(15, 6));
     squareMap.add(new Tuple(14, 5));
-    
-    squareMap.add(new Tuple(15, 15));
+    squareMap.add(new Tuple(16, 5));
     squareMap.add(new Tuple(15, 14));
+    squareMap.add(new Tuple(15, 16));
+    squareMap.add(new Tuple(15, 15));
     squareMap.add(new Tuple(14, 15));
-    maps.put(0, new ArrayList<Tuple>(squareMap));
+    squareMap.add(new Tuple(16, 15));
+    maps.put(1, new ArrayList<Tuple>(squareMap));
 
-    //Walls map - Index 1
-    ArrayList<Tuple> wallsMap = new ArrayList<Tuple>();
-    wallsMap.add(new Tuple(5, 6));
-    wallsMap.add(new Tuple(5, 7));
-    wallsMap.add(new Tuple(5, 8));
-    wallsMap.add(new Tuple(5, 9));
-    wallsMap.add(new Tuple(5, 10));
-    wallsMap.add(new Tuple(5, 11));
-    wallsMap.add(new Tuple(5, 12));
-    wallsMap.add(new Tuple(5, 13));
-    wallsMap.add(new Tuple(15, 6));
-    wallsMap.add(new Tuple(15, 7));
-    wallsMap.add(new Tuple(15, 8));
-    wallsMap.add(new Tuple(15, 9));
-    wallsMap.add(new Tuple(15, 10));
-    wallsMap.add(new Tuple(15, 11));
-    wallsMap.add(new Tuple(15, 12));
-    wallsMap.add(new Tuple(15, 13));
-    maps.put(1, new ArrayList<Tuple>(wallsMap));
+    //Desert map - Index 2
+    ArrayList<Tuple> desertMap = new ArrayList<Tuple>();
+    desertMap.add(new Tuple(3, 2));
+    desertMap.add(new Tuple(4, 2));
+    desertMap.add(new Tuple(5, 2));
+    desertMap.add(new Tuple(4, 3));
+    desertMap.add(new Tuple(13, 13));
+    desertMap.add(new Tuple(14, 12));
+    desertMap.add(new Tuple(16, 4));
+    desertMap.add(new Tuple(16, 5));
+    desertMap.add(new Tuple(4, 15));
+    desertMap.add(new Tuple(5, 16));
+    desertMap.add(new Tuple(7, 16));
+    desertMap.add(new Tuple(12, 18));
+    desertMap.add(new Tuple(13, 18));
+    maps.put(2, new ArrayList<Tuple>(desertMap));
 
-
-    //Walls map - Index 1
-    ArrayList<Tuple> eMap = new ArrayList<Tuple>();
-    eMap.add(new Tuple(5, 9));
-    eMap.add(new Tuple(6, 9));
-    eMap.add(new Tuple(7, 9));
-    eMap.add(new Tuple(8, 9));
-    eMap.add(new Tuple(9, 9));
-    eMap.add(new Tuple(10, 9));
-    eMap.add(new Tuple(11, 9));
-    eMap.add(new Tuple(12, 9));
-    eMap.add(new Tuple(13, 9));
-    eMap.add(new Tuple(14, 9));
-    eMap.add(new Tuple(5, 5));
-    eMap.add(new Tuple(6, 5));
-    eMap.add(new Tuple(7, 5));
-    eMap.add(new Tuple(8, 5));
-    eMap.add(new Tuple(9, 5));
-    eMap.add(new Tuple(10, 5));
-    eMap.add(new Tuple(11, 5));
-    eMap.add(new Tuple(12, 5));
-    eMap.add(new Tuple(13, 5));
-    eMap.add(new Tuple(14, 5));
-    eMap.add(new Tuple(5, 14));
-    eMap.add(new Tuple(6, 14));
-    eMap.add(new Tuple(7, 14));
-    eMap.add(new Tuple(8, 14));
-    eMap.add(new Tuple(9, 14));
-    eMap.add(new Tuple(10, 14));
-    eMap.add(new Tuple(11, 14));
-    eMap.add(new Tuple(12, 14));
-    eMap.add(new Tuple(13, 14));
-    eMap.add(new Tuple(14, 14));
-    eMap.add(new Tuple(5, 13));
-    eMap.add(new Tuple(5, 12));
-    eMap.add(new Tuple(5, 11));
-    eMap.add(new Tuple(5, 10));
-    eMap.add(new Tuple(5, 8));
-    eMap.add(new Tuple(5, 7));
-    eMap.add(new Tuple(5, 6));
-    maps.put(3, new ArrayList<Tuple>(eMap));
+    //Box map - Index 3
+    ArrayList<Tuple> boxMap = new ArrayList<Tuple>();
+    for (int x = 0; x < 20; x++) {
+      boxMap.add(new Tuple(x, 0));
+      boxMap.add(new Tuple(x, 19));
+    }
+    for (int y = 1; y < 19; y++) {
+      boxMap.add(new Tuple(0, y));
+      boxMap.add(new Tuple(19, y));
+    }
+    maps.put(3, new ArrayList<Tuple>(boxMap));
   }
 
   //GetArrayList - Get a particular map's Tuple collection

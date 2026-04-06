@@ -55,6 +55,8 @@ public class UserDB {
 
         // Create the schema (tables)
         createSchema(conn);
+        // add admin user
+        addDefaultAdminUser(conn);
       }
     } catch (SQLException e) {
       System.err.println(e.getMessage());
@@ -422,6 +424,32 @@ public class UserDB {
         return Difficulty.HARD;
       default:
         return Difficulty.NORMAL;
+    }
+  }
+  
+  public static void addDefaultAdminUser(Connection conn) throws Exception {
+    if (!UserDB.isUniqueUsername("admin")) {
+      System.out.println("Admin user already in the database.");
+      return;
+    }
+
+    String sql = "INSERT INTO User (username, password, isAdmin) VALUES (?, ?, ?)";
+
+    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+      String hashPassword = hashPassword("password");
+
+      pstmt.setString(1, "admin");
+      pstmt.setString(2, hashPassword);
+      pstmt.setBoolean(3, true);
+      int rowsInserted = pstmt.executeUpdate();
+      System.out.println("Admin user inserted successfully. Rows affected: " + rowsInserted);
+
+    } catch (NoSuchAlgorithmException e) {
+      System.err.println("Error hashing password: " + e.getMessage());
+      throw new Exception("Hash error occured. Could not create account.");
+    } catch (SQLException e) {
+      System.err.println("Error inserting user: " + e.getMessage());
+      throw new Exception("Error occured. Could not create account.");
     }
   }
 }
