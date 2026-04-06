@@ -1,21 +1,22 @@
 package screens;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-
+import app.Main;
 import screens.UI.Button;
 import screens.UI.ColorPalette;
 import screens.UI.FontPalette;
 
 public class ScreenMainMenu extends JPanel implements Screen {
-
+    JLabel currentUser = new JLabel(Main.loginUser.getUsername());
     public ScreenMainMenu() {
 
         super();
@@ -93,7 +94,6 @@ public class ScreenMainMenu extends JPanel implements Screen {
         loggedInAs.setAlignmentX(CENTER_ALIGNMENT);
         loggedInAs.setAlignmentY(CENTER_ALIGNMENT);
 
-        JLabel currentUser = new JLabel("Bard Tarbox");
         currentUser.setFont(FontPalette.TEXT);
         currentUser.setForeground(ColorPalette.WHITE);
         currentUser.setAlignmentX(CENTER_ALIGNMENT);
@@ -114,4 +114,10 @@ public class ScreenMainMenu extends JPanel implements Screen {
         this.add(bottomPanel);
 
     }
+    
+    @Override
+    public void onShow() {
+        currentUser.setText(Main.loginUser.getUsername());
+    }
+
 }

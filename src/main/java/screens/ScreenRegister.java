@@ -12,6 +12,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import app.Main;
+import db.UserDB;
 import screens.UI.Button;
 import screens.UI.ColorPalette;
 import screens.UI.FontPalette;
@@ -127,7 +129,7 @@ public class ScreenRegister extends JPanel implements Screen{
         passwordPanel2.add(passwordField2);
         passwordPanel2.add(Box.createHorizontalGlue());
 
-        JLabel message = new JLabel("Error: some error message");
+        JLabel message = new JLabel(" ");
         message.setFont(FontPalette.TEXT);
         message.setForeground(ColorPalette.RED);
 
@@ -160,7 +162,37 @@ public class ScreenRegister extends JPanel implements Screen{
         create.setAlignmentX(CENTER_ALIGNMENT);
         create.setMaximumSize(new Dimension(200, 40));
         create.setPreferredSize(new Dimension(200, 40));
-        create.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.MAIN_MENU));
+        create.addActionListener(e -> {
+            try {
+                String userUser = usernameField.getText();
+                if (userUser.length() < 5) {
+                    throw new Exception("Username must be at least 5 characters long");
+                }
+                if (!(userUser.matches("^[a-zA-Z0-9]+$"))) {
+                    throw new Exception("Username must be alphanumerical");
+                }
+                if (!UserDB.isUniqueUsername(userUser)) {
+                    throw new Exception("Username already exists");
+                }
+                String userPassword = new String(passwordField1.getPassword());
+                if (userPassword.length() < 8) {
+                    throw new Exception("Password must be at least 8 characters long");
+                }
+                if (!(userPassword.matches("^[a-zA-Z0-9]+$"))) {
+                    throw new Exception("Password must be alphanumerical");
+                }
+                String userPassword2 = new String(passwordField2.getPassword());
+                if (!userPassword.equals(userPassword2)) {
+                    throw new Exception("Both passwords must be the same");
+                }
+                UserDB.newUser(userUser, userPassword);
+                Main.loginUser = UserDB.login(userUser, userPassword);
+                message.setText(" ");
+                ScreenManager.getInstance().showScreen(ScreenManager.MAIN_MENU);
+            } catch (Exception er) {
+                message.setText("Error: " + er.getMessage());
+            }
+        });
 
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         bottomPanel.setAlignmentX(CENTER_ALIGNMENT);
