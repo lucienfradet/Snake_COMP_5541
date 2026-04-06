@@ -252,7 +252,7 @@ public class UserDB {
    */
   public static UserData[] getUserData(int id, boolean getsAllStats) throws Exception {
     String sql;
-    if (getsAllStats) {
+    if (!getsAllStats) {
     sql = ""
     + "SELECT username, "
            + "DENSE_RANK() OVER (PARTITION BY u.userId ORDER BY g.gameId) AS ordered_gameId, "
