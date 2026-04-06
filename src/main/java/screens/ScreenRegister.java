@@ -117,19 +117,20 @@ public class ScreenRegister extends JPanel implements Screen{
         passwordPanel1.add(passwordField1);
         passwordPanel1.add(Box.createHorizontalGlue());
 
-        JLabel password2 = new JLabel();
-        password2.setLayout(new BoxLayout(password2, BoxLayout.Y_AXIS));
         JLabel confirm = new JLabel("Confirm");
         confirm.setFont(FontPalette.TEXT);
-        confirm.setForeground(ColorPalette.BLACK);
+        confirm.setForeground(ColorPalette.WHITE);
         JLabel password = new JLabel("password");
         password.setFont(FontPalette.TEXT);
-        password.setForeground(ColorPalette.BLACK);
+        password.setForeground(ColorPalette.WHITE);
+    
+        JLabel password2 = new JLabel();
+        password2.setLayout(new BoxLayout(password2, BoxLayout.Y_AXIS));
+        password2.setBackground(ColorPalette.BLACK);
+        password2.setPreferredSize(new Dimension(120, 60));
+        password2.setMaximumSize(new Dimension(120, 60));
         password2.add(confirm);
         password2.add(password);
-        password2.setFont(FontPalette.TEXT);
-        password2.setForeground(ColorPalette.WHITE);
-        password2.setPreferredSize(new Dimension(120, 40));
 
         JPasswordField passwordField2 = new JPasswordField(20);
         passwordField2.setFont(FontPalette.TEXT);
