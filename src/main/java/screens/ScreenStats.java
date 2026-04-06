@@ -177,23 +177,9 @@ public class ScreenStats extends JPanel implements Screen {
         try {
             stats = UserDB.getUserData(Main.loginUser.getId(), false);
             refreshStatsTable();
-            //if (stats.length > 0) sorter.sortBy(stats, "gameId");
         } catch (Exception e1) {
             System.err.println(e1.getMessage());
         }
-
-        /*/
-        setStatsRows(List.of(
-            new GameStatRow(1, "med", 1, 10, "01:23", 137),
-            new GameStatRow(2, "med", 1, 10, "01:23", 137),
-            new GameStatRow(3, "med", 1, 10, "01:23", 137),
-            new GameStatRow(4, "med", 1, 10, "01:23", 137),
-            new GameStatRow(5, "med", 1, 10, "01:23", 137),
-            new GameStatRow(6, "med", 1, 10, "01:23", 137),
-            new GameStatRow(7, "med", 1, 10, "01:23", 137),
-            new GameStatRow(8, "med", 1, 10, "01:23", 137),
-            new GameStatRow(9, "med", 1, 10, "01:23", 137)
-        ));*/
     }
 
     private void refreshStatsTable() {
@@ -201,7 +187,7 @@ public class ScreenStats extends JPanel implements Screen {
         for (UserData u : stats) {
             addStatsRow(new GameStatRow(
                 u.getGameId(),
-                u.getDifficulty().toString().substring(0),
+                u.getDifficulty().toString().substring(0, 1),
                 u.getMaze(),
                 u.getScore(),
                 formatTime(u.getGameTime()),
