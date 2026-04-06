@@ -10,6 +10,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -20,7 +21,9 @@ import screens.UI.ColorPalette;
 import screens.UI.FontPalette;
 
 public class ScreenUpdateAccount extends JPanel implements Screen{
-    JLabel currentUser = new JLabel(Main.loginUser.getUsername());
+
+    private final JPanel loginInfoPanel;
+
     public ScreenUpdateAccount() {
 
         super();
@@ -40,24 +43,31 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         topPanel.setBackground(ColorPalette.BLACK);
         topPanel.add(back);
         
-        JLabel title = new JLabel("<html>Enter the fields you<br>wish to change</html>");
-        title.setHorizontalAlignment(SwingConstants.CENTER);
-        title.setFont(new Font("Yoster Island", Font.BOLD, 30));
-        title.setForeground(ColorPalette.WHITE);
+        JLabel title1 = new JLabel("Enter the fields you");
+        title1.setHorizontalAlignment(SwingConstants.CENTER);
+        title1.setFont(new Font("Yoster Island", Font.BOLD, 30));
+        title1.setForeground(ColorPalette.WHITE);
 
-        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        JLabel title2 = new JLabel("wish to change");
+        title2.setHorizontalAlignment(SwingConstants.CENTER);
+        title2.setFont(new Font("Yoster Island", Font.BOLD, 30));
+        title2.setForeground(ColorPalette.WHITE);
+
+        JPanel titlePanel = new JPanel();
+        titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.Y_AXIS));
         titlePanel.setAlignmentX(CENTER_ALIGNMENT);
         titlePanel.setBackground(ColorPalette.BLACK);
-        titlePanel.setPreferredSize(new Dimension(460, 110));
-        titlePanel.setMaximumSize(new Dimension(460, 110));
-        titlePanel.add(title);
+        titlePanel.add(title1);
+        titlePanel.add(title2);
 
         JLabel username = new JLabel("Username");
+        username.setAlignmentY(CENTER_ALIGNMENT);
         username.setFont(FontPalette.TEXT);
         username.setForeground(ColorPalette.WHITE);
         username.setPreferredSize(new Dimension(120, 40));
 
         JTextField usernameField = new JTextField(20);
+        usernameField.setAlignmentY(CENTER_ALIGNMENT);
         usernameField.setFont(FontPalette.TEXT);
         usernameField.setForeground(ColorPalette.BLACK);
         usernameField.setBackground(ColorPalette.WHITE);
@@ -68,8 +78,8 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         JPanel usernamePanel = new JPanel();
         usernamePanel.setLayout(new BoxLayout(usernamePanel, BoxLayout.X_AXIS));
         usernamePanel.setAlignmentX(CENTER_ALIGNMENT);
-        usernamePanel.setPreferredSize(new Dimension(452, 40));
-        usernamePanel.setMaximumSize(new Dimension(452, 40));
+        usernamePanel.setPreferredSize(new Dimension(452, 60));
+        usernamePanel.setMaximumSize(new Dimension(452, 60));
         usernamePanel.setBackground(ColorPalette.BLACK);
         usernamePanel.setBorder(null);
         usernamePanel.add(Box.createHorizontalGlue());
@@ -77,13 +87,25 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         usernamePanel.add(Box.createHorizontalStrut(10));
         usernamePanel.add(usernameField);
         usernamePanel.add(Box.createHorizontalGlue());
-
-        JLabel password1 = new JLabel("<html> New <br> Password </html>");
-        password1.setFont(FontPalette.TEXT);
-        password1.setForeground(ColorPalette.WHITE);
-        password1.setPreferredSize(new Dimension(120, 40));
+        
+        JLabel new_ = new JLabel("New");
+        new_.setFont(FontPalette.TEXT);
+        new_.setForeground(ColorPalette.WHITE);
+        JLabel password = new JLabel("password");
+        password.setFont(FontPalette.TEXT);
+        password.setForeground(ColorPalette.WHITE);
+    
+        JLabel password1 = new JLabel();
+        password1.setAlignmentY(CENTER_ALIGNMENT);
+        password1.setLayout(new BoxLayout(password1, BoxLayout.Y_AXIS));
+        password1.setBackground(ColorPalette.BLACK);
+        password1.setPreferredSize(new Dimension(120, 80));
+        password1.setMaximumSize(new Dimension(120, 80));
+        password1.add(new_);
+        password1.add(password);
 
         JPasswordField passwordField1 = new JPasswordField(20);
+        passwordField1.setAlignmentY(CENTER_ALIGNMENT);
         passwordField1.setFont(FontPalette.TEXT);
         passwordField1.setForeground(ColorPalette.BLACK);
         passwordField1.setBackground(ColorPalette.WHITE);
@@ -95,8 +117,8 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         passwordPanel1.setLayout(new BoxLayout(passwordPanel1, BoxLayout.X_AXIS));
         passwordPanel1.setBorder(null);
         passwordPanel1.setAlignmentX(CENTER_ALIGNMENT);
-        passwordPanel1.setPreferredSize(new Dimension(452, 40));
-        passwordPanel1.setMaximumSize(new Dimension(452, 40));
+        passwordPanel1.setPreferredSize(new Dimension(452, 80));
+        passwordPanel1.setMaximumSize(new Dimension(452, 80));
         passwordPanel1.setBackground(ColorPalette.BLACK);
         passwordPanel1.add(Box.createHorizontalGlue());
         passwordPanel1.add(password1);
@@ -104,12 +126,24 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         passwordPanel1.add(passwordField1);
         passwordPanel1.add(Box.createHorizontalGlue());
 
-        JLabel password2 = new JLabel("<html> Confirm <br> Password </html>");
-        password2.setFont(FontPalette.TEXT);
-        password2.setForeground(ColorPalette.WHITE);
-        password2.setPreferredSize(new Dimension(120, 40));
+        JLabel confirm = new JLabel("Confirm");
+        confirm.setFont(FontPalette.TEXT);
+        confirm.setForeground(ColorPalette.WHITE);
+        JLabel password_ = new JLabel("password");
+        password_.setFont(FontPalette.TEXT);
+        password_.setForeground(ColorPalette.WHITE);
+    
+        JLabel password2 = new JLabel();
+        password2.setAlignmentY(CENTER_ALIGNMENT);
+        password2.setLayout(new BoxLayout(password2, BoxLayout.Y_AXIS));
+        password2.setBackground(ColorPalette.BLACK);
+        password2.setPreferredSize(new Dimension(120, 60));
+        password2.setMaximumSize(new Dimension(120, 60));
+        password2.add(confirm);
+        password2.add(password_);
 
         JPasswordField passwordField2 = new JPasswordField(20);
+        passwordField2.setAlignmentY(CENTER_ALIGNMENT);
         passwordField2.setFont(FontPalette.TEXT);
         passwordField2.setForeground(ColorPalette.BLACK);
         passwordField2.setBackground(ColorPalette.WHITE);
@@ -121,8 +155,8 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         passwordPanel2.setLayout(new BoxLayout(passwordPanel2, BoxLayout.X_AXIS));
         passwordPanel2.setBorder(null);
         passwordPanel2.setAlignmentX(CENTER_ALIGNMENT);
-        passwordPanel2.setPreferredSize(new Dimension(452, 40));
-        passwordPanel2.setMaximumSize(new Dimension(452, 40));
+        passwordPanel2.setPreferredSize(new Dimension(452, 60));
+        passwordPanel2.setMaximumSize(new Dimension(452, 60));
         passwordPanel2.setBackground(ColorPalette.BLACK);
         passwordPanel2.add(Box.createHorizontalGlue());
         passwordPanel2.add(password2);
@@ -130,16 +164,23 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         passwordPanel2.add(passwordField2);
         passwordPanel2.add(Box.createHorizontalGlue());
 
-        JLabel message = new JLabel(" ");
-        message.setAlignmentX(LEFT_ALIGNMENT);
+        JTextArea message = new JTextArea(" ");
         message.setFont(FontPalette.TEXT);
         message.setForeground(ColorPalette.RED);
+        message.setBackground(ColorPalette.BLACK);
+        message.setLineWrap(true);
+        message.setWrapStyleWord(true);
+        message.setEditable(false);
+        message.setOpaque(false);
+        message.setPreferredSize(new Dimension(452, 60));
+        message.setMaximumSize(new Dimension(452, 60));
 
-        JPanel messagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        JPanel messagePanel = new JPanel();
+        messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.Y_AXIS));
         messagePanel.setAlignmentX(CENTER_ALIGNMENT);
         messagePanel.setBackground(ColorPalette.BLACK);
-        messagePanel.setPreferredSize(new Dimension(452, 40));
-        messagePanel.setMaximumSize(new Dimension(452, 40));
+        messagePanel.setPreferredSize(new Dimension(452, 50));
+        messagePanel.setMaximumSize(new Dimension(452, 50));
         messagePanel.add(message);
 
         Button update = new Button("Update");
@@ -182,7 +223,6 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
                 if (userPassword.length() > 0){UserDB.updatePassword(Main.loginUser.getId(), userPassword);}
 
                 message.setText(" ");
-                currentUser.setText(Main.loginUser.getUsername());
                 ScreenManager.getInstance().showScreen(ScreenManager.MAIN_MENU);
             } catch (Exception er) {
                 message.setText("Error: " + er.getMessage());
@@ -193,50 +233,35 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
         middlePanel.setAlignmentX(CENTER_ALIGNMENT);
         middlePanel.setBackground(ColorPalette.BLACK);
-        middlePanel.setBorder(BorderFactory.createEmptyBorder(0, 24, 0, 24));
         middlePanel.add(titlePanel);
+        middlePanel.add(Box.createVerticalStrut(15));
         middlePanel.add(usernamePanel);
         middlePanel.add(Box.createVerticalStrut(15));
         middlePanel.add(passwordPanel1);
-        middlePanel.add(Box.createVerticalStrut(12));
+        middlePanel.add(Box.createVerticalStrut(15));
         middlePanel.add(passwordPanel2);
-        middlePanel.add(Box.createVerticalStrut(12));
+        middlePanel.add(Box.createVerticalStrut(15));
         middlePanel.add(messagePanel);
         middlePanel.add(update);
         middlePanel.add(Box.createVerticalGlue());
 
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        bottomPanel.setAlignmentX(CENTER_ALIGNMENT);
-        bottomPanel.setBackground(ColorPalette.BLACK);
-
-        JLabel loggedInAs = new JLabel("Logged in as");
-        loggedInAs.setFont(FontPalette.TEXT);
-        loggedInAs.setForeground(ColorPalette.GREEN);
-        loggedInAs.setAlignmentX(CENTER_ALIGNMENT);
-
-        currentUser.setFont(FontPalette.TEXT);
-        currentUser.setForeground(ColorPalette.WHITE);
-        currentUser.setAlignmentX(CENTER_ALIGNMENT);
-        
-        JPanel loginInfoPanel = new JPanel();
-        loginInfoPanel.setLayout(new BoxLayout(loginInfoPanel, BoxLayout.Y_AXIS));
-        loginInfoPanel.setBackground(ColorPalette.BLACK);
+        loginInfoPanel = ScreenManager.displayUserInfo(Main.loginUser.getUsername());
         loginInfoPanel.setAlignmentX(LEFT_ALIGNMENT);
 
-        loginInfoPanel.add(loggedInAs);
-        loginInfoPanel.add(currentUser);
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
+        bottomPanel.setBackground(ColorPalette.BLACK);
         bottomPanel.add(loginInfoPanel);
-
+        bottomPanel.add(Box.createHorizontalGlue());
+        
         this.add(topPanel);
-        this.add(Box.createVerticalStrut(24));
         this.add(middlePanel);
-        this.add(Box.createVerticalGlue());
         this.add(bottomPanel);
 
     }
 
     @Override
     public void onShow() {
-        currentUser.setText(Main.loginUser.getUsername());
+        ScreenManager.refreshUserInfoPanel(loginInfoPanel);
     }
 }

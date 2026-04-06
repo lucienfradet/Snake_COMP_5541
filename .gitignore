@@ -224,3 +224,4 @@ target/
 ############
 .vscode
 out/
+data/db/snake_game.db

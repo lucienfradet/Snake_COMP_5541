@@ -72,7 +72,12 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
         difficulty.setFont(FontPalette.TEXT);
         difficulty.setForeground(ColorPalette.WHITE);
 
-        JLabel currentDifficulty= new JLabel("Med");
+        JLabel currentDifficulty= new JLabel("Easy");
+        switch (Main.loginUser.getDifficulty()) {
+            case Difficulty.EASY -> currentDifficulty.setText("Easy");
+            case Difficulty.NORMAL -> currentDifficulty.setText("Medium");
+            case Difficulty.HARD -> currentDifficulty.setText("Easy");
+        }
         currentDifficulty.setFont(FontPalette.TEXT);
         currentDifficulty.setForeground(ColorPalette.GREEN);
 
@@ -109,15 +114,9 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
         JLabel loggedInAs = new JLabel("User");
         loggedInAs.setFont(FontPalette.TEXT);
         loggedInAs.setForeground(ColorPalette.BROWN);
-        // JLabel currentUser = new JLabel("in as");
-        // currentUser.setFont(FontPalette.TEXT);
-        // currentUser.setForeground(ColorPalette.BROWN);
         JLabel currentUserName = new JLabel(Main.loginUser.getUsername());
         currentUserName.setFont(FontPalette.TEXT);
         currentUserName.setForeground(ColorPalette.GREEN);
-        // JLabel currentUserLast = new JLabel("Tarbox");
-        // currentUserLast.setFont(FontPalette.TEXT);
-        // currentUserLast.setForeground(ColorPalette.GREEN);
 
         JLabel numOfMoves = new JLabel("Nb.");
         numOfMoves.setFont(FontPalette.TEXT);
@@ -125,7 +124,7 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
         JLabel moveTracker = new JLabel("Moves");
         moveTracker.setFont(FontPalette.TEXT);
         moveTracker.setForeground(ColorPalette.BROWN);
-        JLabel moveValue = new JLabel("26");
+        JLabel moveValue = new JLabel("0");
         moveValue.setFont(FontPalette.TEXT);
         moveValue.setForeground(ColorPalette.GREEN);
 
@@ -157,6 +156,7 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
         timeTracker.setFont(FontPalette.TEXT);
         timeTracker.setForeground(ColorPalette.GREEN);
 
+        gameInfo.add(Box.createVerticalGlue());
         gameInfo.add(loggedInAs);
         //gameInfo.add(currentUser);
         gameInfo.add(currentUserName);
@@ -175,6 +175,7 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
         gameInfo.add(Box.createVerticalStrut(5));
         gameInfo.add(time);
         gameInfo.add(timeTracker);
+        gameInfo.add(Box.createVerticalGlue());
 
         bottomPanel.add(game);
         bottomPanel.add(Box.createHorizontalStrut(10));
@@ -199,6 +200,7 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
         Timer timer = new Timer(1000/FPS, e -> {
             scoreValue.setText(Integer.toString((Integer)Main.loginUser.getScore()));
             lengthValue.setText(Integer.toString((Integer)Main.loginUser.getSnakeLength()));
+            moveValue.setText(Integer.toString((Integer)Main.loginUser.getMoveHistoryArray().size()));
             long millis = Main.loginUser.getGameTime();
             long minutes = (millis / 1000) / 60;
             long seconds = (millis / 1000) % 60;

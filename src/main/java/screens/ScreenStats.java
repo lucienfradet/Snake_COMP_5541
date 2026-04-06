@@ -3,6 +3,8 @@ package screens;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -30,10 +32,9 @@ import screens.UI.FontPalette;
 public class ScreenStats extends JPanel implements Screen {
 
     private static final String[] COLUMN_NAMES = { "ID", "Diff", "Maze", "Score", "Time", "Moves" };
-
     private final DefaultTableModel statsTableModel;
     private final JTable statsTable;
-    private final JLabel currentUserLabel;
+    private final JPanel loginInfoPanel;
 
     private final UserDataSorter sorter = new UserDataSorter();
     private UserData[] stats; // set to NULL when exiting screen to help garbage collector???
@@ -102,6 +103,26 @@ public class ScreenStats extends JPanel implements Screen {
         }
 
         JTableHeader header = statsTable.getTableHeader();
+        header.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int column = statsTable.columnAtPoint(e.getPoint());
+                String attribute = COLUMN_NAMES[column];
+
+                String sortKey = switch (attribute) {
+                    case "ID"    -> "id";
+                    case "Diff"  -> "difficulty";
+                    case "Maze"  -> "maze";
+                    case "Score" -> "score";
+                    case "Time"  -> "time";
+                    case "Moves" -> "moves";
+                    default -> "id";
+                };
+                sorter.sortBy(stats, sortKey);
+                refreshStatsTable();
+            }            
+        });
+
         header.setFont(FontPalette.TEXT);
         header.setForeground(ColorPalette.GREEN);
         header.setBackground(ColorPalette.WHITE);
@@ -140,49 +161,28 @@ public class ScreenStats extends JPanel implements Screen {
         middlePanel.add(Box.createVerticalStrut(8));
         middlePanel.add(tablePanel);
 
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        bottomPanel.setBackground(ColorPalette.BLACK);
-        bottomPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
-        JLabel loggedInAs = new JLabel("Logged in as");
-        loggedInAs.setFont(FontPalette.TEXT);
-        loggedInAs.setForeground(ColorPalette.GREEN);
-        loggedInAs.setAlignmentX(CENTER_ALIGNMENT);
-        loggedInAs.setAlignmentY(CENTER_ALIGNMENT);
-
-        currentUserLabel = new JLabel("Barb Tarbox");
-        currentUserLabel.setFont(FontPalette.TEXT);
-        currentUserLabel.setForeground(ColorPalette.WHITE);
-        currentUserLabel.setAlignmentX(CENTER_ALIGNMENT);
-        currentUserLabel.setAlignmentY(CENTER_ALIGNMENT);
-
-        JPanel loginInfoPanel = new JPanel();
-        loginInfoPanel.setLayout(new BoxLayout(loginInfoPanel, BoxLayout.Y_AXIS));
-        loginInfoPanel.setBackground(ColorPalette.BLACK);
+        loginInfoPanel = ScreenManager.displayUserInfo(Main.loginUser.getUsername());
         loginInfoPanel.setAlignmentX(LEFT_ALIGNMENT);
-        loginInfoPanel.setAlignmentY(CENTER_ALIGNMENT);
 
-        loginInfoPanel.add(loggedInAs);
-        loginInfoPanel.add(currentUserLabel);
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
+        bottomPanel.setBackground(ColorPalette.BLACK);
         bottomPanel.add(loginInfoPanel);
+        bottomPanel.add(Box.createHorizontalGlue());
 
-        add(topPanel);
-        add(middlePanel);
-        add(Box.createVerticalGlue());
-        add(bottomPanel);
-
-
-        
+        this.add(topPanel);
+        this.add(middlePanel);
+        this.add(bottomPanel);
 
         try {
             this.stats = UserDB.getUserData(Main.loginUser.getId(), false);
+            refreshStatsTable();
             sorter.sortBy(stats, "id");
         } catch (Exception e1) {
             System.err.println(e1.getMessage());
         }
 
-
-
+        /*/
         setStatsRows(List.of(
             new GameStatRow(1, "med", 1, 10, "01:23", 137),
             new GameStatRow(2, "med", 1, 10, "01:23", 137),
@@ -193,11 +193,28 @@ public class ScreenStats extends JPanel implements Screen {
             new GameStatRow(7, "med", 1, 10, "01:23", 137),
             new GameStatRow(8, "med", 1, 10, "01:23", 137),
             new GameStatRow(9, "med", 1, 10, "01:23", 137)
-        ));
+        ));*/
     }
 
-    public void setCurrentUser(String username) {
-        currentUserLabel.setText(username);
+    private void refreshStatsTable() {
+        clearStatsRows();
+        for (UserData u : stats) {
+            addStatsRow(new GameStatRow(
+                u.getId(),
+                u.getDifficulty().toString(),
+                u.getMaze(),
+                u.getScore(),
+                formatTime(u.getGameTime()),
+                u.getTotalMoveCount()
+            ));
+        }
+    }
+
+    private String formatTime(long ms) {
+        long seconds = ms / 1000;
+        long minutes = seconds / 60;
+        seconds %= 60;
+        return String.format("%02d:%02d", minutes, seconds);
     }
 
     public void clearStatsRows() {
@@ -217,7 +234,7 @@ public class ScreenStats extends JPanel implements Screen {
 
     @Override
     public void onShow() {
-
+        ScreenManager.refreshUserInfoPanel(loginInfoPanel);
     }
 
     public static final class GameStatRow {
