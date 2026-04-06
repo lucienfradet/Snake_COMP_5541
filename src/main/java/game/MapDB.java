@@ -14,9 +14,20 @@ public class MapDB {
     //Square map - Index 0
     ArrayList<Tuple> squareMap = new ArrayList<Tuple>();
     squareMap.add(new Tuple(5, 5));
+    squareMap.add(new Tuple(6, 5));
+    squareMap.add(new Tuple(5, 6));
+
     squareMap.add(new Tuple(5, 15));
+    squareMap.add(new Tuple(6, 15));
+    squareMap.add(new Tuple(5, 14));
+
     squareMap.add(new Tuple(15, 5));
+    squareMap.add(new Tuple(15, 6));
+    squareMap.add(new Tuple(14, 5));
+    
     squareMap.add(new Tuple(15, 15));
+    squareMap.add(new Tuple(15, 14));
+    squareMap.add(new Tuple(14, 15));
     maps.put(0, new ArrayList<Tuple>(squareMap));
 
     //Walls map - Index 1
@@ -38,6 +49,48 @@ public class MapDB {
     wallsMap.add(new Tuple(15, 12));
     wallsMap.add(new Tuple(15, 13));
     maps.put(1, new ArrayList<Tuple>(wallsMap));
+
+
+    //Walls map - Index 1
+    ArrayList<Tuple> eMap = new ArrayList<Tuple>();
+    eMap.add(new Tuple(5, 9));
+    eMap.add(new Tuple(6, 9));
+    eMap.add(new Tuple(7, 9));
+    eMap.add(new Tuple(8, 9));
+    eMap.add(new Tuple(9, 9));
+    eMap.add(new Tuple(10, 9));
+    eMap.add(new Tuple(11, 9));
+    eMap.add(new Tuple(12, 9));
+    eMap.add(new Tuple(13, 9));
+    eMap.add(new Tuple(14, 9));
+    eMap.add(new Tuple(5, 5));
+    eMap.add(new Tuple(6, 5));
+    eMap.add(new Tuple(7, 5));
+    eMap.add(new Tuple(8, 5));
+    eMap.add(new Tuple(9, 5));
+    eMap.add(new Tuple(10, 5));
+    eMap.add(new Tuple(11, 5));
+    eMap.add(new Tuple(12, 5));
+    eMap.add(new Tuple(13, 5));
+    eMap.add(new Tuple(14, 5));
+    eMap.add(new Tuple(5, 14));
+    eMap.add(new Tuple(6, 14));
+    eMap.add(new Tuple(7, 14));
+    eMap.add(new Tuple(8, 14));
+    eMap.add(new Tuple(9, 14));
+    eMap.add(new Tuple(10, 14));
+    eMap.add(new Tuple(11, 14));
+    eMap.add(new Tuple(12, 14));
+    eMap.add(new Tuple(13, 14));
+    eMap.add(new Tuple(14, 14));
+    eMap.add(new Tuple(5, 13));
+    eMap.add(new Tuple(5, 12));
+    eMap.add(new Tuple(5, 11));
+    eMap.add(new Tuple(5, 10));
+    eMap.add(new Tuple(5, 8));
+    eMap.add(new Tuple(5, 7));
+    eMap.add(new Tuple(5, 6));
+    maps.put(3, new ArrayList<Tuple>(eMap));
   }
 
   //GetArrayList - Get a particular map's Tuple collection

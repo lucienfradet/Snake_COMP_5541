@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -109,7 +108,7 @@ public class ScreenMapSelect extends JPanel implements Screen {
         play.setMaximumSize(buttonDimension);
 
         JPanel loginInfoPanel = ScreenManager.displayUserInfo();
-        loginInfoPanel.setAlignmentX(LEFT_ALIGNMENT);
+        loginInfoPanel.setAlignmentX(CENTER_ALIGNMENT);
 
         mainPanel.add(Box.createVerticalStrut(70));
         mainPanel.add(gameSettings);
