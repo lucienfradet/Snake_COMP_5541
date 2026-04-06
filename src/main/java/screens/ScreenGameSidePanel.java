@@ -99,17 +99,17 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
         middlePanel.add(Box.createHorizontalStrut(110));
 
         ScreenGame game = new ScreenGame(350, ColorPalette.WHITE, ColorPalette.GREEN, ColorPalette.BROWN);
-        game.setPreferredSize(new java.awt.Dimension(350, 350));
-        game.setMaximumSize(new java.awt.Dimension(350, 350));
-        game.setMinimumSize(new java.awt.Dimension(350, 350));
+        game.setPreferredSize(new java.awt.Dimension(340, 350));
+        game.setMaximumSize(new java.awt.Dimension(340, 350));
+        game.setMinimumSize(new java.awt.Dimension(340, 350));
 
         JPanel gameInfo = new JPanel();
         gameInfo.setLayout(new BoxLayout(gameInfo, BoxLayout.Y_AXIS));
         gameInfo.setBackground(ColorPalette.WHITE);
         gameInfo.setBorder(BorderFactory.createEmptyBorder(12, 10, 12, 10));
-        gameInfo.setPreferredSize(new java.awt.Dimension(100, 350));
-        gameInfo.setMaximumSize(new java.awt.Dimension(100, 350));
-        gameInfo.setMinimumSize(new java.awt.Dimension(100, 350));
+        gameInfo.setPreferredSize(new java.awt.Dimension(110, 350));
+        gameInfo.setMaximumSize(new java.awt.Dimension(110, 350));
+        gameInfo.setMinimumSize(new java.awt.Dimension(110, 350));
 
         JLabel loggedInAs = new JLabel("User");
         loggedInAs.setFont(FontPalette.TEXT);
