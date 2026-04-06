@@ -194,7 +194,7 @@ public class ScreenStats extends JPanel implements Screen {
         }
     }
 
-    private String formatTime(long ms) {
+    private static String formatTime(long ms) {
         long seconds = ms / 1000;
         long minutes = seconds / 60;
         seconds %= 60;
