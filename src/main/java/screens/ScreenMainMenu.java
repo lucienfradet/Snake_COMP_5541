@@ -1,6 +1,7 @@
 package screens;
 
 import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -17,6 +18,10 @@ import screens.UI.FontPalette;
 public class ScreenMainMenu extends JPanel implements Screen {
     
     private final JPanel loginInfoPanel;
+    private final JPanel middlePanel;
+    private final JLabel admin;
+    private final Button viewAllStats;
+
 
     public ScreenMainMenu() {
 
@@ -29,7 +34,7 @@ public class ScreenMainMenu extends JPanel implements Screen {
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
         topPanel.setBackground(ColorPalette.BLACK);
 
-        JPanel middlePanel = new JPanel();
+        middlePanel = new JPanel();
         middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
         middlePanel.setBackground(ColorPalette.BLACK);
 
@@ -85,7 +90,17 @@ public class ScreenMainMenu extends JPanel implements Screen {
         middlePanel.add(Box.createVerticalStrut(10));
         middlePanel.add(manageAccount);
         middlePanel.add(Box.createVerticalStrut(20));
-        
+
+        viewAllStats = displayAdminButton();
+        admin = new JLabel("Admin: ");
+        admin.setAlignmentX(RIGHT_ALIGNMENT);
+        admin.setFont(FontPalette.TEXT);
+        admin.setForeground(ColorPalette.RED);
+
+        if (Main.loginUser.isAdmin()){
+            middlePanel.add(admin);
+            middlePanel.add(viewAllStats);
+        }
 
         loginInfoPanel = ScreenManager.displayUserInfo(Main.loginUser.getUsername());
         loginInfoPanel.setAlignmentX(LEFT_ALIGNMENT);
@@ -95,7 +110,6 @@ public class ScreenMainMenu extends JPanel implements Screen {
         bottomPanel.setBackground(ColorPalette.BLACK);
         bottomPanel.add(loginInfoPanel);
         bottomPanel.add(Box.createHorizontalGlue());
-
 
         this.add(topPanel);
         this.add(Box.createVerticalGlue());
@@ -108,6 +122,38 @@ public class ScreenMainMenu extends JPanel implements Screen {
     @Override
     public void onShow() {
         ScreenManager.refreshUserInfoPanel(loginInfoPanel);
+        updateOptions();
+    }
+
+    public Button displayAdminButton(){
+        Button viewAllStats = new Button("");
+        JLabel line1 = new JLabel("View All");
+        line1.setAlignmentX(CENTER_ALIGNMENT);
+        line1.setForeground(ColorPalette.WHITE);
+        line1.setFont(FontPalette.TEXT);
+        JLabel line2 = new JLabel("Stats");
+        line2.setAlignmentX(CENTER_ALIGNMENT);
+        line2.setForeground(ColorPalette.WHITE);
+        line2.setFont(FontPalette.TEXT);
+        viewAllStats.add(line1);
+        viewAllStats.add(line2);
+        viewAllStats.setAlignmentX(CENTER_ALIGNMENT);
+        viewAllStats.setLayout(new BoxLayout(viewAllStats, BoxLayout.Y_AXIS));
+        viewAllStats.setMaximumSize(new Dimension(140, 60));
+        viewAllStats.setPreferredSize(new Dimension(140, 60));
+        viewAllStats.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.STATS));
+        return viewAllStats;
+    }
+
+    public void updateOptions(){
+        middlePanel.remove(viewAllStats);
+        middlePanel.remove(admin);
+        if (Main.loginUser.isAdmin()) {
+            middlePanel.add(admin);
+            middlePanel.add(viewAllStats);
+        }
+        middlePanel.revalidate();
+        middlePanel.repaint();
     }
 
 }

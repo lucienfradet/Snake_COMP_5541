@@ -200,4 +200,5 @@ public class ScreenStats extends JPanel implements Screen {
             return new Object[] { id, difficulty, maze, score, time, moves };
         }
     }
+
 }

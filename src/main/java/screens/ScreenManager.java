@@ -66,13 +66,13 @@ public final class ScreenManager {
 
     public static void refreshUserInfoPanel(JPanel panel) {
         for (Component c : panel.getComponents()) {
-        if (c instanceof JLabel label && "currentUserLabel".equals(label.getName())) {
-            label.setText(Main.loginUser.getUsername());
-            panel.revalidate();
-            panel.repaint();
-            return;
+            if (c instanceof JLabel label && "currentUserLabel".equals(label.getName())) {
+                label.setText(Main.loginUser.getUsername());
+                panel.revalidate();
+                panel.repaint();
+                return;
+            }
         }
-    }
     }
 
     public static ScreenManager getInstance() {
