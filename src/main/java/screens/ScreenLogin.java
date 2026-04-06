@@ -154,15 +154,15 @@ public class ScreenLogin extends JPanel implements Screen {
         snakeUp.addActionListener(e -> {
             try {
                 String userUser = usernameField.getText();
-                if (userUser.length() < 5) {
-                    throw new Exception("Username must be at least 5 characters long");
+                if (userUser.length() == 0) {
+                    throw new Exception("Fill in username");
                 }
                 if (!(userUser.matches("^[a-zA-Z0-9]+$"))) {
                     throw new Exception("Username must be alphanumerical");
                 }
                 String userPassword = new String(passwordField.getPassword());
-                if (userPassword.length() < 8) {
-                    throw new Exception("Password must be at least 8 characters long");
+                if (userPassword.length() == 0) {
+                    throw new Exception("Fill in Password");
                 }
                 if (!(userPassword.matches("^[a-zA-Z0-9]+$"))) {
                     throw new Exception("Password must be alphanumerical");
