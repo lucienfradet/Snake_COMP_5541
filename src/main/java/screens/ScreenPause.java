@@ -51,7 +51,7 @@ public class ScreenPause extends JPanel implements Screen{
             if (gameScreen != null) {
                 gameScreen.stopGame();
             }
-            ScreenManager.getInstance().showScreen(ScreenManager.MAIN_MENU);
+            ScreenManager.getInstance().showScreen(ScreenManager.MAP_SELECT);
         });
         
         Dimension buttonDimension = new Dimension(140, 40);

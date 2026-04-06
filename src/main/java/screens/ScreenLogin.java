@@ -1,7 +1,6 @@
 package screens;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -11,7 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 import app.Main;
 import db.UserDB;
@@ -28,20 +26,32 @@ public class ScreenLogin extends JPanel implements Screen {
         this.setBackground(ColorPalette.BLACK);
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
+        topPanel.setAlignmentX(CENTER_ALIGNMENT);
+        topPanel.setBackground(ColorPalette.BLACK);
+
+        JPanel middlePanel = new JPanel();
+        middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
+        middlePanel.setAlignmentX(CENTER_ALIGNMENT);
+        middlePanel.setBackground(ColorPalette.BLACK);
+
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
+        bottomPanel.setAlignmentX(CENTER_ALIGNMENT);
+        bottomPanel.setBackground(ColorPalette.BLACK);
+        
         Button back = new Button("Back");
         back.setAlignmentX(LEFT_ALIGNMENT);
         back.setMaximumSize(new Dimension(140, 40));
         back.setPreferredSize(new Dimension(140, 40));
         back.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.START_MENU));
-
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        topPanel.setAlignmentX(CENTER_ALIGNMENT);
-        topPanel.setBackground(ColorPalette.BLACK);
-        topPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
-        topPanel.add(back);
         
+        topPanel.add(back);
+        topPanel.add(Box.createHorizontalGlue());
+
         JLabel login = new JLabel("Login");
-        login.setHorizontalAlignment(SwingConstants.LEFT);
+        login.setAlignmentX(LEFT_ALIGNMENT);
         login.setFont(FontPalette.TITLE);
         login.setForeground(ColorPalette.WHITE);
 
@@ -49,9 +59,9 @@ public class ScreenLogin extends JPanel implements Screen {
         loginPanel.setLayout(new BoxLayout(loginPanel, BoxLayout.Y_AXIS));
         loginPanel.setAlignmentX(CENTER_ALIGNMENT);
         loginPanel.setBackground(ColorPalette.BLACK);
-        loginPanel.setPreferredSize(new Dimension(452, 80));
-        loginPanel.setMaximumSize(new Dimension(452, 80));
+        
         loginPanel.add(login);
+        loginPanel.add(Box.createHorizontalGlue());
 
         JLabel username = new JLabel("Username");
         username.setFont(FontPalette.TEXT);
@@ -73,6 +83,7 @@ public class ScreenLogin extends JPanel implements Screen {
         usernamePanel.setMaximumSize(new Dimension(452, 40));
         usernamePanel.setBackground(ColorPalette.BLACK);
         usernamePanel.setBorder(null);
+        
         usernamePanel.add(Box.createHorizontalGlue());
         usernamePanel.add(username);
         usernamePanel.add(Box.createHorizontalStrut(10));
@@ -98,6 +109,7 @@ public class ScreenLogin extends JPanel implements Screen {
         passwordPanel.setPreferredSize(new Dimension(452, 40));
         passwordPanel.setMaximumSize(new Dimension(452, 40));
         passwordPanel.setBackground(ColorPalette.BLACK);
+       
         passwordPanel.add(Box.createHorizontalGlue());
         passwordPanel.add(password);
         passwordPanel.add(Box.createHorizontalStrut(10));
@@ -123,19 +135,13 @@ public class ScreenLogin extends JPanel implements Screen {
         messagePanel.setMaximumSize(new Dimension(452, 60));
         messagePanel.add(message);
         
-        JPanel middlePanel = new JPanel();
-        middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
-        middlePanel.setAlignmentX(CENTER_ALIGNMENT);
-        middlePanel.setBackground(ColorPalette.BLACK);
-        middlePanel.setPreferredSize(new Dimension(500, 220));
-        middlePanel.setMaximumSize(new Dimension(500, 220));
-        middlePanel.setBorder(BorderFactory.createEmptyBorder(0, 24, 0, 24));
+        middlePanel.add(Box.createVerticalGlue());
         middlePanel.add(loginPanel);
-        middlePanel.add(Box.createVerticalStrut(6));
+        middlePanel.add(Box.createVerticalStrut(10));
         middlePanel.add(usernamePanel);
-        middlePanel.add(Box.createVerticalStrut(8));
+        middlePanel.add(Box.createVerticalStrut(10));
         middlePanel.add(passwordPanel);
-        middlePanel.add(Box.createVerticalStrut(8));
+        middlePanel.add(Box.createVerticalStrut(10));
         middlePanel.add(messagePanel);
         middlePanel.add(Box.createVerticalGlue());
 
@@ -143,6 +149,7 @@ public class ScreenLogin extends JPanel implements Screen {
         snakeUp.setAlignmentX(CENTER_ALIGNMENT);
         snakeUp.setMaximumSize(new Dimension(200, 40));
         snakeUp.setPreferredSize(new Dimension(200, 40));
+        
         snakeUp.addActionListener(e -> {
             try {
                 String userUser = usernameField.getText();
@@ -167,15 +174,11 @@ public class ScreenLogin extends JPanel implements Screen {
             }
         });
 
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        bottomPanel.setAlignmentX(CENTER_ALIGNMENT);
-        bottomPanel.setBackground(ColorPalette.BLACK);
         bottomPanel.add(snakeUp);
 
         this.add(topPanel);
         this.add(Box.createVerticalGlue());
         this.add(middlePanel);
-        this.add(Box.createVerticalStrut(18));
         this.add(bottomPanel);
         this.add(Box.createVerticalGlue());
     }

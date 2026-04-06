@@ -1,6 +1,5 @@
 package screens;
 
-import db.UserData;
 import screens.UI.ColorPalette;
 import screens.UI.FontPalette;
 
@@ -10,12 +9,13 @@ import java.util.LinkedHashMap;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
+import app.Main;
 
 public final class ScreenManager {
 
@@ -43,28 +43,35 @@ public final class ScreenManager {
 
     private ScreenManager() {}
 
-    public static JPanel displayUserInfo(){
+    public static JPanel displayUserInfo(String UserName){
         JLabel loggedInAs = new JLabel("Logged in as");
+        loggedInAs.setAlignmentX(Component.CENTER_ALIGNMENT);
         loggedInAs.setFont(FontPalette.TEXT);
         loggedInAs.setForeground(ColorPalette.GREEN);
-        loggedInAs.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel currentUser = new JLabel("Bard Tarbox");
+        JLabel currentUser = new JLabel(UserName);
+        currentUser.setAlignmentX(Component.CENTER_ALIGNMENT);
         currentUser.setFont(FontPalette.TEXT);
         currentUser.setForeground(ColorPalette.WHITE);
-        currentUser.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JPanel loginInfoPanel = new JPanel();
         loginInfoPanel.setLayout(new BoxLayout(loginInfoPanel, BoxLayout.Y_AXIS));
         loginInfoPanel.setBackground(ColorPalette.BLACK);
-        loginInfoPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         loginInfoPanel.add(loggedInAs);
         loginInfoPanel.add(currentUser);
-        loggedInAs.setAlignmentX(Component.CENTER_ALIGNMENT);
-        currentUser.setAlignmentX(Component.CENTER_ALIGNMENT);
-        loginInfoPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
+        
         return loginInfoPanel;
+    }
+
+    public static void refreshUserInfoPanel(JPanel panel) {
+        for (Component c : panel.getComponents()) {
+        if (c instanceof JLabel label && "currentUserLabel".equals(label.getName())) {
+            label.setText(Main.loginUser.getUsername());
+            panel.revalidate();
+            panel.repaint();
+            return;
+        }
+    }
     }
 
     public static ScreenManager getInstance() {

@@ -21,7 +21,7 @@ import screens.UI.ColorPalette;
 import screens.UI.FontPalette;
 
 public class ScreenUpdateAccount extends JPanel implements Screen{
-    JLabel currentUser = new JLabel(Main.loginUser.getUsername());
+
     public ScreenUpdateAccount() {
 
         super();
@@ -213,28 +213,13 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         middlePanel.add(update);
         middlePanel.add(Box.createVerticalGlue());
 
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         bottomPanel.setAlignmentX(CENTER_ALIGNMENT);
         bottomPanel.setBackground(ColorPalette.BLACK);
 
-        JLabel loggedInAs = new JLabel("Logged in as");
-        loggedInAs.setFont(FontPalette.TEXT);
-        loggedInAs.setForeground(ColorPalette.GREEN);
-        loggedInAs.setAlignmentX(CENTER_ALIGNMENT);
-
-        currentUser.setFont(FontPalette.TEXT);
-        currentUser.setForeground(ColorPalette.WHITE);
-        currentUser.setAlignmentX(CENTER_ALIGNMENT);
-        
-        JPanel loginInfoPanel = new JPanel();
-        loginInfoPanel.setLayout(new BoxLayout(loginInfoPanel, BoxLayout.Y_AXIS));
-        loginInfoPanel.setBackground(ColorPalette.BLACK);
-        loginInfoPanel.setAlignmentX(LEFT_ALIGNMENT);
-
-        loginInfoPanel.add(loggedInAs);
-        loginInfoPanel.add(currentUser);
+        JPanel loginInfoPanel = ScreenManager.displayUserInfo(Main.loginUser.getUsername());
         bottomPanel.add(loginInfoPanel);
-
+        
         this.add(topPanel);
         this.add(Box.createVerticalStrut(24));
         this.add(middlePanel);
@@ -246,5 +231,9 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
     @Override
     public void onShow() {
         currentUser.setText(Main.loginUser.getUsername());
+        bottomPanel.removeAll();
+        bottomPanel.add(ScreenManager.displayUserInfo(Main.loginUser.getUsername()));
+        bottomPanel.revalidate();
+        bottomPanel.repaint();
     }
 }
