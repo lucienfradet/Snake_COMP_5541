@@ -277,7 +277,7 @@ public class UserDB {
     try (Connection conn = DriverManager.getConnection(url);
         PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-      if (!getsAllStats) {
+      if (getsAllStats) {
         pstmt.setInt(1, id);
       }
 
@@ -299,13 +299,11 @@ public class UserDB {
       }
 
       if (userList.isEmpty()) {
-        throw new Exception("No past games returned");
+        return new UserData[0];
       }
 
       return userList.toArray(new UserData[0]);
-    } catch (NoSuchAlgorithmException e) {
-      System.err.println("Error hashing password: " + e.getMessage());
-      throw new Exception("Hash error occurred.");
+
     } catch (SQLException e) {
       System.err.println("Error connecting to database: " + e.getMessage());
       throw new Exception("Database connection error.");
