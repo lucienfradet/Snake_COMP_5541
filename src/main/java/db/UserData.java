@@ -30,6 +30,7 @@ public class UserData {
     this.maze = 0;
     this.difficulty = Difficulty.EASY;
     this.snakeLength = Game.START_SNAKE_LENGTH;
+    this.moveHistory = new ArrayList<Direction>();
   }
 
   /**
@@ -69,6 +70,10 @@ public class UserData {
   }
 
   public Iterable<Direction> getMoveHistory() {
+    return moveHistory;
+  }
+
+  public ArrayList<Direction> getMoveHistoryArray() {
     return moveHistory;
   }
 
