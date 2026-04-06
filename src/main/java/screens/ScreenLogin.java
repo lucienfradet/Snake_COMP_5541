@@ -9,6 +9,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -103,16 +104,23 @@ public class ScreenLogin extends JPanel implements Screen {
         passwordPanel.add(passwordField);
         passwordPanel.add(Box.createHorizontalGlue());
 
-        JLabel message = new JLabel(" ");
+        JTextArea message = new JTextArea(" ");
         message.setFont(FontPalette.TEXT);
         message.setForeground(ColorPalette.RED);
+        message.setBackground(ColorPalette.BLACK);
+        message.setLineWrap(true);
+        message.setWrapStyleWord(true);
+        message.setEditable(false);
+        message.setOpaque(false);
+        message.setPreferredSize(new Dimension(452, 60));
+        message.setMaximumSize(new Dimension(452, 60));
 
         JPanel messagePanel = new JPanel();
         messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.Y_AXIS));
         messagePanel.setAlignmentX(CENTER_ALIGNMENT);
         messagePanel.setBackground(ColorPalette.BLACK);
-        messagePanel.setPreferredSize(new Dimension(452, 40));
-        messagePanel.setMaximumSize(new Dimension(452, 40));
+        messagePanel.setPreferredSize(new Dimension(452, 60));
+        messagePanel.setMaximumSize(new Dimension(452, 60));
         messagePanel.add(message);
         
         JPanel middlePanel = new JPanel();
