@@ -31,12 +31,12 @@ public class UserDataSorter {
       case "time"         -> Comparator.comparingLong(UserData::getGameTime);
       case "difficulty"   -> Comparator.comparing(UserData::getDifficulty);
       case "maze"         -> Comparator.comparingInt(UserData::getMaze);
-      case "gameId"           -> Comparator.comparingInt(UserData::getGameId);  
-        default             -> Comparator.comparingInt(UserData::getGameId);
+      case "gameId"       -> Comparator.comparingInt(UserData::getGameId);  
+        default           -> Comparator.comparingInt(UserData::getGameId);
     };
   }
 
-  private UserData[] searchUsername(UserData[] userDatas, String searchPattern) {
+  public static UserData[] searchUsername(UserData[] userDatas, String searchPattern) {
     // Convert wildcard pattern to regex (e.g., "joh*" -> "joh.*")
     String regexPattern = ".*" + Pattern.quote(searchPattern) + ".*";
     Pattern pattern = Pattern.compile(regexPattern, Pattern.CASE_INSENSITIVE);

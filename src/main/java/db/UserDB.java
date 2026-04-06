@@ -14,8 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import enums.Difficulty;
-import enums.Direction;
+import enums.*;
 
 /**
  * UserDB handles all database operations for the Snake game.

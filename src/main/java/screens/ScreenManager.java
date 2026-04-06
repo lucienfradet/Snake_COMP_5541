@@ -28,6 +28,7 @@ public final class ScreenManager {
     public static final String UPDATE_ACCOUNT = "update_account";
     public static final String DELETE_ACCOUNT = "delete_account";
     public static final String STATS = "stats";
+    public static final String ADMIN_STATS = "admin_stats";
     public static final String GAME = "game";
     public static final String PAUSE = "pause";
     public static final String GAME_OVER = "game_over";
@@ -170,6 +171,7 @@ public final class ScreenManager {
             case UPDATE_ACCOUNT -> "Update Account";
             case DELETE_ACCOUNT -> "Delete Account";
             case STATS -> "Stats";
+            case ADMIN_STATS -> "Admin Stats";
             case GAME -> "Snake Game";
             case PAUSE -> "Pause";
             case GAME_OVER -> "Game Over";
