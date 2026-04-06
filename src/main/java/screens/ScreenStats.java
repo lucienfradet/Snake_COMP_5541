@@ -22,6 +22,7 @@ import javax.swing.table.JTableHeader;
 import app.Main;
 import db.UserDB;
 import db.UserData;
+import db.UserDataSorter;
 import screens.UI.Button;
 import screens.UI.ColorPalette;
 import screens.UI.FontPalette;
@@ -33,6 +34,9 @@ public class ScreenStats extends JPanel implements Screen {
     private final DefaultTableModel statsTableModel;
     private final JTable statsTable;
     private final JLabel currentUserLabel;
+
+    private final UserDataSorter sorter = new UserDataSorter();
+    private UserData[] stats; // set to NULL when exiting screen to help garbage collector???
 
     public ScreenStats() {
 
@@ -169,16 +173,13 @@ public class ScreenStats extends JPanel implements Screen {
 
 
         
-        try {
-            UserData[] stats = UserDB.getUserData(Main.loginUser.getId(), Main.loginUser.isAdmin());
-            
 
+        try {
+            this.stats = UserDB.getUserData(Main.loginUser.getId(), false);
+            sorter.sortBy(stats, "id");
         } catch (Exception e1) {
             System.err.println(e1.getMessage());
         }
-
-       
-
 
 
 
