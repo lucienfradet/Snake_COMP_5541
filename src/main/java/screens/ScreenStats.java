@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
+import app.Main;
 import screens.UI.Button;
 import screens.UI.ColorPalette;
 import screens.UI.FontPalette;
@@ -26,10 +27,8 @@ import screens.UI.FontPalette;
 public class ScreenStats extends JPanel implements Screen {
 
     private static final String[] COLUMN_NAMES = { "ID", "Diff", "Maze", "Score", "Time", "Moves" };
-
     private final DefaultTableModel statsTableModel;
     private final JTable statsTable;
-    private final JLabel currentUserLabel;
 
     public ScreenStats() {
 
@@ -149,14 +148,8 @@ public class ScreenStats extends JPanel implements Screen {
         currentUserLabel.setAlignmentX(CENTER_ALIGNMENT);
         currentUserLabel.setAlignmentY(CENTER_ALIGNMENT);
 
-        JPanel loginInfoPanel = new JPanel();
-        loginInfoPanel.setLayout(new BoxLayout(loginInfoPanel, BoxLayout.Y_AXIS));
-        loginInfoPanel.setBackground(ColorPalette.BLACK);
-        loginInfoPanel.setAlignmentX(LEFT_ALIGNMENT);
-        loginInfoPanel.setAlignmentY(CENTER_ALIGNMENT);
-
-        loginInfoPanel.add(loggedInAs);
-        loginInfoPanel.add(currentUserLabel);
+        JPanel loginInfoPanel = ScreenManager.displayUserInfo(Main.loginUser.getUsername());
+        bottomPanel.add(loginInfoPanel);
         bottomPanel.add(loginInfoPanel);
 
         add(topPanel);

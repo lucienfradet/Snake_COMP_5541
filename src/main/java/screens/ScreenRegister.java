@@ -1,7 +1,6 @@
 package screens;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -10,7 +9,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 import app.Main;
 import db.UserDB;
@@ -21,35 +19,48 @@ import screens.UI.FontPalette;
 public class ScreenRegister extends JPanel implements Screen{
 
     public ScreenRegister() {
+
         super();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBackground(ColorPalette.BLACK);
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
+        topPanel.setAlignmentX(CENTER_ALIGNMENT);
+        topPanel.setBackground(ColorPalette.BLACK);
+
+        JPanel middlePanel = new JPanel();
+        middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
+        middlePanel.setAlignmentX(CENTER_ALIGNMENT);
+        middlePanel.setBackground(ColorPalette.BLACK);
+
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
+        bottomPanel.setAlignmentX(CENTER_ALIGNMENT);
+        bottomPanel.setBackground(ColorPalette.BLACK);
+
         Button back = new Button("Back");
         back.setAlignmentX(LEFT_ALIGNMENT);
         back.setMaximumSize(new Dimension(140, 40));
         back.setPreferredSize(new Dimension(140, 40));
         back.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.START_MENU));
 
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        topPanel.setAlignmentX(CENTER_ALIGNMENT);
-        topPanel.setBackground(ColorPalette.BLACK);
-        topPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
         topPanel.add(back);
+        topPanel.add(Box.createHorizontalGlue());
         
         JLabel register = new JLabel("Register");
-        register.setHorizontalAlignment(SwingConstants.LEFT);
+        register.setAlignmentX(LEFT_ALIGNMENT);
         register.setFont(FontPalette.TITLE);
         register.setForeground(ColorPalette.WHITE);
 
         JPanel registerPanel = new JPanel();
-        registerPanel.setLayout(new BoxLayout(registerPanel, BoxLayout.Y_AXIS));
+        registerPanel.setLayout(new BoxLayout(registerPanel, BoxLayout.X_AXIS));
         registerPanel.setAlignmentX(CENTER_ALIGNMENT);
         registerPanel.setBackground(ColorPalette.BLACK);
-        registerPanel.setPreferredSize(new Dimension(452, 80));
-        registerPanel.setMaximumSize(new Dimension(452, 80));
+
         registerPanel.add(register);
+        registerPanel.add(Box.createHorizontalGlue());
 
         JLabel username = new JLabel("Username");
         username.setFont(FontPalette.TEXT);
@@ -71,6 +82,7 @@ public class ScreenRegister extends JPanel implements Screen{
         usernamePanel.setMaximumSize(new Dimension(452, 40));
         usernamePanel.setBackground(ColorPalette.BLACK);
         usernamePanel.setBorder(null);
+
         usernamePanel.add(Box.createHorizontalGlue());
         usernamePanel.add(username);
         usernamePanel.add(Box.createHorizontalStrut(10));
@@ -97,13 +109,23 @@ public class ScreenRegister extends JPanel implements Screen{
         passwordPanel1.setPreferredSize(new Dimension(452, 40));
         passwordPanel1.setMaximumSize(new Dimension(452, 40));
         passwordPanel1.setBackground(ColorPalette.BLACK);
+
         passwordPanel1.add(Box.createHorizontalGlue());
         passwordPanel1.add(password1);
         passwordPanel1.add(Box.createHorizontalStrut(10));
         passwordPanel1.add(passwordField1);
         passwordPanel1.add(Box.createHorizontalGlue());
 
-        JLabel password2 = new JLabel("<html> Confirm <br> Password </html>");
+        JLabel password2 = new JLabel();
+        password2.setLayout(new BoxLayout(password2, BoxLayout.Y_AXIS));
+        JLabel confirm = new JLabel("Confirm");
+        confirm.setFont(FontPalette.TEXT);
+        confirm.setForeground(ColorPalette.BLACK);
+        JLabel password = new JLabel("password");
+        password.setFont(FontPalette.TEXT);
+        password.setForeground(ColorPalette.BLACK);
+        password2.add(confirm);
+        password2.add(password);
         password2.setFont(FontPalette.TEXT);
         password2.setForeground(ColorPalette.WHITE);
         password2.setPreferredSize(new Dimension(120, 40));
@@ -123,6 +145,7 @@ public class ScreenRegister extends JPanel implements Screen{
         passwordPanel2.setPreferredSize(new Dimension(452, 40));
         passwordPanel2.setMaximumSize(new Dimension(452, 40));
         passwordPanel2.setBackground(ColorPalette.BLACK);
+
         passwordPanel2.add(Box.createHorizontalGlue());
         passwordPanel2.add(password2);
         passwordPanel2.add(Box.createHorizontalStrut(10));
@@ -141,16 +164,11 @@ public class ScreenRegister extends JPanel implements Screen{
         messagePanel.setMaximumSize(new Dimension(452, 40));
         messagePanel.add(message);
         
-        JPanel middlePanel = new JPanel();
-        middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
-        middlePanel.setAlignmentX(CENTER_ALIGNMENT);
-        middlePanel.setBackground(ColorPalette.BLACK);
-        middlePanel.setPreferredSize(new Dimension(500, 220));
-        middlePanel.setMaximumSize(new Dimension(500, 220));
-        middlePanel.setBorder(BorderFactory.createEmptyBorder(0, 24, 0, 24));
+        middlePanel.add(Box.createVerticalGlue());
         middlePanel.add(registerPanel);
+        middlePanel.add(Box.createVerticalStrut(10));
         middlePanel.add(usernamePanel);
-        middlePanel.add(Box.createVerticalStrut(17));
+        middlePanel.add(Box.createVerticalStrut(10));
         middlePanel.add(passwordPanel1);
         middlePanel.add(Box.createVerticalStrut(10));
         middlePanel.add(passwordPanel2);
@@ -194,15 +212,11 @@ public class ScreenRegister extends JPanel implements Screen{
             }
         });
 
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        bottomPanel.setAlignmentX(CENTER_ALIGNMENT);
-        bottomPanel.setBackground(ColorPalette.BLACK);
         bottomPanel.add(create);
 
         this.add(topPanel);
         this.add(Box.createVerticalGlue());
         this.add(middlePanel);
-        this.add(Box.createVerticalStrut(18));
         this.add(bottomPanel);
         this.add(Box.createVerticalGlue());
     }
