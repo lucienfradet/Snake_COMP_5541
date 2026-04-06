@@ -1,5 +1,7 @@
 package game;
 import app.Main;
+import db.UserDB;
+import enums.Direction;
 import screens.ScreenGame;
 import screens.ScreenManager;
 
@@ -94,6 +96,17 @@ public class Game extends Thread {
 			(currentDirection == 4 && inputDirection == 3)
 		) return;
 
+		//Add move to
+		Direction dir;
+		switch (inputDirection) {
+				case 1 -> dir = Direction.RIGHT;
+				case 2 -> dir = Direction.LEFT;
+				case 3 -> dir = Direction.UP;
+				default -> dir = Direction.DOWN;
+			}
+
+		if(currentDirection != inputDirection) Main.loginUser.addMove(dir);
+
 		currentDirection = inputDirection;
 	 }
 	 
@@ -174,6 +187,11 @@ public class Game extends Thread {
 		Main.loginUser.getScore());
 		
 		gameActive = false;
+
+		//Send data over to DB
+		try{UserDB.saveGame(Main.loginUser);}
+		catch(Exception e) {System.out.println(e);}
+
 		onGameOver.run();
 	}
 	
