@@ -11,12 +11,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import app.Main;
+import db.UserDB;
 import screens.UI.Button;
 import screens.UI.ColorPalette;
 import screens.UI.FontPalette;
 
 public class ScreenDeleteAccount extends JPanel implements Screen {
-
+    JLabel currentUser = new JLabel(Main.loginUser.getUsername());
     public ScreenDeleteAccount() {
 
         super();
@@ -73,7 +75,14 @@ public class ScreenDeleteAccount extends JPanel implements Screen {
         delete.setMaximumSize(new Dimension(180, 44));
         delete.setPreferredSize(new Dimension(180, 44));
         delete.putClientProperty("destructive", true);
-        delete.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.START_MENU));
+        delete.addActionListener(e -> {
+            try {
+                UserDB.deleteAccount(Main.loginUser.getId());
+                ScreenManager.getInstance().showScreen(ScreenManager.START_MENU);
+            } catch (Exception er) {
+                
+            }
+        });
 
         JPanel middlePanel = new JPanel();
         middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
@@ -93,7 +102,6 @@ public class ScreenDeleteAccount extends JPanel implements Screen {
         loggedInAs.setFont(FontPalette.TEXT);
         loggedInAs.setForeground(ColorPalette.GREEN);
 
-        JLabel currentUser = new JLabel("Barb Tarbox");
         currentUser.setFont(FontPalette.TEXT);
         currentUser.setForeground(ColorPalette.WHITE);
 
@@ -118,6 +126,6 @@ public class ScreenDeleteAccount extends JPanel implements Screen {
 
     @Override
     public void onShow() {
-
+        currentUser.setText(Main.loginUser.getUsername());
     }
 }

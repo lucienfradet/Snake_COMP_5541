@@ -10,12 +10,13 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import app.Main;
 import screens.UI.Button;
 import screens.UI.ColorPalette;
 import screens.UI.FontPalette;
 
 public class ScreenAccountManager extends JPanel implements Screen{
-
+    JLabel currentUser = new JLabel(Main.loginUser.getUsername());
     public ScreenAccountManager() {
 
         super();
@@ -75,7 +76,6 @@ public class ScreenAccountManager extends JPanel implements Screen{
         loggedInAs.setAlignmentX(CENTER_ALIGNMENT);
         loggedInAs.setAlignmentY(CENTER_ALIGNMENT);
 
-        JLabel currentUser = new JLabel("Bard Tarbox");
         currentUser.setFont(FontPalette.TEXT);
         currentUser.setForeground(ColorPalette.WHITE);
         currentUser.setAlignmentX(CENTER_ALIGNMENT);
@@ -101,6 +101,6 @@ public class ScreenAccountManager extends JPanel implements Screen{
 
     @Override
     public void onShow() {
-
+        currentUser.setText(Main.loginUser.getUsername());
     }
 }

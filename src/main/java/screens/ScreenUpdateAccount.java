@@ -13,12 +13,14 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import app.Main;
+import db.UserDB;
 import screens.UI.Button;
 import screens.UI.ColorPalette;
 import screens.UI.FontPalette;
 
 public class ScreenUpdateAccount extends JPanel implements Screen{
-
+    JLabel currentUser = new JLabel(Main.loginUser.getUsername());
     public ScreenUpdateAccount() {
 
         super();
@@ -128,7 +130,7 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         passwordPanel2.add(passwordField2);
         passwordPanel2.add(Box.createHorizontalGlue());
 
-        JLabel message = new JLabel("Error: some error message");
+        JLabel message = new JLabel(" ");
         message.setAlignmentX(LEFT_ALIGNMENT);
         message.setFont(FontPalette.TEXT);
         message.setForeground(ColorPalette.RED);
@@ -144,7 +146,48 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         update.setAlignmentX(CENTER_ALIGNMENT);
         update.setMaximumSize(new Dimension(140, 40));
         update.setPreferredSize(new Dimension(140, 40));
-        update.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.MAIN_MENU));
+        update.addActionListener(e -> {
+            try {
+                String userUser = usernameField.getText();
+                if (userUser.length() > 0){
+                    if (userUser.length() < 5) {
+                        throw new Exception("Username must be at least 5 characters long");
+                    }
+                    if (!(userUser.matches("^[a-zA-Z0-9]+$"))) {
+                        throw new Exception("Username must be alphanumerical");
+                    }
+                    if (!UserDB.isUniqueUsername(userUser)) {
+                        throw new Exception("Username already exists");
+                    }
+                }
+
+                String userPassword = new String(passwordField1.getPassword());
+                if (userPassword.length() > 0){
+                    if (userPassword.length() < 8) {
+                        throw new Exception("Password must be at least 8 characters long");
+                    }
+                    if (!(userPassword.matches("^[a-zA-Z0-9]+$"))) {
+                        throw new Exception("Password must be alphanumerical");
+                    }
+                    String userPassword2 = new String(passwordField2.getPassword());
+                    if (!userPassword.equals(userPassword2)) {
+                        throw new Exception("Both passwords must be the same");
+                    }
+                }
+
+                if (userUser.length() > 0){
+                    UserDB.updateUsername(Main.loginUser.getId(), userUser);
+                    Main.loginUser.setUsername(userUser);
+                }
+                if (userPassword.length() > 0){UserDB.updatePassword(Main.loginUser.getId(), userPassword);}
+
+                message.setText(" ");
+                currentUser.setText(Main.loginUser.getUsername());
+                ScreenManager.getInstance().showScreen(ScreenManager.MAIN_MENU);
+            } catch (Exception er) {
+                message.setText("Error: " + er.getMessage());
+            }
+        });
         
         JPanel middlePanel = new JPanel();
         middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
@@ -171,7 +214,6 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         loggedInAs.setForeground(ColorPalette.GREEN);
         loggedInAs.setAlignmentX(CENTER_ALIGNMENT);
 
-        JLabel currentUser = new JLabel("Bard Tarbox");
         currentUser.setFont(FontPalette.TEXT);
         currentUser.setForeground(ColorPalette.WHITE);
         currentUser.setAlignmentX(CENTER_ALIGNMENT);
@@ -195,6 +237,6 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
 
     @Override
     public void onShow() {
-
+        currentUser.setText(Main.loginUser.getUsername());
     }
 }

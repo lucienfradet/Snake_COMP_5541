@@ -12,6 +12,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import app.Main;
+import db.UserDB;
 import screens.UI.Button;
 import screens.UI.ColorPalette;
 import screens.UI.FontPalette;
@@ -101,7 +103,7 @@ public class ScreenLogin extends JPanel implements Screen {
         passwordPanel.add(passwordField);
         passwordPanel.add(Box.createHorizontalGlue());
 
-        JLabel message = new JLabel("Error: some error message");
+        JLabel message = new JLabel(" ");
         message.setFont(FontPalette.TEXT);
         message.setForeground(ColorPalette.RED);
 
@@ -133,7 +135,29 @@ public class ScreenLogin extends JPanel implements Screen {
         snakeUp.setAlignmentX(CENTER_ALIGNMENT);
         snakeUp.setMaximumSize(new Dimension(200, 40));
         snakeUp.setPreferredSize(new Dimension(200, 40));
-        snakeUp.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.MAIN_MENU));
+        snakeUp.addActionListener(e -> {
+            try {
+                String userUser = usernameField.getText();
+                if (userUser.length() < 5) {
+                    throw new Exception("Username must be at least 5 characters long");
+                }
+                if (!(userUser.matches("^[a-zA-Z0-9]+$"))) {
+                    throw new Exception("Username must be alphanumerical");
+                }
+                String userPassword = new String(passwordField.getPassword());
+                if (userPassword.length() < 8) {
+                    throw new Exception("Password must be at least 8 characters long");
+                }
+                if (!(userPassword.matches("^[a-zA-Z0-9]+$"))) {
+                    throw new Exception("Password must be alphanumerical");
+                }
+                Main.loginUser = UserDB.login(userUser, userPassword);
+                message.setText(" ");
+                ScreenManager.getInstance().showScreen(ScreenManager.MAIN_MENU);
+            } catch (Exception er) {
+                message.setText("Error: " + er.getMessage());
+            }
+        });
 
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         bottomPanel.setAlignmentX(CENTER_ALIGNMENT);
