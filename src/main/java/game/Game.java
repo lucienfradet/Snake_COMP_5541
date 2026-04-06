@@ -1,6 +1,7 @@
 package game;
 import app.Main;
 import db.UserDB;
+import db.UserData;
 import enums.Direction;
 import screens.ScreenGame;
 import screens.ScreenManager;
@@ -38,6 +39,10 @@ public class Game extends Thread {
 		int fps, 
 		ScreenGame gameScreen, 
 		Runnable onGameOver){
+
+		//Reset user data
+		UserData.clearGameData(Main.loginUser);	
+
 		//Get all the threads
 		//Squares=ScreenGame.Grid;
 		// gameScreen = Window.gScreen;

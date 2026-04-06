@@ -171,6 +171,6 @@ public class UserData {
     user.setScore(0);
     user.setSnakeLength(Game.START_SNAKE_LENGTH);
     user.setGameTime(0);
-    user.setMoveHistory(null);
+    user.setMoveHistory(new ArrayList<Direction>());
   }
 }
