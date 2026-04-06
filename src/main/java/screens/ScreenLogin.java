@@ -60,6 +60,7 @@ public class ScreenLogin extends JPanel implements Screen {
         loginPanel.setAlignmentX(CENTER_ALIGNMENT);
         loginPanel.setBackground(ColorPalette.BLACK);
         
+        loginPanel.add(Box.createHorizontalStrut(20));
         loginPanel.add(login);
         loginPanel.add(Box.createHorizontalGlue());
 

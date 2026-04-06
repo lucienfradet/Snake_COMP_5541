@@ -29,6 +29,7 @@ public class ScreenStats extends JPanel implements Screen {
     private static final String[] COLUMN_NAMES = { "ID", "Diff", "Maze", "Score", "Time", "Moves" };
     private final DefaultTableModel statsTableModel;
     private final JTable statsTable;
+    private final JPanel loginInfoPanel;
 
     public ScreenStats() {
 
@@ -132,30 +133,18 @@ public class ScreenStats extends JPanel implements Screen {
         middlePanel.add(Box.createVerticalStrut(8));
         middlePanel.add(tablePanel);
 
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        loginInfoPanel = ScreenManager.displayUserInfo(Main.loginUser.getUsername());
+        loginInfoPanel.setAlignmentX(LEFT_ALIGNMENT);
+
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
         bottomPanel.setBackground(ColorPalette.BLACK);
-        bottomPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
-        JLabel loggedInAs = new JLabel("Logged in as");
-        loggedInAs.setFont(FontPalette.TEXT);
-        loggedInAs.setForeground(ColorPalette.GREEN);
-        loggedInAs.setAlignmentX(CENTER_ALIGNMENT);
-        loggedInAs.setAlignmentY(CENTER_ALIGNMENT);
-
-        currentUserLabel = new JLabel("Barb Tarbox");
-        currentUserLabel.setFont(FontPalette.TEXT);
-        currentUserLabel.setForeground(ColorPalette.WHITE);
-        currentUserLabel.setAlignmentX(CENTER_ALIGNMENT);
-        currentUserLabel.setAlignmentY(CENTER_ALIGNMENT);
-
-        JPanel loginInfoPanel = ScreenManager.displayUserInfo(Main.loginUser.getUsername());
         bottomPanel.add(loginInfoPanel);
-        bottomPanel.add(loginInfoPanel);
+        bottomPanel.add(Box.createHorizontalGlue());
 
-        add(topPanel);
-        add(middlePanel);
-        add(Box.createVerticalGlue());
-        add(bottomPanel);
+        this.add(topPanel);
+        this.add(middlePanel);
+        this.add(bottomPanel);
 
         setStatsRows(List.of(
             new GameStatRow(1, "med", 1, 10, "01:23", 137),
@@ -168,10 +157,6 @@ public class ScreenStats extends JPanel implements Screen {
             new GameStatRow(8, "med", 1, 10, "01:23", 137),
             new GameStatRow(9, "med", 1, 10, "01:23", 137)
         ));
-    }
-
-    public void setCurrentUser(String username) {
-        currentUserLabel.setText(username);
     }
 
     public void clearStatsRows() {
@@ -191,7 +176,7 @@ public class ScreenStats extends JPanel implements Screen {
 
     @Override
     public void onShow() {
-
+        ScreenManager.refreshUserInfoPanel(loginInfoPanel);
     }
 
     public static final class GameStatRow {

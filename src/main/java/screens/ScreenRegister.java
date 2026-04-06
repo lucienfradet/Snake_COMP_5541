@@ -60,6 +60,7 @@ public class ScreenRegister extends JPanel implements Screen{
         registerPanel.setAlignmentX(CENTER_ALIGNMENT);
         registerPanel.setBackground(ColorPalette.BLACK);
 
+        registerPanel.add(Box.createHorizontalStrut(20));
         registerPanel.add(register);
         registerPanel.add(Box.createHorizontalGlue());
 
@@ -125,6 +126,7 @@ public class ScreenRegister extends JPanel implements Screen{
         password.setForeground(ColorPalette.WHITE);
     
         JLabel password2 = new JLabel();
+        password2.setAlignmentY(CENTER_ALIGNMENT);
         password2.setLayout(new BoxLayout(password2, BoxLayout.Y_AXIS));
         password2.setBackground(ColorPalette.BLACK);
         password2.setPreferredSize(new Dimension(120, 60));
@@ -133,6 +135,7 @@ public class ScreenRegister extends JPanel implements Screen{
         password2.add(password);
 
         JPasswordField passwordField2 = new JPasswordField(20);
+        passwordField2.setAlignmentY(CENTER_ALIGNMENT);
         passwordField2.setFont(FontPalette.TEXT);
         passwordField2.setForeground(ColorPalette.BLACK);
         passwordField2.setBackground(ColorPalette.WHITE);

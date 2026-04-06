@@ -156,6 +156,7 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
         timeTracker.setFont(FontPalette.TEXT);
         timeTracker.setForeground(ColorPalette.GREEN);
 
+        gameInfo.add(Box.createVerticalGlue());
         gameInfo.add(loggedInAs);
         //gameInfo.add(currentUser);
         gameInfo.add(currentUserName);
@@ -174,6 +175,7 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
         gameInfo.add(Box.createVerticalStrut(5));
         gameInfo.add(time);
         gameInfo.add(timeTracker);
+        gameInfo.add(Box.createVerticalGlue());
 
         bottomPanel.add(game);
         bottomPanel.add(Box.createHorizontalStrut(10));
