@@ -50,6 +50,7 @@ public final class ScreenManager {
         loggedInAs.setForeground(ColorPalette.GREEN);
 
         JLabel currentUser = new JLabel(UserName);
+        currentUser.setName("currentUserLabel");
         currentUser.setAlignmentX(Component.CENTER_ALIGNMENT);
         currentUser.setFont(FontPalette.TEXT);
         currentUser.setForeground(ColorPalette.WHITE);
