@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import app.Main;
+import enums.Difficulty;
 import game.Game;
 import game.InputManager;
 import game.Tuple;
@@ -182,6 +183,19 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
         //Side panel info is updated in real time.
         //"timer" calls its callback function 20 times a second
         int FPS = 20;
+
+        switch(Main.loginUser.getDifficulty()){
+            case Difficulty.EASY:
+                FPS = 9;
+                break;
+            case Difficulty.NORMAL:
+                FPS = 13;
+                break;
+            case Difficulty.HARD:
+                FPS = 24;
+                break;                
+        }
+
         Timer timer = new Timer(1000/FPS, e -> {
             scoreValue.setText(Integer.toString((Integer)Main.loginUser.getScore()));
             lengthValue.setText(Integer.toString((Integer)Main.loginUser.getSnakeLength()));
