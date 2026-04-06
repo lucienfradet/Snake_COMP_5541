@@ -43,30 +43,31 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         topPanel.setBackground(ColorPalette.BLACK);
         topPanel.add(back);
         
-        JLabel title = new JLabel("Enter the fields you");
-        title.setHorizontalAlignment(SwingConstants.CENTER);
-        title.setFont(new Font("Yoster Island", Font.BOLD, 30));
-        title.setForeground(ColorPalette.WHITE);
-
-        JLabel title1 = new JLabel("wish to change");
+        JLabel title1 = new JLabel("Enter the fields you");
         title1.setHorizontalAlignment(SwingConstants.CENTER);
         title1.setFont(new Font("Yoster Island", Font.BOLD, 30));
         title1.setForeground(ColorPalette.WHITE);
 
-        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        JLabel title2 = new JLabel("wish to change");
+        title2.setHorizontalAlignment(SwingConstants.CENTER);
+        title2.setFont(new Font("Yoster Island", Font.BOLD, 30));
+        title2.setForeground(ColorPalette.WHITE);
+
+        JPanel titlePanel = new JPanel();
+        titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.Y_AXIS));
         titlePanel.setAlignmentX(CENTER_ALIGNMENT);
         titlePanel.setBackground(ColorPalette.BLACK);
-        titlePanel.setPreferredSize(new Dimension(460, 110));
-        titlePanel.setMaximumSize(new Dimension(460, 110));
-        titlePanel.add(title);
         titlePanel.add(title1);
+        titlePanel.add(title2);
 
         JLabel username = new JLabel("Username");
+        username.setAlignmentY(CENTER_ALIGNMENT);
         username.setFont(FontPalette.TEXT);
         username.setForeground(ColorPalette.WHITE);
         username.setPreferredSize(new Dimension(120, 40));
 
         JTextField usernameField = new JTextField(20);
+        usernameField.setAlignmentY(CENTER_ALIGNMENT);
         usernameField.setFont(FontPalette.TEXT);
         usernameField.setForeground(ColorPalette.BLACK);
         usernameField.setBackground(ColorPalette.WHITE);
@@ -95,14 +96,16 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         password.setForeground(ColorPalette.WHITE);
     
         JLabel password1 = new JLabel();
+        password1.setAlignmentY(CENTER_ALIGNMENT);
         password1.setLayout(new BoxLayout(password1, BoxLayout.Y_AXIS));
         password1.setBackground(ColorPalette.BLACK);
-        password1.setPreferredSize(new Dimension(120, 60));
-        password1.setMaximumSize(new Dimension(120, 60));
+        password1.setPreferredSize(new Dimension(120, 80));
+        password1.setMaximumSize(new Dimension(120, 80));
         password1.add(new_);
         password1.add(password);
 
         JPasswordField passwordField1 = new JPasswordField(20);
+        passwordField1.setAlignmentY(CENTER_ALIGNMENT);
         passwordField1.setFont(FontPalette.TEXT);
         passwordField1.setForeground(ColorPalette.BLACK);
         passwordField1.setBackground(ColorPalette.WHITE);
@@ -114,8 +117,8 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         passwordPanel1.setLayout(new BoxLayout(passwordPanel1, BoxLayout.X_AXIS));
         passwordPanel1.setBorder(null);
         passwordPanel1.setAlignmentX(CENTER_ALIGNMENT);
-        passwordPanel1.setPreferredSize(new Dimension(452, 60));
-        passwordPanel1.setMaximumSize(new Dimension(452, 60));
+        passwordPanel1.setPreferredSize(new Dimension(452, 80));
+        passwordPanel1.setMaximumSize(new Dimension(452, 80));
         passwordPanel1.setBackground(ColorPalette.BLACK);
         passwordPanel1.add(Box.createHorizontalGlue());
         passwordPanel1.add(password1);
@@ -131,6 +134,7 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         password_.setForeground(ColorPalette.WHITE);
     
         JLabel password2 = new JLabel();
+        password2.setAlignmentY(CENTER_ALIGNMENT);
         password2.setLayout(new BoxLayout(password2, BoxLayout.Y_AXIS));
         password2.setBackground(ColorPalette.BLACK);
         password2.setPreferredSize(new Dimension(120, 60));
@@ -139,6 +143,7 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         password2.add(password_);
 
         JPasswordField passwordField2 = new JPasswordField(20);
+        passwordField2.setAlignmentY(CENTER_ALIGNMENT);
         passwordField2.setFont(FontPalette.TEXT);
         passwordField2.setForeground(ColorPalette.BLACK);
         passwordField2.setBackground(ColorPalette.WHITE);
@@ -174,8 +179,8 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.Y_AXIS));
         messagePanel.setAlignmentX(CENTER_ALIGNMENT);
         messagePanel.setBackground(ColorPalette.BLACK);
-        messagePanel.setPreferredSize(new Dimension(452, 60));
-        messagePanel.setMaximumSize(new Dimension(452, 60));
+        messagePanel.setPreferredSize(new Dimension(452, 50));
+        messagePanel.setMaximumSize(new Dimension(452, 50));
         messagePanel.add(message);
 
         Button update = new Button("Update");
@@ -228,14 +233,14 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
         middlePanel.setAlignmentX(CENTER_ALIGNMENT);
         middlePanel.setBackground(ColorPalette.BLACK);
-        middlePanel.setBorder(BorderFactory.createEmptyBorder(0, 24, 0, 24));
         middlePanel.add(titlePanel);
+        middlePanel.add(Box.createVerticalStrut(15));
         middlePanel.add(usernamePanel);
         middlePanel.add(Box.createVerticalStrut(15));
         middlePanel.add(passwordPanel1);
-        middlePanel.add(Box.createVerticalStrut(12));
+        middlePanel.add(Box.createVerticalStrut(15));
         middlePanel.add(passwordPanel2);
-        middlePanel.add(Box.createVerticalStrut(12));
+        middlePanel.add(Box.createVerticalStrut(15));
         middlePanel.add(messagePanel);
         middlePanel.add(update);
         middlePanel.add(Box.createVerticalGlue());
@@ -250,9 +255,7 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         bottomPanel.add(Box.createHorizontalGlue());
         
         this.add(topPanel);
-        this.add(Box.createVerticalStrut(24));
         this.add(middlePanel);
-        this.add(Box.createVerticalGlue());
         this.add(bottomPanel);
 
     }
