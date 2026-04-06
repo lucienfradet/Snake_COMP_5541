@@ -77,8 +77,11 @@ public class ScreenDeleteAccount extends JPanel implements Screen {
         delete.putClientProperty("destructive", true);
         delete.addActionListener(e -> {
             try {
-                UserDB.deleteAccount(Main.loginUser.getId());
-                ScreenManager.getInstance().showScreen(ScreenManager.START_MENU);
+                String confirmString = confirmField.getText();
+                if (confirmString.equals("DELETE")) {
+                    UserDB.deleteAccount(Main.loginUser.getId());
+                    ScreenManager.getInstance().showScreen(ScreenManager.START_MENU);
+                }
             } catch (Exception er) {
                 
             }
