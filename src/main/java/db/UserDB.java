@@ -12,9 +12,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
-import enums.Difficulty;
-import enums.Direction;
+import enums.*;
 
 /**
  * UserDB handles all database operations for the Snake game.
@@ -251,7 +251,7 @@ public class UserDB {
    */
   public static UserData[] getUserData(int id, boolean getsAllStats) throws Exception {
     String sql;
-    if (getsAllStats) {
+    if (!getsAllStats) {
     sql = ""
     + "SELECT username, "
            + "DENSE_RANK() OVER (PARTITION BY u.userId ORDER BY g.gameId) AS ordered_gameId, "
@@ -276,40 +276,33 @@ public class UserDB {
     try (Connection conn = DriverManager.getConnection(url);
         PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-      if (!getsAllStats) {
+      if (getsAllStats) {
         pstmt.setInt(1, id);
       }
 
-      int rowCount = 0;
+      ArrayList<UserData> userList = new ArrayList<>();
       try (ResultSet rs = pstmt.executeQuery()) {
-        rs.last(); // Move to last row to get the number of rows returned
-        rowCount = rs.getRow();
+        while (rs.next()) {
+          UserData user = new UserData(
+            rs.getString("username"), 
+            rs.getInt("totalMoves"),
+            rs.getInt("score"), 
+            rs.getInt("snakeLength"), 
+            rs.getLong("time"), 
+            rs.getInt("ordered_gameId"), 
+            rs.getInt("maze"), 
+            UserDB.convertDiffToEnum(rs.getString("difficulty"))
+          );
+          userList.add(user);
+        }
       }
 
-      if (rowCount > 0) {
-        try (ResultSet rs = pstmt.executeQuery()) {
-          UserData[] users = new UserData[rowCount];
-          for (int i = 0; i < users.length; i++) {
-            rs.next();
-            users[i] = new UserData(
-              rs.getString("username"), 
-              rs.getInt("totalMoves"),
-              rs.getInt("score"), 
-              rs.getInt("snakeLength"), 
-              rs.getLong("time"), 
-              rs.getInt("ordered_gameId"), 
-              rs.getInt("maze"), 
-              UserDB.convertDiffToEnum(rs.getString("difficulty"))
-            );
-          }
-          return users;
-        }
-      } else {
-        throw new Exception("No past games returned");
+      if (userList.isEmpty()) {
+        return new UserData[0];
       }
-    } catch (NoSuchAlgorithmException e) {
-      System.err.println("Error hashing password: " + e.getMessage());
-      throw new Exception("Hash error occurred.");
+
+      return userList.toArray(new UserData[0]);
+
     } catch (SQLException e) {
       System.err.println("Error connecting to database: " + e.getMessage());
       throw new Exception("Database connection error.");

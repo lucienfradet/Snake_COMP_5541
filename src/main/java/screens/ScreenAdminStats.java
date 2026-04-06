@@ -16,7 +16,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -27,17 +30,16 @@ import screens.UI.Button;
 import screens.UI.ColorPalette;
 import screens.UI.FontPalette;
 
-public class ScreenStats extends JPanel implements Screen {
+public class ScreenAdminStats extends JPanel implements Screen {
 
     private static final String[] COLUMN_NAMES = { "ID", "Diff", "Maze", "Score", "Time", "Moves" };
     private final DefaultTableModel statsTableModel;
     private final JTable statsTable;
-    private final JPanel loginInfoPanel;
 
     private final UserDataSorter sorter = new UserDataSorter();
-    private UserData[] stats; // set to NULL when exiting screen to help garbage collector??????
+    private UserData[] stats;
 
-    public ScreenStats() {
+    public ScreenAdminStats() {
 
         super();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -114,11 +116,11 @@ public class ScreenStats extends JPanel implements Screen {
                     case "Score" -> "score";
                     case "Time"  -> "time";
                     case "Moves" -> "moves";
-                    default -> "gameId";
+                    default      -> "gameId";
                 };
                 sorter.sortBy(stats, sortKey);
-                refreshStatsTable();
-            }            
+                refreshStatsTable(stats);
+            }
         });
 
         header.setFont(FontPalette.TEXT);
@@ -159,13 +161,35 @@ public class ScreenStats extends JPanel implements Screen {
         middlePanel.add(Box.createVerticalStrut(8));
         middlePanel.add(tablePanel);
 
-        loginInfoPanel = ScreenManager.displayUserInfo(Main.loginUser.getUsername());
-        loginInfoPanel.setAlignmentX(LEFT_ALIGNMENT);
+        JLabel filterLabel = new JLabel("Filter by username:");
+        filterLabel.setFont(FontPalette.TEXT);
+        filterLabel.setForeground(ColorPalette.WHITE);
+
+        JTextField filterField = new JTextField();
+        filterField.setFont(FontPalette.TEXT);
+        filterField.setForeground(ColorPalette.RED);
+        filterField.setBackground(ColorPalette.WHITE);
+        filterField.setCaretColor(ColorPalette.RED);
+        filterField.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(ColorPalette.WHITE, 1, true),
+            BorderFactory.createEmptyBorder(4, 8, 4, 8)
+        ));
+        filterField.setMaximumSize(new Dimension(200, 32));
+        filterField.setPreferredSize(new Dimension(200, 32));
+
+        filterField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override public void insertUpdate(DocumentEvent e)  { onFilterChanged(filterField.getText()); }
+            @Override public void removeUpdate(DocumentEvent e)  { onFilterChanged(filterField.getText()); }
+            @Override public void changedUpdate(DocumentEvent e) { onFilterChanged(filterField.getText()); }
+        });
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
         bottomPanel.setBackground(ColorPalette.BLACK);
-        bottomPanel.add(loginInfoPanel);
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(6, 20, 10, 20));
+        bottomPanel.add(filterLabel);
+        bottomPanel.add(Box.createHorizontalStrut(10));
+        bottomPanel.add(filterField);
         bottomPanel.add(Box.createHorizontalGlue());
 
         this.add(topPanel);
@@ -173,16 +197,25 @@ public class ScreenStats extends JPanel implements Screen {
         this.add(bottomPanel);
 
         try {
-            stats = UserDB.getUserData(Main.loginUser.getId(), false);
-            refreshStatsTable();
+            stats = UserDB.getUserData(0, Main.loginUser.isAdmin()); // load all users, not just the logged-in one
+            refreshStatsTable(stats);
         } catch (Exception e1) {
             System.err.println(e1.getMessage());
         }
     }
 
-    private void refreshStatsTable() {
+    private void onFilterChanged(String searchPattern) {
+        if (searchPattern == null || searchPattern.isBlank()) {
+            refreshStatsTable(stats);
+        } else {
+            UserData[] filtered = UserDataSorter.searchUsername(stats, searchPattern);
+            refreshStatsTable(filtered.length > 0 ? filtered : stats);
+        }
+    }
+
+    private void refreshStatsTable(UserData[] data) {
         clearStatsRows();
-        for (UserData u : stats) {
+        for (UserData u : data) {
             addStatsRow(new GameStatRow(
                 u.getGameId(),
                 u.getDifficulty().toString().substring(0, 1),
@@ -194,7 +227,7 @@ public class ScreenStats extends JPanel implements Screen {
         }
     }
 
-    private static String formatTime(long ms) {
+    private String formatTime(long ms) {
         long seconds = ms / 1000;
         long minutes = seconds / 60;
         seconds %= 60;
@@ -217,9 +250,7 @@ public class ScreenStats extends JPanel implements Screen {
     }
 
     @Override
-    public void onShow() {
-        ScreenManager.refreshUserInfoPanel(loginInfoPanel);
-    }
+    public void onShow() {}
 
     public static final class GameStatRow {
         private final int id;
@@ -242,5 +273,4 @@ public class ScreenStats extends JPanel implements Screen {
             return new Object[] { id, difficulty, maze, score, time, moves };
         }
     }
-
 }
