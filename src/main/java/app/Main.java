@@ -18,7 +18,7 @@ import screens.ScreenStats;
 import screens.ScreenUpdateAccount;
 
 public class Main {
-  public static UserData loginUser = new UserData(0, null, false);
+  public static UserData loginUser = null;
 
   public static void startGame() {
 
