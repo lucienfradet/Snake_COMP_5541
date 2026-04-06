@@ -12,7 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import app.Main;
-import enums.Difficulty;
 import game.Game;
 import game.InputManager;
 import game.Tuple;
@@ -175,13 +174,6 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
         bottomPanel.add(Box.createHorizontalStrut(10));
         bottomPanel.add(gameInfo);
 
-        int fps;
-        fps = switch (Main.loginUser.getDifficulty()) {
-            case Difficulty.EASY -> 9;
-            case Difficulty.NORMAL -> 15;
-            default -> 69;
-        };
-
         this.add(topPanel);
         this.add(Box.createVerticalGlue());
         this.add(middlePanel);
@@ -193,7 +185,7 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
 			gameThread = new Game(
                 Main.loginUser.getMaze(), 
                 position, 
-                fps, 
+                20, 
                 game, 
                 () -> ScreenManager.getInstance().showScreen(ScreenManager.GAME_OVER)
             );
