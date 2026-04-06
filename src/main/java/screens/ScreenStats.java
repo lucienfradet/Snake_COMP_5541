@@ -19,6 +19,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
+import app.Main;
+import db.UserDB;
+import db.UserData;
 import screens.UI.Button;
 import screens.UI.ColorPalette;
 import screens.UI.FontPalette;
@@ -163,6 +166,21 @@ public class ScreenStats extends JPanel implements Screen {
         add(middlePanel);
         add(Box.createVerticalGlue());
         add(bottomPanel);
+
+
+        
+        try {
+            UserData[] stats = UserDB.getUserData(Main.loginUser.getId(), Main.loginUser.isAdmin());
+            
+
+        } catch (Exception e1) {
+            System.err.println(e1.getMessage());
+        }
+
+       
+
+
+
 
         setStatsRows(List.of(
             new GameStatRow(1, "med", 1, 10, "01:23", 137),
