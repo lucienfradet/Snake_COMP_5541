@@ -37,7 +37,7 @@ public class ScreenStats extends JPanel implements Screen {
     private final JPanel loginInfoPanel;
 
     private final UserDataSorter sorter = new UserDataSorter();
-    private UserData[] stats; // set to NULL when exiting screen to help garbage collector???
+    private UserData[] stats; // set to NULL when exiting screen to help garbage collector??????
 
     public ScreenStats() {
 
@@ -110,13 +110,13 @@ public class ScreenStats extends JPanel implements Screen {
                 String attribute = COLUMN_NAMES[column];
 
                 String sortKey = switch (attribute) {
-                    case "ID"    -> "id";
+                    case "ID"    -> "gameId";
                     case "Diff"  -> "difficulty";
                     case "Maze"  -> "maze";
                     case "Score" -> "score";
                     case "Time"  -> "time";
                     case "Moves" -> "moves";
-                    default -> "id";
+                    default -> "gameId";
                 };
                 sorter.sortBy(stats, sortKey);
                 refreshStatsTable();
@@ -175,9 +175,9 @@ public class ScreenStats extends JPanel implements Screen {
         this.add(bottomPanel);
 
         try {
-            this.stats = UserDB.getUserData(Main.loginUser.getId(), false);
+            stats = UserDB.getUserData(Main.loginUser.getId(), false);
             refreshStatsTable();
-            sorter.sortBy(stats, "id");
+            //if (stats.length > 0) sorter.sortBy(stats, "gameId");
         } catch (Exception e1) {
             System.err.println(e1.getMessage());
         }
@@ -200,8 +200,8 @@ public class ScreenStats extends JPanel implements Screen {
         clearStatsRows();
         for (UserData u : stats) {
             addStatsRow(new GameStatRow(
-                u.getId(),
-                u.getDifficulty().toString(),
+                u.getGameId(),
+                u.getDifficulty().toString().substring(0),
                 u.getMaze(),
                 u.getScore(),
                 formatTime(u.getGameTime()),

@@ -31,8 +31,8 @@ public class UserDataSorter {
       case "time"         -> Comparator.comparingLong(UserData::getGameTime);
       case "difficulty"   -> Comparator.comparing(UserData::getDifficulty);
       case "maze"         -> Comparator.comparingInt(UserData::getMaze);
-      case "id"           -> Comparator.comparingInt(UserData::getId);  
-        default             -> Comparator.comparingInt(UserData::getId);
+      case "gameId"           -> Comparator.comparingInt(UserData::getGameId);  
+        default             -> Comparator.comparingInt(UserData::getGameId);
     };
   }
 
