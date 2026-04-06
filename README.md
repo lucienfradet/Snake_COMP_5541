@@ -57,3 +57,24 @@ mvn test -Dtest=UserDBIntegrationTest
 ```bash
 mvn test -Dtest="UserDBIntegrationTest#newUser_thenLogin_sameUserReturnedFromRealDB"
 ```
+
+## Manual edit of the database
+- install `litecli` following this [link](https://github.com/dbcli/litecli).
+- Run it with `litecli` in terminal (Linux/Mac) or `WSL` (Windows)
+
+Some commands:
+```sql
+-- Help
+help
+
+-- Open database
+.open ./data/db/snake_game.db
+
+-- List tables
+.tables
+
+-- Change a user to admin
+UPDATE User SET isAdmin = TRUE WHERE username = "USERNAME"
+-- also works using userId since both are unique
+```
+
