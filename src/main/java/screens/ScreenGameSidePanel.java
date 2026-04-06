@@ -10,8 +10,10 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import app.Main;
+import enums.Difficulty;
 import game.Game;
 import game.InputManager;
 import game.Tuple;
@@ -104,18 +106,18 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
         gameInfo.setMaximumSize(new java.awt.Dimension(100, 350));
         gameInfo.setMinimumSize(new java.awt.Dimension(100, 350));
 
-        JLabel loggedInAs = new JLabel("Logged");
+        JLabel loggedInAs = new JLabel("User");
         loggedInAs.setFont(FontPalette.TEXT);
         loggedInAs.setForeground(ColorPalette.BROWN);
-        JLabel currentUser = new JLabel("in as");
-        currentUser.setFont(FontPalette.TEXT);
-        currentUser.setForeground(ColorPalette.BROWN);
-        JLabel currentUserName = new JLabel("Barb");
+        // JLabel currentUser = new JLabel("in as");
+        // currentUser.setFont(FontPalette.TEXT);
+        // currentUser.setForeground(ColorPalette.BROWN);
+        JLabel currentUserName = new JLabel(Main.loginUser.getUsername());
         currentUserName.setFont(FontPalette.TEXT);
         currentUserName.setForeground(ColorPalette.GREEN);
-        JLabel currentUserLast = new JLabel("Tarbox");
-        currentUserLast.setFont(FontPalette.TEXT);
-        currentUserLast.setForeground(ColorPalette.GREEN);
+        // JLabel currentUserLast = new JLabel("Tarbox");
+        // currentUserLast.setFont(FontPalette.TEXT);
+        // currentUserLast.setForeground(ColorPalette.GREEN);
 
         JLabel numOfMoves = new JLabel("Nb.");
         numOfMoves.setFont(FontPalette.TEXT);
@@ -133,17 +135,21 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
         JLabel lengthTracker = new JLabel("Length");
         lengthTracker.setFont(FontPalette.TEXT);
         lengthTracker.setForeground(ColorPalette.BROWN);
-        JLabel lengthValue = new JLabel("4");
+
+        String lenVal = Integer.toString((Integer)Main.loginUser.getSnakeLength());
+        JLabel lengthValue = new JLabel(lenVal);
         lengthValue.setFont(FontPalette.TEXT);
         lengthValue.setForeground(ColorPalette.GREEN);
 
         JLabel score = new JLabel("Score");
         score.setFont(FontPalette.TEXT);
         score.setForeground(ColorPalette.BROWN);
-        JLabel scoreValue = new JLabel("1");
+
+        String scoreVal = Integer.toString((Integer)Main.loginUser.getScore());
+        JLabel scoreValue = new JLabel(scoreVal);
         scoreValue.setFont(FontPalette.TEXT);
         scoreValue.setForeground(ColorPalette.GREEN);
-
+        
         JLabel time = new JLabel("Time");
         time.setFont(FontPalette.TEXT);
         time.setForeground(ColorPalette.BROWN);
@@ -152,9 +158,9 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
         timeTracker.setForeground(ColorPalette.GREEN);
 
         gameInfo.add(loggedInAs);
-        gameInfo.add(currentUser);
+        //gameInfo.add(currentUser);
         gameInfo.add(currentUserName);
-        gameInfo.add(currentUserLast);
+        //gameInfo.add(currentUserLast);
         gameInfo.add(Box.createVerticalStrut(5));
         gameInfo.add(numOfMoves);
         gameInfo.add(moveTracker);
@@ -174,6 +180,32 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
         bottomPanel.add(Box.createHorizontalStrut(10));
         bottomPanel.add(gameInfo);
 
+        //Side panel info is updated in real time.
+        //"timer" calls its callback function 20 times a second
+        int FPS = 20;
+
+        switch(Main.loginUser.getDifficulty()){
+            case Difficulty.EASY:
+                FPS = 9;
+                break;
+            case Difficulty.NORMAL:
+                FPS = 13;
+                break;
+            case Difficulty.HARD:
+                FPS = 24;
+                break;                
+        }
+
+        Timer timer = new Timer(1000/FPS, e -> {
+            scoreValue.setText(Integer.toString((Integer)Main.loginUser.getScore()));
+            lengthValue.setText(Integer.toString((Integer)Main.loginUser.getSnakeLength()));
+            long millis = Main.loginUser.getGameTime();
+            long minutes = (millis / 1000) / 60;
+            long seconds = (millis / 1000) % 60;
+            String formatted = String.format("%02d:%02d", minutes, seconds);
+            timeTracker.setText(formatted);
+        });
+        timer.start();
         this.add(topPanel);
         this.add(Box.createVerticalGlue());
         this.add(middlePanel);
@@ -185,7 +217,7 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
 			gameThread = new Game(
                 Main.loginUser.getMaze(), 
                 position, 
-                20, 
+                FPS, 
                 game, 
                 () -> ScreenManager.getInstance().showScreen(ScreenManager.GAME_OVER)
             );

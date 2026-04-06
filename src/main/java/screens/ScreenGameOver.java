@@ -8,7 +8,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import screens.UI.*;
+import screens.UI.Button;
+import screens.UI.ColorPalette;
+import screens.UI.FontPalette;
 
 public class ScreenGameOver extends JPanel implements Screen{
 
@@ -32,7 +34,7 @@ public class ScreenGameOver extends JPanel implements Screen{
 
         JButton exit = new Button("Exit");
         exit.setAlignmentX(CENTER_ALIGNMENT);
-        exit.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.MAIN_MENU));
+        exit.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.MAP_SELECT));
 
         Dimension buttonDimension = new Dimension(140, 40);
         restart.setPreferredSize(buttonDimension);

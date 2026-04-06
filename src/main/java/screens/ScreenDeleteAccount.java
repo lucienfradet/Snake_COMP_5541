@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import app.Main;
+import db.UserDB;
 import screens.UI.Button;
 import screens.UI.ColorPalette;
 import screens.UI.FontPalette;
@@ -74,7 +75,14 @@ public class ScreenDeleteAccount extends JPanel implements Screen {
         delete.setMaximumSize(new Dimension(180, 44));
         delete.setPreferredSize(new Dimension(180, 44));
         delete.putClientProperty("destructive", true);
-        delete.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.START_MENU));
+        delete.addActionListener(e -> {
+            try {
+                UserDB.deleteAccount(Main.loginUser.getId());
+                ScreenManager.getInstance().showScreen(ScreenManager.START_MENU);
+            } catch (Exception er) {
+                
+            }
+        });
 
         JPanel middlePanel = new JPanel();
         middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
