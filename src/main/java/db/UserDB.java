@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import enums.Difficulty;
 import enums.Direction;
@@ -280,33 +281,28 @@ public class UserDB {
         pstmt.setInt(1, id);
       }
 
-      int rowCount = 0;
+      ArrayList<UserData> userList = new ArrayList<>();
       try (ResultSet rs = pstmt.executeQuery()) {
-        rs.last(); // Move to last row to get the number of rows returned
-        rowCount = rs.getRow();
+        while (rs.next()) {
+          UserData user = new UserData(
+            rs.getString("username"), 
+            rs.getInt("totalMoves"),
+            rs.getInt("score"), 
+            rs.getInt("snakeLength"), 
+            rs.getLong("time"), 
+            rs.getInt("ordered_gameId"), 
+            rs.getInt("maze"), 
+            UserDB.convertDiffToEnum(rs.getString("difficulty"))
+          );
+          userList.add(user);
+        }
       }
 
-      if (rowCount > 0) {
-        try (ResultSet rs = pstmt.executeQuery()) {
-          UserData[] users = new UserData[rowCount];
-          for (int i = 0; i < users.length; i++) {
-            rs.next();
-            users[i] = new UserData(
-              rs.getString("username"), 
-              rs.getInt("totalMoves"),
-              rs.getInt("score"), 
-              rs.getInt("snakeLength"), 
-              rs.getLong("time"), 
-              rs.getInt("ordered_gameId"), 
-              rs.getInt("maze"), 
-              UserDB.convertDiffToEnum(rs.getString("difficulty"))
-            );
-          }
-          return users;
-        }
-      } else {
+      if (userList.isEmpty()) {
         throw new Exception("No past games returned");
       }
+
+      return userList.toArray(new UserData[0]);
     } catch (NoSuchAlgorithmException e) {
       System.err.println("Error hashing password: " + e.getMessage());
       throw new Exception("Hash error occurred.");
