@@ -1,7 +1,6 @@
 package screens;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -16,32 +15,31 @@ import screens.UI.ColorPalette;
 import screens.UI.FontPalette;
 
 public class ScreenMainMenu extends JPanel implements Screen {
-    JLabel currentUser = new JLabel(Main.loginUser.getUsername());
+    
+    private final JPanel loginInfoPanel;
+
     public ScreenMainMenu() {
 
         super();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBackground(ColorPalette.BLACK);
+        this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JPanel topPanel = new JPanel();
-        topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
         topPanel.setBackground(ColorPalette.BLACK);
 
         JPanel middlePanel = new JPanel();
         middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
         middlePanel.setBackground(ColorPalette.BLACK);
 
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        bottomPanel.setBackground(ColorPalette.BLACK);
-        bottomPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
         JButton logout = new Button("Logout");
+        logout.setAlignmentX(LEFT_ALIGNMENT);
         logout.setPreferredSize(new Dimension(140, 40));
         logout.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.START_MENU));
-        
+
         topPanel.add(logout);
-        topPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        topPanel.add(Box.createHorizontalGlue());
 
         JLabel snakeGame = new JLabel("Snake Game");
         snakeGame.setFont(FontPalette.TITLE);
@@ -88,36 +86,28 @@ public class ScreenMainMenu extends JPanel implements Screen {
         middlePanel.add(manageAccount);
         middlePanel.add(Box.createVerticalStrut(20));
         
-        JLabel loggedInAs = new JLabel("Logged in as");
-        loggedInAs.setFont(FontPalette.TEXT);
-        loggedInAs.setForeground(ColorPalette.GREEN);
-        loggedInAs.setAlignmentX(CENTER_ALIGNMENT);
-        loggedInAs.setAlignmentY(CENTER_ALIGNMENT);
 
-        currentUser.setFont(FontPalette.TEXT);
-        currentUser.setForeground(ColorPalette.WHITE);
-        currentUser.setAlignmentX(CENTER_ALIGNMENT);
-        currentUser.setAlignmentY(CENTER_ALIGNMENT);
-        
-        JPanel loginInfoPanel = new JPanel();
-        loginInfoPanel.setLayout(new BoxLayout(loginInfoPanel, BoxLayout.Y_AXIS));
-        loginInfoPanel.setBackground(ColorPalette.BLACK);
+        loginInfoPanel = ScreenManager.displayUserInfo(Main.loginUser.getUsername());
         loginInfoPanel.setAlignmentX(LEFT_ALIGNMENT);
-        loginInfoPanel.setAlignmentY(CENTER_ALIGNMENT);
 
-        loginInfoPanel.add(loggedInAs);
-        loginInfoPanel.add(currentUser);
-        bottomPanel.add(loginInfoPanel);       
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
+        bottomPanel.setBackground(ColorPalette.BLACK);
+        bottomPanel.add(loginInfoPanel);
+        bottomPanel.add(Box.createHorizontalGlue());
+
 
         this.add(topPanel);
+        this.add(Box.createVerticalGlue());
         this.add(middlePanel);
+        this.add(Box.createVerticalGlue());
         this.add(bottomPanel);
 
     }
     
     @Override
     public void onShow() {
-        currentUser.setText(Main.loginUser.getUsername());
+        ScreenManager.refreshUserInfoPanel(loginInfoPanel);
     }
 
 }

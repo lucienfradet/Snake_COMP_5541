@@ -32,10 +32,9 @@ import screens.UI.FontPalette;
 public class ScreenStats extends JPanel implements Screen {
 
     private static final String[] COLUMN_NAMES = { "ID", "Diff", "Maze", "Score", "Time", "Moves" };
-
     private final DefaultTableModel statsTableModel;
     private final JTable statsTable;
-    private final JLabel currentUserLabel;
+    private final JPanel loginInfoPanel;
 
     private final UserDataSorter sorter = new UserDataSorter();
     private UserData[] stats; // set to NULL when exiting screen to help garbage collector???
@@ -162,36 +161,18 @@ public class ScreenStats extends JPanel implements Screen {
         middlePanel.add(Box.createVerticalStrut(8));
         middlePanel.add(tablePanel);
 
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        bottomPanel.setBackground(ColorPalette.BLACK);
-        bottomPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
-        JLabel loggedInAs = new JLabel("Logged in as");
-        loggedInAs.setFont(FontPalette.TEXT);
-        loggedInAs.setForeground(ColorPalette.GREEN);
-        loggedInAs.setAlignmentX(CENTER_ALIGNMENT);
-        loggedInAs.setAlignmentY(CENTER_ALIGNMENT);
-
-        currentUserLabel = new JLabel("Barb Tarbox");
-        currentUserLabel.setFont(FontPalette.TEXT);
-        currentUserLabel.setForeground(ColorPalette.WHITE);
-        currentUserLabel.setAlignmentX(CENTER_ALIGNMENT);
-        currentUserLabel.setAlignmentY(CENTER_ALIGNMENT);
-
-        JPanel loginInfoPanel = new JPanel();
-        loginInfoPanel.setLayout(new BoxLayout(loginInfoPanel, BoxLayout.Y_AXIS));
-        loginInfoPanel.setBackground(ColorPalette.BLACK);
+        loginInfoPanel = ScreenManager.displayUserInfo(Main.loginUser.getUsername());
         loginInfoPanel.setAlignmentX(LEFT_ALIGNMENT);
-        loginInfoPanel.setAlignmentY(CENTER_ALIGNMENT);
 
-        loginInfoPanel.add(loggedInAs);
-        loginInfoPanel.add(currentUserLabel);
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
+        bottomPanel.setBackground(ColorPalette.BLACK);
         bottomPanel.add(loginInfoPanel);
+        bottomPanel.add(Box.createHorizontalGlue());
 
-        add(topPanel);
-        add(middlePanel);
-        add(Box.createVerticalGlue());
-        add(bottomPanel);
+        this.add(topPanel);
+        this.add(middlePanel);
+        this.add(bottomPanel);
 
         try {
             this.stats = UserDB.getUserData(Main.loginUser.getId(), false);
@@ -236,10 +217,6 @@ public class ScreenStats extends JPanel implements Screen {
         return String.format("%02d:%02d", minutes, seconds);
     }
 
-    public void setCurrentUser(String username) {
-        currentUserLabel.setText(username);
-    }
-
     public void clearStatsRows() {
         statsTableModel.setRowCount(0);
     }
@@ -257,7 +234,7 @@ public class ScreenStats extends JPanel implements Screen {
 
     @Override
     public void onShow() {
-
+        ScreenManager.refreshUserInfoPanel(loginInfoPanel);
     }
 
     public static final class GameStatRow {
