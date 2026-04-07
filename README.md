@@ -12,6 +12,13 @@ As well as SQLite with a Login system to keep track of past games.
 #### Requirements:
 * Java runtime installed
 
+#### Adding music:
+* Put your background music files in `src/main/resources/audio/`
+* The current setup plays `jaunty_gumption.mp3`
+* Music starts as soon as `main()` runs
+* Menu screens and gameplay currently use the same track
+* If a file is missing, the game still runs and prints a warning in the console
+
 #### How to play the game:
 * Just download the SnakeGame.jar file
 * Run it
@@ -77,4 +84,3 @@ help
 UPDATE User SET isAdmin = TRUE WHERE username = "USERNAME"
 -- also works using userId since both are unique
 ```
-

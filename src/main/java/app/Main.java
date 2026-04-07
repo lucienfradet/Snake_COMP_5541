@@ -62,7 +62,8 @@ public class Main {
       System.err.println("Could not initialize Database, exiting program");
       System.exit(0);
     }
-    
+
+    AudioManager.playLoop(AudioManager.MENU_MUSIC);
     startGame();
   }
 }

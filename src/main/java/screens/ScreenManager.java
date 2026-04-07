@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import app.AudioManager;
 import app.Main;
 
 public final class ScreenManager {
@@ -107,6 +108,8 @@ public final class ScreenManager {
             if (frame != null) {
                 frame.setTitle(titleFor(name));
             }
+
+            syncAudio(name);
         };
 
         if (SwingUtilities.isEventDispatchThread()) {
@@ -157,6 +160,13 @@ public final class ScreenManager {
 
     public Screen getScreen(String name) {
         return screens.get(name);
+    }
+
+    private void syncAudio(String name) {
+        switch (name) {
+            case GAME, PAUSE, GAME_OVER -> AudioManager.playLoop(AudioManager.GAME_MUSIC);
+            default -> AudioManager.playLoop(AudioManager.MENU_MUSIC);
+        }
     }
 
     private String titleFor(String name) {
