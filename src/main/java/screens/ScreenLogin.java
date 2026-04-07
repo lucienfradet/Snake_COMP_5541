@@ -1,15 +1,19 @@
 package screens;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 
 import app.Main;
 import db.UserDB;
@@ -156,6 +160,15 @@ public class ScreenLogin extends JPanel implements Screen {
         snakeUp.setMaximumSize(new Dimension(200, 40));
         snakeUp.setPreferredSize(new Dimension(200, 40));
         
+        snakeUp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ENTER"), "login");
+
+        snakeUp.getActionMap().put("login", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                snakeUp.doClick();
+            }
+        });
+
         snakeUp.addActionListener(e -> {
             try {
                 String userUser = usernameField.getText();

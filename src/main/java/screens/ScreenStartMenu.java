@@ -1,11 +1,15 @@
 package screens;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 
+import javax.swing.AbstractAction;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
 import screens.UI.Button;
 import screens.UI.ColorPalette;
@@ -28,6 +32,15 @@ public class ScreenStartMenu extends JPanel implements Screen{
         Button login = new Button("Login");
         login.setAlignmentX(CENTER_ALIGNMENT);
         login.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.LOGIN));
+
+        login.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ENTER"), "login");
+
+        login.getActionMap().put("login", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                login.doClick();
+            }
+        });
 
         Button register = new Button("Register");
         register.setAlignmentX(CENTER_ALIGNMENT);
