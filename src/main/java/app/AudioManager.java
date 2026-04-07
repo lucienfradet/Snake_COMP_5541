@@ -17,7 +17,7 @@ public final class AudioManager {
   public static final String MENU_MUSIC = "/audio/relax.mp3";
   public static final String GAME_MUSIC = "/audio/relax.mp3";
   public static final String SNAKE_UP_VOICE = "/audio/snake_up_voice.wav";
-  private static final long DEFAULT_MUSIC_DELAY_MS = 3000;
+  private static final long DEFAULT_MUSIC_DELAY_MS = 1000;
 
   private static Thread playbackThread;
   private static AdvancedPlayer currentPlayer;
