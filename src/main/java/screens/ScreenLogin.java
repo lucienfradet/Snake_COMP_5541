@@ -181,8 +181,9 @@ public class ScreenLogin extends JPanel implements Screen {
                     throw new Exception("Fill in username");
                 }
                 if (userUser.equals("The Best Group")) {
+                    AudioManager.playOnce(AudioManager.EASTER);
                     ImageIcon icon = new ImageIcon("Snake_COMP_5541/easter_egg.jpg");
-                    JOptionPane.showMessageDialog(null, null, "Image Popup",
+                    JOptionPane.showMessageDialog(null, null, "Easter Egg",
                     JOptionPane.INFORMATION_MESSAGE, icon);
                 }
                 if (!(userUser.matches("^[a-zA-Z0-9]+$"))) {
