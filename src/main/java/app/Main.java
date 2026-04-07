@@ -4,18 +4,7 @@ import javax.swing.JFrame;
 
 import db.UserDB;
 import db.UserData;
-import screens.ScreenAccountManager;
-import screens.ScreenDeleteAccount;
-import screens.ScreenGameOver;
-import screens.ScreenLogin;
-import screens.ScreenMainMenu;
-import screens.ScreenManager;
-import screens.ScreenMapSelect;
-import screens.ScreenPause;
-import screens.ScreenRegister;
-import screens.ScreenStartMenu;
-import screens.ScreenStats;
-import screens.ScreenUpdateAccount;
+import screens.*;
 
 public class Main {
   public static UserData loginUser = null;
@@ -40,6 +29,7 @@ public class Main {
     manager.addScreen(ScreenManager.UPDATE_ACCOUNT, ScreenUpdateAccount::new);
     manager.addScreen(ScreenManager.DELETE_ACCOUNT, ScreenDeleteAccount::new);
     manager.addScreen(ScreenManager.STATS, ScreenStats::new);
+    manager.addScreen(ScreenManager.ADMIN_STATS, ScreenAdminStats::new);
     manager.addScreen(ScreenManager.GAME, screens.ScreenGameSidePanel::new);
     manager.addScreen(ScreenManager.PAUSE, ScreenPause::new);
     manager.addScreen(ScreenManager.GAME_OVER, ScreenGameOver::new);

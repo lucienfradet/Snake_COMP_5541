@@ -187,7 +187,7 @@ public class Game extends Thread {
 	//Ends game
 	private void GameOver(){
 		
-		System.out.printf("Game Over.\nPlayer for: %.3f seconds.\nFinal score: %d", 
+		System.out.printf("Game Over.\nPlayer for: %.3f seconds.\nFinal score: %d\n", 
 		(float)timer.GetAccumulatedTime()/1000.0f,
 		Main.loginUser.getScore());
 		

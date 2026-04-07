@@ -17,48 +17,51 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-import app.Main;
 import db.*;
 import screens.UI.Button;
 import screens.UI.ColorPalette;
 import screens.UI.FontPalette;
 
-public class ScreenStats extends JPanel implements Screen {
+public class ScreenAdminStats extends JPanel implements Screen {
 
-    private static final String[] COLUMN_NAMES = { "ID", "Lvl", "Maze", "Score", "Time", "Moves" };
+    private static final String[] COLUMN_NAMES = { "User", "ID", "Lvl", "Maze", "Score", "Time", "Moves" };
     private static final Font SMALL_FONT = FontPalette.TEXT.deriveFont(13f);
+
     private final DefaultTableModel statsTableModel;
     private final JTable statsTable;
-    private final JPanel loginInfoPanel;
 
     private final UserDataSorter sorter = new UserDataSorter();
-    private UserData[] stats; // set to NULL when exiting screen to help garbage collector??????
+    private UserData[] stats;
 
-    public ScreenStats() {
+    public ScreenAdminStats() {
 
         super();
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.setBackground(ColorPalette.BLACK);
-        this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBackground(ColorPalette.BLACK);
 
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         topPanel.setBackground(ColorPalette.BLACK);
+        topPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JPanel middlePanel = new JPanel();
         middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
-        middlePanel.setBackground(ColorPalette.BLACK); 
+        middlePanel.setBackground(ColorPalette.BLACK);
+        middlePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 
         JButton back = new Button("Back");
         back.setPreferredSize(new Dimension(140, 40));
         back.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.MAIN_MENU));
         topPanel.add(back);
 
-        JLabel pastGames = new JLabel("Past Games");
+        JLabel pastGames = new JLabel("All Users' Games");
         pastGames.setFont(FontPalette.TITLE);
         pastGames.setForeground(ColorPalette.WHITE);
         pastGames.setAlignmentX(CENTER_ALIGNMENT);
@@ -77,26 +80,37 @@ public class ScreenStats extends JPanel implements Screen {
         statsTable.setSelectionBackground(ColorPalette.WHITE);
         statsTable.setSelectionForeground(ColorPalette.RED);
         statsTable.setGridColor(ColorPalette.WHITE);
-        statsTable.setRowHeight(28);
+        statsTable.setRowHeight(24);
         statsTable.setFillsViewportHeight(true);
         statsTable.setShowGrid(false);
         statsTable.setIntercellSpacing(new Dimension(0, 0));
         statsTable.setFocusable(false);
         statsTable.setRowSelectionAllowed(false);
         statsTable.setBorder(null);
-        statsTable.getColumnModel().getColumn(0).setPreferredWidth(38);
-        statsTable.getColumnModel().getColumn(1).setPreferredWidth(90);
-        statsTable.getColumnModel().getColumn(2).setPreferredWidth(69);
-        statsTable.getColumnModel().getColumn(3).setPreferredWidth(80);
-        statsTable.getColumnModel().getColumn(4).setPreferredWidth(75);
-        statsTable.getColumnModel().getColumn(5).setPreferredWidth(80);
+        statsTable.getColumnModel().getColumn(0).setPreferredWidth(80); // User
+        statsTable.getColumnModel().getColumn(1).setPreferredWidth(32); // ID
+        statsTable.getColumnModel().getColumn(2).setPreferredWidth(76); // Lvl
+        statsTable.getColumnModel().getColumn(3).setPreferredWidth(42); // Maze
+        statsTable.getColumnModel().getColumn(4).setPreferredWidth(52); // Score
+        statsTable.getColumnModel().getColumn(5).setPreferredWidth(52); // Time
+        statsTable.getColumnModel().getColumn(6).setPreferredWidth(52); // Moves
 
         DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
         cellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         cellRenderer.setForeground(ColorPalette.RED);
         cellRenderer.setBackground(ColorPalette.WHITE);
-        cellRenderer.setBorder(BorderFactory.createEmptyBorder(0, 6, 0, 6));
-        for (int column = 0; column < statsTable.getColumnModel().getColumnCount(); column++) {
+        cellRenderer.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
+        cellRenderer.setFont(SMALL_FONT);
+
+        DefaultTableCellRenderer userCellRenderer = new DefaultTableCellRenderer();
+        userCellRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+        userCellRenderer.setForeground(ColorPalette.RED);
+        userCellRenderer.setBackground(ColorPalette.WHITE);
+        userCellRenderer.setBorder(BorderFactory.createEmptyBorder(0, 6, 0, 4));
+        userCellRenderer.setFont(SMALL_FONT);
+
+        statsTable.getColumnModel().getColumn(0).setCellRenderer(userCellRenderer);
+        for (int column = 1; column < statsTable.getColumnModel().getColumnCount(); column++) {
             statsTable.getColumnModel().getColumn(column).setCellRenderer(cellRenderer);
         }
 
@@ -108,35 +122,37 @@ public class ScreenStats extends JPanel implements Screen {
                 String attribute = COLUMN_NAMES[column];
 
                 String sortKey = switch (attribute) {
+                    case "User"  -> "username";
                     case "ID"    -> "gameId";
                     case "Diff"  -> "difficulty";
                     case "Maze"  -> "maze";
                     case "Score" -> "score";
                     case "Time"  -> "time";
                     case "Moves" -> "moves";
-                    default -> "gameId";
+                    default      -> "gameId";
                 };
                 sorter.sortBy(stats, sortKey);
-                refreshStatsTable();
-            }            
+                refreshStatsTable(stats);
+            }
         });
 
-        header.setFont(FontPalette.TEXT);
+        header.setFont(SMALL_FONT);
         header.setForeground(ColorPalette.GREEN);
         header.setBackground(ColorPalette.WHITE);
         header.setReorderingAllowed(false);
         header.setResizingAllowed(false);
-        header.setPreferredSize(new Dimension(410, 40));
+        header.setPreferredSize(new Dimension(410, 32));
         header.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) header.getDefaultRenderer();
         headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         headerRenderer.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
+        headerRenderer.setFont(SMALL_FONT);
 
         JScrollPane tableScrollPane = new JScrollPane(statsTable);
         tableScrollPane.setAlignmentX(CENTER_ALIGNMENT);
-        tableScrollPane.setPreferredSize(new Dimension(450, 180));
-        tableScrollPane.setMaximumSize(new Dimension(450, 200));
-        tableScrollPane.setMinimumSize(new Dimension(450, 200));
+        tableScrollPane.setPreferredSize(new Dimension(450, 220));
+        tableScrollPane.setMaximumSize(new Dimension(450, 220));
+        tableScrollPane.setMinimumSize(new Dimension(450, 220));
         tableScrollPane.setBackground(ColorPalette.WHITE);
         tableScrollPane.getViewport().setBackground(ColorPalette.WHITE);
         tableScrollPane.setBorder(BorderFactory.createLineBorder(ColorPalette.WHITE, 6, true));
@@ -150,40 +166,71 @@ public class ScreenStats extends JPanel implements Screen {
         JPanel tablePanel = new JPanel(new BorderLayout());
         tablePanel.setAlignmentX(CENTER_ALIGNMENT);
         tablePanel.setBackground(ColorPalette.BLACK);
-        tablePanel.setPreferredSize(new Dimension(450, 250));
-        tablePanel.setMaximumSize(new Dimension(450, 250));
+        tablePanel.setPreferredSize(new Dimension(450, 300));
+        tablePanel.setMaximumSize(new Dimension(450, 300));
         tablePanel.add(tableScrollPane, BorderLayout.CENTER);
 
+        middlePanel.add(Box.createVerticalStrut(2));
         middlePanel.add(pastGames);
+        middlePanel.add(Box.createVerticalStrut(8));
         middlePanel.add(tablePanel);
-        middlePanel.add(Box.createVerticalGlue()); // pushes content up
 
-        loginInfoPanel = ScreenManager.displayUserInfo(Main.loginUser.getUsername());
-        loginInfoPanel.setAlignmentX(LEFT_ALIGNMENT);
+        JLabel filterLabel = new JLabel("Filter by username:");
+        filterLabel.setFont(FontPalette.TEXT);
+        filterLabel.setForeground(ColorPalette.WHITE);
+
+        JTextField filterField = new JTextField();
+        filterField.setFont(SMALL_FONT);
+        filterField.setForeground(ColorPalette.RED);
+        filterField.setBackground(ColorPalette.WHITE);
+        filterField.setCaretColor(ColorPalette.RED);
+        filterField.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(ColorPalette.WHITE, 1, true),
+            BorderFactory.createEmptyBorder(4, 8, 4, 8)
+        ));
+        filterField.setMaximumSize(new Dimension(200, 32));
+        filterField.setPreferredSize(new Dimension(200, 32));
+
+        filterField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override public void insertUpdate(DocumentEvent e)  { onFilterChanged(filterField.getText()); }
+            @Override public void removeUpdate(DocumentEvent e)  { onFilterChanged(filterField.getText()); }
+            @Override public void changedUpdate(DocumentEvent e) { onFilterChanged(filterField.getText()); }
+        });
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
         bottomPanel.setBackground(ColorPalette.BLACK);
-        bottomPanel.add(loginInfoPanel);
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(6, 20, 10, 20));
+        bottomPanel.add(filterLabel);
+        bottomPanel.add(Box.createHorizontalStrut(10));
+        bottomPanel.add(filterField);
         bottomPanel.add(Box.createHorizontalGlue());
 
         this.add(topPanel);
         this.add(middlePanel);
-        this.add(Box.createVerticalGlue()); // add before bottomPanel
         this.add(bottomPanel);
 
         try {
-            stats = UserDB.getUserData(Main.loginUser.getId(), false);
-            refreshStatsTable();
+            stats = UserDB.getUserData(0, true);
+            refreshStatsTable(stats);
         } catch (Exception e1) {
             System.err.println(e1.getMessage());
         }
     }
 
-    private void refreshStatsTable() {
+    private void onFilterChanged(String searchPattern) {
+        if (searchPattern == null || searchPattern.isBlank()) {
+            refreshStatsTable(stats);
+        } else {
+            refreshStatsTable(UserDataSorter.searchUsername(stats, searchPattern));
+        }
+    }
+
+    private void refreshStatsTable(UserData[] data) {
         clearStatsRows();
-        for (UserData u : stats) {
+        for (UserData u : data) {
             addStatsRow(new GameStatRow(
+                u.getUsername(),
                 u.getGameId(),
                 u.getDifficulty().toString(),
                 u.getMaze(),
@@ -194,7 +241,7 @@ public class ScreenStats extends JPanel implements Screen {
         }
     }
 
-    private static String formatTime(long ms) {
+    private String formatTime(long ms) {
         long seconds = ms / 1000;
         long minutes = seconds / 60;
         seconds %= 60;
@@ -217,11 +264,10 @@ public class ScreenStats extends JPanel implements Screen {
     }
 
     @Override
-    public void onShow() {
-        ScreenManager.refreshUserInfoPanel(loginInfoPanel);
-    }
+    public void onShow() {}
 
     public static final class GameStatRow {
+        private final String username;
         private final int id;
         private final String difficulty;
         private final int maze;
@@ -229,7 +275,8 @@ public class ScreenStats extends JPanel implements Screen {
         private final String time;
         private final int moves;
 
-        public GameStatRow(int id, String difficulty, int maze, int score, String time, int moves) {
+        public GameStatRow(String username, int id, String difficulty, int maze, int score, String time, int moves) {
+            this.username = username;
             this.id = id;
             this.difficulty = difficulty;
             this.maze = maze;
@@ -239,8 +286,7 @@ public class ScreenStats extends JPanel implements Screen {
         }
 
         public Object[] toTableRow() {
-            return new Object[] { id, difficulty, maze, score, time, moves };
+            return new Object[] { username, id, difficulty, maze, score, time, moves };
         }
     }
-
 }
