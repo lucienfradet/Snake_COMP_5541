@@ -20,7 +20,7 @@ As well as SQLite with a Login system to keep track of past games.
 * If a file is missing, the game still runs and prints a warning in the console
 
 #### How to play the game:
-* Just download the SnakeGame.jar file
+* Just download the `snake-game-2.0.jar` file
 * Run it
 * Start playing with the arrows keys or `WASD`
 
