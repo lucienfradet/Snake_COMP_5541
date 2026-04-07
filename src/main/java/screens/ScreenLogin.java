@@ -182,7 +182,7 @@ public class ScreenLogin extends JPanel implements Screen {
                 }
                 if (userUser.equals("The Best Group")) {
                     AudioManager.playOnce(AudioManager.EASTER);
-                    ImageIcon icon = new ImageIcon("Snake_COMP_5541/easter_egg.jpg");
+                    ImageIcon icon = new ImageIcon(getClass().getResource("/easter_egg.jpg"));
                     JOptionPane.showMessageDialog(null, null, "Easter Egg",
                     JOptionPane.INFORMATION_MESSAGE, icon);
                 }
