@@ -54,36 +54,6 @@ class AccountManagementIntegrationTest {
         assertTrue(ex.getMessage().contains("Invalid"));
     }
 
-    @Test
-    void login_invalidUsernameFormat_rejectedByGuiLogic() {
-        assertThrows(Exception.class, () -> {
-            String username = "abc";
-            if (username.length() < 5)
-                throw new Exception("Username must be at least 5 characters long");
-        });
-
-        assertThrows(Exception.class, () -> {
-            String username = "bad!!name";
-            if (!username.matches("^[a-zA-Z0-9]+$"))
-                throw new Exception("Username must be alphanumerical");
-        });
-    }
-
-    @Test
-    void login_invalidPasswordFormat_rejectedByGuiLogic() {
-        assertThrows(Exception.class, () -> {
-            String password = "short";
-            if (password.length() < 8)
-                throw new Exception("Password must be at least 8 characters long");
-        });
-
-        assertThrows(Exception.class, () -> {
-            String password = "bad!!pass";
-            if (!password.matches("^[a-zA-Z0-9]+$"))
-                throw new Exception("Password must be alphanumerical");
-        });
-    }
-
     // ============================================================
     // IC‑04 — ACCOUNT MANAGEMENT (UPDATE + DELETE)
     // ============================================================
@@ -143,20 +113,5 @@ class AccountManagementIntegrationTest {
                 () -> UserDB.updateUsername(user1.getId(), "User2"));
 
         assertTrue(ex.getMessage().contains("already"));
-    }
-
-    @Test
-    void updatePassword_invalidFormat_rejectedByGuiLogic() {
-        assertThrows(Exception.class, () -> {
-            String newPass = "short";
-            if (newPass.length() < 8)
-                throw new Exception("Password must be at least 8 characters long");
-        });
-
-        assertThrows(Exception.class, () -> {
-            String newPass = "bad!!pass";
-            if (!newPass.matches("^[a-zA-Z0-9]+$"))
-                throw new Exception("Password must be alphanumerical");
-        });
     }
 }
