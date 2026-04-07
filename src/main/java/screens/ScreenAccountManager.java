@@ -1,8 +1,6 @@
 package screens;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -16,15 +14,18 @@ import screens.UI.ColorPalette;
 import screens.UI.FontPalette;
 
 public class ScreenAccountManager extends JPanel implements Screen{
-    JLabel currentUser = new JLabel(Main.loginUser.getUsername());
+
+    private final JPanel loginInfoPanel;
+
     public ScreenAccountManager() {
 
         super();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBackground(ColorPalette.BLACK);
+        this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JPanel topPanel = new JPanel();
-        topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
         topPanel.setBackground(ColorPalette.BLACK);
 
         JPanel middlePanel = new JPanel();
@@ -37,12 +38,17 @@ public class ScreenAccountManager extends JPanel implements Screen{
         back.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.MAIN_MENU));
         
         topPanel.add(back);
-        topPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        topPanel.add(Box.createHorizontalGlue());
 
-        JLabel manageAccount = new JLabel("Manage Account");
-        manageAccount.setFont(FontPalette.TITLE);
-        manageAccount.setForeground(ColorPalette.WHITE);
-        manageAccount.setAlignmentX(CENTER_ALIGNMENT);
+        JLabel manage = new JLabel("Manage");
+        manage.setFont(FontPalette.TITLE);
+        manage.setForeground(ColorPalette.WHITE);
+        manage.setAlignmentX(CENTER_ALIGNMENT);
+
+        JLabel account = new JLabel("Account");
+        account.setFont(FontPalette.TITLE);
+        account.setForeground(ColorPalette.WHITE);
+        account.setAlignmentX(CENTER_ALIGNMENT);
 
         Button changeCredentials = new Button("Change Credentials");
         changeCredentials.setAlignmentX(CENTER_ALIGNMENT);
@@ -59,38 +65,23 @@ public class ScreenAccountManager extends JPanel implements Screen{
         deleteAccount.putClientProperty("destructive", true);
         deleteAccount.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.DELETE_ACCOUNT));
 
-        middlePanel.add(manageAccount);
-        middlePanel.add(Box.createVerticalGlue());
+        middlePanel.add(manage);
+        middlePanel.add(account);
+        middlePanel.add(Box.createVerticalStrut(20));
         middlePanel.add(changeCredentials);
         middlePanel.add(Box.createVerticalStrut(10));
         middlePanel.add(deleteAccount);
 
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        bottomPanel.setBackground(ColorPalette.BLACK);
-        bottomPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
-        JLabel loggedInAs = new JLabel("Logged in as");
-        loggedInAs.setFont(FontPalette.TEXT);
-        loggedInAs.setForeground(ColorPalette.GREEN);
-        loggedInAs.setAlignmentX(CENTER_ALIGNMENT);
-        loggedInAs.setAlignmentY(CENTER_ALIGNMENT);
-
-        currentUser.setFont(FontPalette.TEXT);
-        currentUser.setForeground(ColorPalette.WHITE);
-        currentUser.setAlignmentX(CENTER_ALIGNMENT);
-        currentUser.setAlignmentY(CENTER_ALIGNMENT);
-        
-        JPanel loginInfoPanel = new JPanel();
-        loginInfoPanel.setLayout(new BoxLayout(loginInfoPanel, BoxLayout.Y_AXIS));
-        loginInfoPanel.setBackground(ColorPalette.BLACK);
+        loginInfoPanel = ScreenManager.displayUserInfo(Main.loginUser.getUsername());
         loginInfoPanel.setAlignmentX(LEFT_ALIGNMENT);
-        loginInfoPanel.setAlignmentY(CENTER_ALIGNMENT);
 
-        loginInfoPanel.add(loggedInAs);
-        loginInfoPanel.add(currentUser);
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
+        bottomPanel.setBackground(ColorPalette.BLACK);
         bottomPanel.add(loginInfoPanel);
+        bottomPanel.add(Box.createHorizontalGlue());
 
+        
         this.add(topPanel);
         this.add(Box.createVerticalGlue());
         this.add(middlePanel);
@@ -101,6 +92,6 @@ public class ScreenAccountManager extends JPanel implements Screen{
 
     @Override
     public void onShow() {
-        currentUser.setText(Main.loginUser.getUsername());
+        ScreenManager.refreshUserInfoPanel(loginInfoPanel);
     }
 }

@@ -19,6 +19,11 @@ import screens.UI.FontPalette;
 
 public class ScreenLogin extends JPanel implements Screen {
 
+
+    JTextField usernameField;
+    JPasswordField passwordField;
+    JTextArea message;
+
     public ScreenLogin() {
 
         super();
@@ -69,7 +74,7 @@ public class ScreenLogin extends JPanel implements Screen {
         username.setForeground(ColorPalette.WHITE);
         username.setPreferredSize(new Dimension(120, 40));
 
-        JTextField usernameField = new JTextField(20);
+        usernameField = new JTextField(20);
         usernameField.setFont(FontPalette.TEXT);
         usernameField.setForeground(ColorPalette.BLACK);
         usernameField.setBackground(ColorPalette.WHITE);
@@ -96,7 +101,7 @@ public class ScreenLogin extends JPanel implements Screen {
         password.setForeground(ColorPalette.WHITE);
         password.setPreferredSize(new Dimension(120, 40));
 
-        JPasswordField passwordField = new JPasswordField(20);
+        passwordField = new JPasswordField(20);
         passwordField.setFont(FontPalette.TEXT);
         passwordField.setForeground(ColorPalette.BLACK);
         passwordField.setBackground(ColorPalette.WHITE);
@@ -117,7 +122,7 @@ public class ScreenLogin extends JPanel implements Screen {
         passwordPanel.add(passwordField);
         passwordPanel.add(Box.createHorizontalGlue());
 
-        JTextArea message = new JTextArea(" ");
+        message = new JTextArea(" ");
         message.setFont(FontPalette.TEXT);
         message.setForeground(ColorPalette.RED);
         message.setBackground(ColorPalette.BLACK);
@@ -183,4 +188,12 @@ public class ScreenLogin extends JPanel implements Screen {
         this.add(bottomPanel);
         this.add(Box.createVerticalGlue());
     }
+
+    public void onShow(){
+        usernameField.setText("");
+        passwordField.setText("");
+        message.setText("");
+    }
+
+
 }

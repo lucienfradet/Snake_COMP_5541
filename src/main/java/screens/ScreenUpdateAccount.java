@@ -23,6 +23,11 @@ import screens.UI.FontPalette;
 public class ScreenUpdateAccount extends JPanel implements Screen{
 
     private final JPanel loginInfoPanel;
+    private final JTextField usernameField;
+    private final JPasswordField passwordField1;
+    private final JPasswordField passwordField2;
+    private final JTextArea message;
+
 
     public ScreenUpdateAccount() {
 
@@ -66,7 +71,7 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         username.setForeground(ColorPalette.WHITE);
         username.setPreferredSize(new Dimension(120, 40));
 
-        JTextField usernameField = new JTextField(20);
+        usernameField = new JTextField(20);
         usernameField.setAlignmentY(CENTER_ALIGNMENT);
         usernameField.setFont(FontPalette.TEXT);
         usernameField.setForeground(ColorPalette.BLACK);
@@ -104,7 +109,7 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         password1.add(new_);
         password1.add(password);
 
-        JPasswordField passwordField1 = new JPasswordField(20);
+        passwordField1 = new JPasswordField(20);
         passwordField1.setAlignmentY(CENTER_ALIGNMENT);
         passwordField1.setFont(FontPalette.TEXT);
         passwordField1.setForeground(ColorPalette.BLACK);
@@ -142,7 +147,7 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         password2.add(confirm);
         password2.add(password_);
 
-        JPasswordField passwordField2 = new JPasswordField(20);
+        passwordField2 = new JPasswordField(20);
         passwordField2.setAlignmentY(CENTER_ALIGNMENT);
         passwordField2.setFont(FontPalette.TEXT);
         passwordField2.setForeground(ColorPalette.BLACK);
@@ -164,7 +169,7 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
         passwordPanel2.add(passwordField2);
         passwordPanel2.add(Box.createHorizontalGlue());
 
-        JTextArea message = new JTextArea(" ");
+        message = new JTextArea(" ");
         message.setFont(FontPalette.TEXT);
         message.setForeground(ColorPalette.RED);
         message.setBackground(ColorPalette.BLACK);
@@ -263,5 +268,9 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
     @Override
     public void onShow() {
         ScreenManager.refreshUserInfoPanel(loginInfoPanel);
+        usernameField.setText("");
+        passwordField1.setText("");
+        passwordField2.setText("");
+        message.setText("");
     }
 }
