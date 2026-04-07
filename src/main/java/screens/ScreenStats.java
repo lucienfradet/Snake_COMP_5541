@@ -29,7 +29,7 @@ import screens.UI.FontPalette;
 
 public class ScreenStats extends JPanel implements Screen {
 
-    private static final String[] COLUMN_NAMES = { "ID", "Diff", "Maze", "Score", "Time", "Moves" };
+    private static final String[] COLUMN_NAMES = { "ID", "Lvl", "Maze", "Score", "Time", "Moves" };
     private final DefaultTableModel statsTableModel;
     private final JTable statsTable;
     private final JPanel loginInfoPanel;
@@ -85,9 +85,9 @@ public class ScreenStats extends JPanel implements Screen {
         statsTable.setBorder(null);
         statsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         statsTable.getColumnModel().getColumn(0).setPreferredWidth(38);
-        statsTable.getColumnModel().getColumn(1).setPreferredWidth(56);
-        statsTable.getColumnModel().getColumn(2).setPreferredWidth(66);
-        statsTable.getColumnModel().getColumn(3).setPreferredWidth(75);
+        statsTable.getColumnModel().getColumn(1).setPreferredWidth(90);
+        statsTable.getColumnModel().getColumn(2).setPreferredWidth(69);
+        statsTable.getColumnModel().getColumn(3).setPreferredWidth(80);
         statsTable.getColumnModel().getColumn(4).setPreferredWidth(75);
         statsTable.getColumnModel().getColumn(5).setPreferredWidth(86);
 
@@ -126,7 +126,7 @@ public class ScreenStats extends JPanel implements Screen {
         header.setBackground(ColorPalette.WHITE);
         header.setReorderingAllowed(false);
         header.setResizingAllowed(false);
-        header.setPreferredSize(new Dimension(390, 40));
+        header.setPreferredSize(new Dimension(410, 40));
         header.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) header.getDefaultRenderer();
         headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -134,9 +134,9 @@ public class ScreenStats extends JPanel implements Screen {
 
         JScrollPane tableScrollPane = new JScrollPane(statsTable);
         tableScrollPane.setAlignmentX(CENTER_ALIGNMENT);
-        tableScrollPane.setPreferredSize(new Dimension(410, 220));
-        tableScrollPane.setMaximumSize(new Dimension(410, 220));
-        tableScrollPane.setMinimumSize(new Dimension(410, 220));
+        tableScrollPane.setPreferredSize(new Dimension(450, 220));
+        tableScrollPane.setMaximumSize(new Dimension(450, 220));
+        tableScrollPane.setMinimumSize(new Dimension(450, 220));
         tableScrollPane.setBackground(ColorPalette.WHITE);
         tableScrollPane.getViewport().setBackground(ColorPalette.WHITE);
         tableScrollPane.setBorder(BorderFactory.createLineBorder(ColorPalette.WHITE, 6, true));
@@ -150,8 +150,8 @@ public class ScreenStats extends JPanel implements Screen {
         JPanel tablePanel = new JPanel(new BorderLayout());
         tablePanel.setAlignmentX(CENTER_ALIGNMENT);
         tablePanel.setBackground(ColorPalette.BLACK);
-        tablePanel.setPreferredSize(new Dimension(410, 300));
-        tablePanel.setMaximumSize(new Dimension(410, 300));
+        tablePanel.setPreferredSize(new Dimension(450, 300));
+        tablePanel.setMaximumSize(new Dimension(450, 300));
         tablePanel.add(tableScrollPane, BorderLayout.CENTER);
 
         middlePanel.add(Box.createVerticalStrut(2));
@@ -185,7 +185,7 @@ public class ScreenStats extends JPanel implements Screen {
         for (UserData u : stats) {
             addStatsRow(new GameStatRow(
                 u.getGameId(),
-                u.getDifficulty().toString().substring(0, 1),
+                u.getDifficulty().toString(),
                 u.getMaze(),
                 u.getScore(),
                 formatTime(u.getGameTime()),

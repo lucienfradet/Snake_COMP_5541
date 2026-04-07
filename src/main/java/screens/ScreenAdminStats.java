@@ -3,6 +3,7 @@ package screens;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -24,7 +25,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-import app.Main;
 import db.*;
 import screens.UI.Button;
 import screens.UI.ColorPalette;
@@ -32,7 +32,9 @@ import screens.UI.FontPalette;
 
 public class ScreenAdminStats extends JPanel implements Screen {
 
-    private static final String[] COLUMN_NAMES = { "ID", "Diff", "Maze", "Score", "Time", "Moves" };
+    private static final String[] COLUMN_NAMES = { "User", "ID", "Lvl", "Maze", "Score", "Time", "Moves" };
+    private static final Font SMALL_FONT = FontPalette.TEXT.deriveFont(12f);
+
     private final DefaultTableModel statsTableModel;
     private final JTable statsTable;
 
@@ -59,7 +61,7 @@ public class ScreenAdminStats extends JPanel implements Screen {
         back.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.MAIN_MENU));
         topPanel.add(back);
 
-        JLabel pastGames = new JLabel("Past Games");
+        JLabel pastGames = new JLabel("All Users' Games");
         pastGames.setFont(FontPalette.TITLE);
         pastGames.setForeground(ColorPalette.WHITE);
         pastGames.setAlignmentX(CENTER_ALIGNMENT);
@@ -72,13 +74,13 @@ public class ScreenAdminStats extends JPanel implements Screen {
         };
 
         statsTable = new JTable(statsTableModel);
-        statsTable.setFont(FontPalette.TEXT);
+        statsTable.setFont(SMALL_FONT);
         statsTable.setForeground(ColorPalette.RED);
         statsTable.setBackground(ColorPalette.WHITE);
         statsTable.setSelectionBackground(ColorPalette.WHITE);
         statsTable.setSelectionForeground(ColorPalette.RED);
         statsTable.setGridColor(ColorPalette.WHITE);
-        statsTable.setRowHeight(28);
+        statsTable.setRowHeight(24);
         statsTable.setFillsViewportHeight(true);
         statsTable.setShowGrid(false);
         statsTable.setIntercellSpacing(new Dimension(0, 0));
@@ -86,19 +88,30 @@ public class ScreenAdminStats extends JPanel implements Screen {
         statsTable.setRowSelectionAllowed(false);
         statsTable.setBorder(null);
         statsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        statsTable.getColumnModel().getColumn(0).setPreferredWidth(38);
-        statsTable.getColumnModel().getColumn(1).setPreferredWidth(56);
-        statsTable.getColumnModel().getColumn(2).setPreferredWidth(66);
-        statsTable.getColumnModel().getColumn(3).setPreferredWidth(75);
-        statsTable.getColumnModel().getColumn(4).setPreferredWidth(75);
-        statsTable.getColumnModel().getColumn(5).setPreferredWidth(86);
+        statsTable.getColumnModel().getColumn(0).setPreferredWidth(80); // User
+        statsTable.getColumnModel().getColumn(1).setPreferredWidth(32); // ID
+        statsTable.getColumnModel().getColumn(2).setPreferredWidth(76); // Lvl
+        statsTable.getColumnModel().getColumn(3).setPreferredWidth(42); // Maze
+        statsTable.getColumnModel().getColumn(4).setPreferredWidth(52); // Score
+        statsTable.getColumnModel().getColumn(5).setPreferredWidth(52); // Time
+        statsTable.getColumnModel().getColumn(6).setPreferredWidth(52); // Moves
 
         DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
         cellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         cellRenderer.setForeground(ColorPalette.RED);
         cellRenderer.setBackground(ColorPalette.WHITE);
-        cellRenderer.setBorder(BorderFactory.createEmptyBorder(0, 6, 0, 6));
-        for (int column = 0; column < statsTable.getColumnModel().getColumnCount(); column++) {
+        cellRenderer.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
+        cellRenderer.setFont(SMALL_FONT);
+
+        DefaultTableCellRenderer userCellRenderer = new DefaultTableCellRenderer();
+        userCellRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+        userCellRenderer.setForeground(ColorPalette.RED);
+        userCellRenderer.setBackground(ColorPalette.WHITE);
+        userCellRenderer.setBorder(BorderFactory.createEmptyBorder(0, 6, 0, 4));
+        userCellRenderer.setFont(SMALL_FONT);
+
+        statsTable.getColumnModel().getColumn(0).setCellRenderer(userCellRenderer);
+        for (int column = 1; column < statsTable.getColumnModel().getColumnCount(); column++) {
             statsTable.getColumnModel().getColumn(column).setCellRenderer(cellRenderer);
         }
 
@@ -110,6 +123,7 @@ public class ScreenAdminStats extends JPanel implements Screen {
                 String attribute = COLUMN_NAMES[column];
 
                 String sortKey = switch (attribute) {
+                    case "User"  -> "username";
                     case "ID"    -> "gameId";
                     case "Diff"  -> "difficulty";
                     case "Maze"  -> "maze";
@@ -123,22 +137,23 @@ public class ScreenAdminStats extends JPanel implements Screen {
             }
         });
 
-        header.setFont(FontPalette.TEXT);
+        header.setFont(SMALL_FONT);
         header.setForeground(ColorPalette.GREEN);
         header.setBackground(ColorPalette.WHITE);
         header.setReorderingAllowed(false);
         header.setResizingAllowed(false);
-        header.setPreferredSize(new Dimension(390, 40));
+        header.setPreferredSize(new Dimension(386, 32));
         header.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) header.getDefaultRenderer();
         headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         headerRenderer.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
+        headerRenderer.setFont(SMALL_FONT);
 
         JScrollPane tableScrollPane = new JScrollPane(statsTable);
         tableScrollPane.setAlignmentX(CENTER_ALIGNMENT);
-        tableScrollPane.setPreferredSize(new Dimension(410, 220));
-        tableScrollPane.setMaximumSize(new Dimension(410, 220));
-        tableScrollPane.setMinimumSize(new Dimension(410, 220));
+        tableScrollPane.setPreferredSize(new Dimension(398, 220));
+        tableScrollPane.setMaximumSize(new Dimension(398, 220));
+        tableScrollPane.setMinimumSize(new Dimension(398, 220));
         tableScrollPane.setBackground(ColorPalette.WHITE);
         tableScrollPane.getViewport().setBackground(ColorPalette.WHITE);
         tableScrollPane.setBorder(BorderFactory.createLineBorder(ColorPalette.WHITE, 6, true));
@@ -152,8 +167,8 @@ public class ScreenAdminStats extends JPanel implements Screen {
         JPanel tablePanel = new JPanel(new BorderLayout());
         tablePanel.setAlignmentX(CENTER_ALIGNMENT);
         tablePanel.setBackground(ColorPalette.BLACK);
-        tablePanel.setPreferredSize(new Dimension(410, 300));
-        tablePanel.setMaximumSize(new Dimension(410, 300));
+        tablePanel.setPreferredSize(new Dimension(398, 300));
+        tablePanel.setMaximumSize(new Dimension(398, 300));
         tablePanel.add(tableScrollPane, BorderLayout.CENTER);
 
         middlePanel.add(Box.createVerticalStrut(2));
@@ -166,7 +181,7 @@ public class ScreenAdminStats extends JPanel implements Screen {
         filterLabel.setForeground(ColorPalette.WHITE);
 
         JTextField filterField = new JTextField();
-        filterField.setFont(FontPalette.TEXT);
+        filterField.setFont(SMALL_FONT);
         filterField.setForeground(ColorPalette.RED);
         filterField.setBackground(ColorPalette.WHITE);
         filterField.setCaretColor(ColorPalette.RED);
@@ -197,7 +212,7 @@ public class ScreenAdminStats extends JPanel implements Screen {
         this.add(bottomPanel);
 
         try {
-            stats = UserDB.getUserData(0, Main.loginUser.isAdmin()); // load all users, not just the logged-in one
+            stats = UserDB.getUserData(0, true);
             refreshStatsTable(stats);
         } catch (Exception e1) {
             System.err.println(e1.getMessage());
@@ -208,8 +223,7 @@ public class ScreenAdminStats extends JPanel implements Screen {
         if (searchPattern == null || searchPattern.isBlank()) {
             refreshStatsTable(stats);
         } else {
-            UserData[] filtered = UserDataSorter.searchUsername(stats, searchPattern);
-            refreshStatsTable(filtered.length > 0 ? filtered : stats);
+            refreshStatsTable(UserDataSorter.searchUsername(stats, searchPattern));
         }
     }
 
@@ -217,8 +231,9 @@ public class ScreenAdminStats extends JPanel implements Screen {
         clearStatsRows();
         for (UserData u : data) {
             addStatsRow(new GameStatRow(
+                u.getUsername(),
                 u.getGameId(),
-                u.getDifficulty().toString().substring(0, 1),
+                u.getDifficulty().toString(),
                 u.getMaze(),
                 u.getScore(),
                 formatTime(u.getGameTime()),
@@ -253,6 +268,7 @@ public class ScreenAdminStats extends JPanel implements Screen {
     public void onShow() {}
 
     public static final class GameStatRow {
+        private final String username;
         private final int id;
         private final String difficulty;
         private final int maze;
@@ -260,7 +276,8 @@ public class ScreenAdminStats extends JPanel implements Screen {
         private final String time;
         private final int moves;
 
-        public GameStatRow(int id, String difficulty, int maze, int score, String time, int moves) {
+        public GameStatRow(String username, int id, String difficulty, int maze, int score, String time, int moves) {
+            this.username = username;
             this.id = id;
             this.difficulty = difficulty;
             this.maze = maze;
@@ -270,7 +287,7 @@ public class ScreenAdminStats extends JPanel implements Screen {
         }
 
         public Object[] toTableRow() {
-            return new Object[] { id, difficulty, maze, score, time, moves };
+            return new Object[] { username, id, difficulty, maze, score, time, moves };
         }
     }
 }

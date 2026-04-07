@@ -141,7 +141,7 @@ public class ScreenMainMenu extends JPanel implements Screen {
         viewAllStats.setLayout(new BoxLayout(viewAllStats, BoxLayout.Y_AXIS));
         viewAllStats.setMaximumSize(new Dimension(140, 60));
         viewAllStats.setPreferredSize(new Dimension(140, 60));
-        viewAllStats.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.STATS));
+        viewAllStats.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.ADMIN_STATS));
         return viewAllStats;
     }
 
