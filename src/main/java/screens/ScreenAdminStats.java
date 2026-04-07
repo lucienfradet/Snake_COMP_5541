@@ -87,7 +87,6 @@ public class ScreenAdminStats extends JPanel implements Screen {
         statsTable.setFocusable(false);
         statsTable.setRowSelectionAllowed(false);
         statsTable.setBorder(null);
-        statsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         statsTable.getColumnModel().getColumn(0).setPreferredWidth(80); // User
         statsTable.getColumnModel().getColumn(1).setPreferredWidth(32); // ID
         statsTable.getColumnModel().getColumn(2).setPreferredWidth(76); // Lvl
@@ -142,7 +141,7 @@ public class ScreenAdminStats extends JPanel implements Screen {
         header.setBackground(ColorPalette.WHITE);
         header.setReorderingAllowed(false);
         header.setResizingAllowed(false);
-        header.setPreferredSize(new Dimension(386, 32));
+        header.setPreferredSize(new Dimension(410, 32));
         header.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) header.getDefaultRenderer();
         headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -151,9 +150,9 @@ public class ScreenAdminStats extends JPanel implements Screen {
 
         JScrollPane tableScrollPane = new JScrollPane(statsTable);
         tableScrollPane.setAlignmentX(CENTER_ALIGNMENT);
-        tableScrollPane.setPreferredSize(new Dimension(398, 220));
-        tableScrollPane.setMaximumSize(new Dimension(398, 220));
-        tableScrollPane.setMinimumSize(new Dimension(398, 220));
+        tableScrollPane.setPreferredSize(new Dimension(450, 220));
+        tableScrollPane.setMaximumSize(new Dimension(450, 220));
+        tableScrollPane.setMinimumSize(new Dimension(450, 220));
         tableScrollPane.setBackground(ColorPalette.WHITE);
         tableScrollPane.getViewport().setBackground(ColorPalette.WHITE);
         tableScrollPane.setBorder(BorderFactory.createLineBorder(ColorPalette.WHITE, 6, true));
@@ -167,8 +166,8 @@ public class ScreenAdminStats extends JPanel implements Screen {
         JPanel tablePanel = new JPanel(new BorderLayout());
         tablePanel.setAlignmentX(CENTER_ALIGNMENT);
         tablePanel.setBackground(ColorPalette.BLACK);
-        tablePanel.setPreferredSize(new Dimension(398, 300));
-        tablePanel.setMaximumSize(new Dimension(398, 300));
+        tablePanel.setPreferredSize(new Dimension(450, 300));
+        tablePanel.setMaximumSize(new Dimension(450, 300));
         tablePanel.add(tableScrollPane, BorderLayout.CENTER);
 
         middlePanel.add(Box.createVerticalStrut(2));
