@@ -25,6 +25,22 @@ public class ScreenMapSelect extends JPanel implements Screen {
         this.setBackground(ColorPalette.BLACK);
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
+        topPanel.setBackground(ColorPalette.BLACK);
+
+        JPanel middlePanel = new JPanel();
+        middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
+        middlePanel.setBackground(ColorPalette.BLACK);
+
+        Button back = new Button("Back");
+        back.setPreferredSize(new Dimension(140, 40));
+        back.setMaximumSize(new Dimension(140, 40));
+        back.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.MAIN_MENU));
+
+        topPanel.add(back);
+        topPanel.add(Box.createHorizontalGlue());
+
         Button easy = new Button("Easy");
         Button normal = new Button("Medium");
         Button hard = new Button("Hard");
@@ -51,9 +67,10 @@ public class ScreenMapSelect extends JPanel implements Screen {
         three.addActionListener(e -> Main.loginUser.setMaze(3));
         zero.addActionListener(e -> Main.loginUser.setMaze(0));
 
-        Button back = new Button("Back");
+
         Button play = new Button("Play");
-        back.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.MAIN_MENU));
+        play.setPreferredSize(new Dimension(140, 40));
+        play.setMaximumSize(new Dimension(140, 40));
         play.addActionListener(e -> {
             ScreenManager.getInstance().refreshScreen(ScreenManager.GAME);
             ScreenManager.getInstance().showScreen(ScreenManager.GAME);
@@ -96,18 +113,12 @@ public class ScreenMapSelect extends JPanel implements Screen {
         mazeRow.add(Box.createHorizontalStrut(10));
         mazeRow.add(three);
 
-        JPanel actionRow = new JPanel();
-        actionRow.setLayout(new BoxLayout(actionRow, BoxLayout.X_AXIS));
-        actionRow.setAlignmentX(CENTER_ALIGNMENT);
-        actionRow.setBackground(ColorPalette.BLACK);
-        actionRow.add(back);
-        actionRow.add(Box.createHorizontalStrut(10));
-        actionRow.add(play);
-
-        back.setPreferredSize(new Dimension(100, 40));
-        back.setMaximumSize(new Dimension(100, 40));
-        play.setPreferredSize(new Dimension(100, 40));
-        play.setMaximumSize(new Dimension(100, 40));
+        JPanel playPanel = new JPanel();
+        playPanel.setLayout(new BoxLayout(playPanel, BoxLayout.X_AXIS));
+        playPanel.setAlignmentX(CENTER_ALIGNMENT);
+        playPanel.setBackground(ColorPalette.BLACK);
+        playPanel.add(Box.createHorizontalStrut(10));
+        playPanel.add(play);
 
         loginInfoPanel = ScreenManager.displayUserInfo(Main.loginUser.getUsername());
         loginInfoPanel.setAlignmentX(LEFT_ALIGNMENT);
@@ -118,19 +129,18 @@ public class ScreenMapSelect extends JPanel implements Screen {
         bottomPanel.add(loginInfoPanel);
         bottomPanel.add(Box.createHorizontalGlue());
 
-        this.add(Box.createVerticalGlue());
-        this.add(gameSettings);
-        this.add(Box.createVerticalGlue());
-        this.add(difficulty);
-        this.add(Box.createVerticalStrut(10));
-        this.add(difficultyRow);
-        this.add(Box.createVerticalGlue());
-        this.add(maze);
-        this.add(Box.createVerticalStrut(10));
-        this.add(mazeRow);
-        this.add(Box.createVerticalStrut(10));
-        this.add(actionRow);
-        this.add(Box.createVerticalGlue());
+        middlePanel.add(Box.createVerticalGlue());
+        middlePanel.add(gameSettings);
+        middlePanel.add(Box.createVerticalGlue());
+        middlePanel.add(difficulty);
+        middlePanel.add(difficultyRow);
+        middlePanel.add(maze);
+        middlePanel.add(mazeRow);
+        middlePanel.add(playPanel);
+        middlePanel.add(Box.createVerticalGlue());
+
+        this.add(topPanel);
+        this.add(middlePanel);
         this.add(bottomPanel);
 
         for (Button button : difficultyButtons) {

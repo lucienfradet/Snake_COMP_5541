@@ -18,7 +18,10 @@ import screens.UI.ColorPalette;
 import screens.UI.FontPalette;
 
 public class ScreenDeleteAccount extends JPanel implements Screen {
-    JLabel currentUser = new JLabel(Main.loginUser.getUsername());
+
+    private final JPanel loginInfoPanel;
+    private final JTextField confirmField;
+
     public ScreenDeleteAccount() {
 
         super();
@@ -52,7 +55,7 @@ public class ScreenDeleteAccount extends JPanel implements Screen {
         areYouSure.setFont(FontPalette.TEXT);
         areYouSure.setForeground(ColorPalette.WHITE);
 
-        JTextField confirmField = new JTextField(20);
+        confirmField = new JTextField(20);
         confirmField.setFont(FontPalette.TEXT);
         confirmField.setForeground(ColorPalette.RED);
         confirmField.setBackground(ColorPalette.WHITE);
@@ -101,26 +104,14 @@ public class ScreenDeleteAccount extends JPanel implements Screen {
         middlePanel.add(Box.createVerticalStrut(22));
         middlePanel.add(delete);
 
-        JLabel loggedInAs = new JLabel("Logged in as");
-        loggedInAs.setFont(FontPalette.TEXT);
-        loggedInAs.setForeground(ColorPalette.GREEN);
-
-        currentUser.setFont(FontPalette.TEXT);
-        currentUser.setForeground(ColorPalette.WHITE);
-
-        JPanel loginInfoPanel = new JPanel();
-        loginInfoPanel.setLayout(new BoxLayout(loginInfoPanel, BoxLayout.Y_AXIS));
-        loginInfoPanel.setBackground(ColorPalette.BLACK);
+        loginInfoPanel = ScreenManager.displayUserInfo(Main.loginUser.getUsername());
         loginInfoPanel.setAlignmentX(LEFT_ALIGNMENT);
-        loginInfoPanel.add(loggedInAs);
-        loginInfoPanel.add(currentUser);
 
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        bottomPanel.setAlignmentX(CENTER_ALIGNMENT);
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
         bottomPanel.setBackground(ColorPalette.BLACK);
-        bottomPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
         bottomPanel.add(loginInfoPanel);
-
+        bottomPanel.add(Box.createHorizontalGlue());
         add(topPanel);
         add(middlePanel);
         add(Box.createVerticalGlue());
@@ -129,6 +120,8 @@ public class ScreenDeleteAccount extends JPanel implements Screen {
 
     @Override
     public void onShow() {
-        currentUser.setText(Main.loginUser.getUsername());
+        ScreenManager.refreshUserInfoPanel(loginInfoPanel);
+        confirmField.setText("");
     }
+
 }
