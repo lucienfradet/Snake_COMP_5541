@@ -53,7 +53,6 @@ public class Main {
       System.exit(0);
     }
 
-    AudioManager.playLoop(AudioManager.MENU_MUSIC);
     startGame();
   }
 }

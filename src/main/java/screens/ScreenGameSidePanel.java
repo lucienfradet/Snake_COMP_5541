@@ -76,7 +76,7 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
         switch (Main.loginUser.getDifficulty()) {
             case Difficulty.EASY -> currentDifficulty.setText("Easy");
             case Difficulty.NORMAL -> currentDifficulty.setText("Medium");
-            case Difficulty.HARD -> currentDifficulty.setText("Easy");
+            case Difficulty.HARD -> currentDifficulty.setText("Hard");
         }
         currentDifficulty.setFont(FontPalette.TEXT);
         currentDifficulty.setForeground(ColorPalette.GREEN);

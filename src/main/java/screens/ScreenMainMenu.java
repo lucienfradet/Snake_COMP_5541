@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
+import app.AudioManager;
 import app.Main;
 import screens.UI.Button;
 import screens.UI.ColorPalette;
@@ -44,7 +45,10 @@ public class ScreenMainMenu extends JPanel implements Screen {
         JButton logout = new Button("Logout");
         logout.setAlignmentX(LEFT_ALIGNMENT);
         logout.setPreferredSize(new Dimension(140, 40));
-        logout.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.START_MENU));
+        logout.addActionListener(e -> {
+            AudioManager.disableMusic();
+            ScreenManager.getInstance().showScreen(ScreenManager.START_MENU);
+        });
 
         topPanel.add(logout);
         topPanel.add(Box.createHorizontalGlue());

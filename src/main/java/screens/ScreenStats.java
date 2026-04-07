@@ -46,7 +46,8 @@ public class ScreenStats extends JPanel implements Screen {
         this.setBackground(ColorPalette.BLACK);
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
         topPanel.setBackground(ColorPalette.BLACK);
 
         JPanel middlePanel = new JPanel();
@@ -56,7 +57,9 @@ public class ScreenStats extends JPanel implements Screen {
         JButton back = new Button("Back");
         back.setPreferredSize(new Dimension(140, 40));
         back.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.MAIN_MENU));
+        
         topPanel.add(back);
+        topPanel.add(Box.createHorizontalGlue());
 
         JLabel pastGames = new JLabel("Past Games");
         pastGames.setFont(FontPalette.TITLE);
@@ -154,6 +157,7 @@ public class ScreenStats extends JPanel implements Screen {
         tablePanel.setMaximumSize(new Dimension(450, 250));
         tablePanel.add(tableScrollPane, BorderLayout.CENTER);
 
+        middlePanel.add(Box.createVerticalGlue());
         middlePanel.add(pastGames);
         middlePanel.add(tablePanel);
         middlePanel.add(Box.createVerticalGlue()); // pushes content up

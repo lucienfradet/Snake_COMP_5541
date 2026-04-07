@@ -5,12 +5,18 @@ import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import javax.swing.AbstractAction;
 
+import java.awt.event.ActionEvent;
+
+import app.AudioManager;
 import app.Main;
 import db.UserDB;
 import screens.UI.Button;
@@ -174,11 +180,13 @@ public class ScreenRegister extends JPanel implements Screen{
         message.setMaximumSize(new Dimension(452, 60));
 
         JPanel messagePanel = new JPanel();
-        messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.Y_AXIS));
+        messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.X_AXIS));
         messagePanel.setAlignmentX(CENTER_ALIGNMENT);
         messagePanel.setBackground(ColorPalette.BLACK);
         messagePanel.setPreferredSize(new Dimension(452, 60));
         messagePanel.setMaximumSize(new Dimension(452, 60));
+
+        messagePanel.add(Box.createHorizontalStrut(20));
         messagePanel.add(message);
         
         middlePanel.add(Box.createVerticalGlue());
@@ -193,11 +201,22 @@ public class ScreenRegister extends JPanel implements Screen{
         middlePanel.add(messagePanel);
         middlePanel.add(Box.createVerticalGlue());
 
-        Button create = new Button("Create");
-        create.setAlignmentX(CENTER_ALIGNMENT);
-        create.setMaximumSize(new Dimension(200, 40));
-        create.setPreferredSize(new Dimension(200, 40));
-        create.addActionListener(e -> {
+        Button snakeUp = new Button("Snake Up!");
+        snakeUp.setAlignmentX(CENTER_ALIGNMENT);
+        snakeUp.setMaximumSize(new Dimension(200, 40));
+        snakeUp.setPreferredSize(new Dimension(200, 40));
+
+        snakeUp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ENTER"), "register");
+        snakeUp.getActionMap().put("register", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                snakeUp.doClick();
+            }
+        });
+
+        snakeUp.addActionListener(e -> {
+            AudioManager.playOnce(AudioManager.SNAKE_UP_VOICE);
+            AudioManager.enableMusicAfterDelay();
             try {
                 String userUser = usernameField.getText();
                 if (userUser.length() < 5) {
@@ -229,7 +248,7 @@ public class ScreenRegister extends JPanel implements Screen{
             }
         });
 
-        bottomPanel.add(create);
+        bottomPanel.add(snakeUp);
 
         this.add(topPanel);
         this.add(Box.createVerticalGlue());

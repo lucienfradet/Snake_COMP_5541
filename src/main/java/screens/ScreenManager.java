@@ -165,8 +165,8 @@ public final class ScreenManager {
 
     private void syncAudio(String name) {
         switch (name) {
-            case GAME, PAUSE, GAME_OVER -> AudioManager.playLoop(AudioManager.GAME_MUSIC);
-            default -> AudioManager.playLoop(AudioManager.MENU_MUSIC);
+            case GAME, PAUSE, GAME_OVER -> AudioManager.syncMusic(AudioManager.GAME_MUSIC);
+            default -> AudioManager.syncMusic(AudioManager.MENU_MUSIC);
         }
     }
 

@@ -15,6 +15,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
+import app.AudioManager;
 import app.Main;
 import db.UserDB;
 import screens.UI.Button;
@@ -172,6 +173,8 @@ public class ScreenLogin extends JPanel implements Screen {
         });
 
         snakeUp.addActionListener(e -> {
+            AudioManager.playOnce(AudioManager.SNAKE_UP_VOICE);
+            AudioManager.enableMusicAfterDelay();
             try {
                 String userUser = usernameField.getText();
                 if (userUser.length() == 0) {
