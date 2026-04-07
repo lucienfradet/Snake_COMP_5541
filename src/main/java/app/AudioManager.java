@@ -161,17 +161,22 @@ public final class AudioManager {
         return;
       }
 
-      try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(resourceStream)) {
+      // BufferedInputStream adds mark/reset support needed by AudioSystem inside a jar
+      try (InputStream buffered = new java.io.BufferedInputStream(resourceStream);
+          AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(buffered)) {
         Clip clip = AudioSystem.getClip();
         clip.open(audioInputStream);
         clip.addLineListener(event -> {
           if (event.getType() == javax.sound.sampled.LineEvent.Type.STOP
               || event.getType() == javax.sound.sampled.LineEvent.Type.CLOSE) {
             clip.close();
-          }
+              }
         });
         clip.start();
-      }
+
+        // Need to block or the clip closes before it finishes playing
+        Thread.sleep(clip.getMicrosecondLength() / 1000 + 200);
+          }
     } catch (Exception e) {
       System.err.println("Could not play audio: " + resourcePath);
       e.printStackTrace();
