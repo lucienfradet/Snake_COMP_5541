@@ -20,9 +20,9 @@ import screens.UI.FontPalette;
 public class ScreenLogin extends JPanel implements Screen {
 
 
-    JTextField usernameField;
-    JPasswordField passwordField;
-    JTextArea message;
+    private final JTextField usernameField;
+    private final JPasswordField passwordField;
+    private final JTextArea message;
 
     public ScreenLogin() {
 
@@ -61,7 +61,7 @@ public class ScreenLogin extends JPanel implements Screen {
         login.setForeground(ColorPalette.WHITE);
 
         JPanel loginPanel = new JPanel();
-        loginPanel.setLayout(new BoxLayout(loginPanel, BoxLayout.Y_AXIS));
+        loginPanel.setLayout(new BoxLayout(loginPanel, BoxLayout.X_AXIS));
         loginPanel.setAlignmentX(CENTER_ALIGNMENT);
         loginPanel.setBackground(ColorPalette.BLACK);
         
@@ -134,11 +134,13 @@ public class ScreenLogin extends JPanel implements Screen {
         message.setMaximumSize(new Dimension(452, 60));
 
         JPanel messagePanel = new JPanel();
-        messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.Y_AXIS));
+        messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.X_AXIS));
         messagePanel.setAlignmentX(CENTER_ALIGNMENT);
         messagePanel.setBackground(ColorPalette.BLACK);
         messagePanel.setPreferredSize(new Dimension(452, 60));
         messagePanel.setMaximumSize(new Dimension(452, 60));
+
+        messagePanel.add(Box.createHorizontalStrut(20));
         messagePanel.add(message);
         
         middlePanel.add(Box.createVerticalGlue());
