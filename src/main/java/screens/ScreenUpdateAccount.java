@@ -8,6 +8,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
@@ -222,10 +223,16 @@ public class ScreenUpdateAccount extends JPanel implements Screen{
                 }
 
                 if (userUser.length() > 0){
+                    JOptionPane.showMessageDialog(null, "Username Changed Successfully", "Update",
+                    JOptionPane.INFORMATION_MESSAGE);
                     UserDB.updateUsername(Main.loginUser.getId(), userUser);
                     Main.loginUser.setUsername(userUser);
                 }
-                if (userPassword.length() > 0){UserDB.updatePassword(Main.loginUser.getId(), userPassword);}
+                if (userPassword.length() > 0){
+                    JOptionPane.showMessageDialog(null, "Password Changed Successfully", "Update",
+                    JOptionPane.INFORMATION_MESSAGE);
+                    UserDB.updatePassword(Main.loginUser.getId(), userPassword);
+                }
 
                 message.setText(" ");
                 ScreenManager.getInstance().showScreen(ScreenManager.MAIN_MENU);

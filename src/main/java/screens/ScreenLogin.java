@@ -7,8 +7,10 @@ import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
@@ -179,6 +181,11 @@ public class ScreenLogin extends JPanel implements Screen {
                 String userUser = usernameField.getText();
                 if (userUser.length() == 0) {
                     throw new Exception("Fill in username");
+                }
+                if (userUser.equals("The Best Group")) {
+                    ImageIcon icon = new ImageIcon("Snake_COMP_5541/easter_egg.jpg");
+                    JOptionPane.showMessageDialog(null, null, "Image Popup",
+                    JOptionPane.INFORMATION_MESSAGE, icon);
                 }
                 if (!(userUser.matches("^[a-zA-Z0-9]+$"))) {
                     throw new Exception("Username must be alphanumerical");
