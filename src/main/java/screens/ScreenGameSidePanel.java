@@ -85,7 +85,12 @@ public class ScreenGameSidePanel extends JPanel implements Screen{
         maze.setFont(FontPalette.TEXT);
         maze.setForeground(ColorPalette.WHITE);
 
-        JLabel currentMaze = new JLabel("1");
+        JLabel currentMaze = new JLabel("0");
+        switch (Main.loginUser.getMaze()) {
+            case 1 -> currentMaze.setText("1");
+            case 2 -> currentMaze.setText("2");
+            case 3 -> currentMaze.setText("3");
+        }
         currentMaze.setFont(FontPalette.TEXT);
         currentMaze.setForeground(ColorPalette.WHITE);
 
