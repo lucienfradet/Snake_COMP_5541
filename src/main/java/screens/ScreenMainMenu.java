@@ -1,13 +1,17 @@
 package screens;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
 import app.Main;
 import screens.UI.Button;
@@ -54,6 +58,15 @@ public class ScreenMainMenu extends JPanel implements Screen {
         play.setAlignmentX(CENTER_ALIGNMENT);
         play.setMaximumSize(new Dimension(140, 40));
         play.addActionListener(e -> ScreenManager.getInstance().showScreen(ScreenManager.MAP_SELECT));
+
+        play.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ENTER"), "play");
+
+        play.getActionMap().put("play", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                play.doClick();
+            }
+        });
 
         Button stats = new Button("Stats");
         stats.setAlignmentX(CENTER_ALIGNMENT);

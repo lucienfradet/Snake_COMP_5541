@@ -5,7 +5,7 @@ Using Threads and Java Swing to display the game.
 As well as SQLite with a Login system to keep track of past games.
 
 ### How it looks:
-![Snake Game Screenshot](./data/screenshot.png)
+![Snake Game Screenshot](./src/main/resources/screenshot.png)
 
 ### How to run the project:
 
