@@ -175,8 +175,6 @@ public class ScreenLogin extends JPanel implements Screen {
         });
 
         snakeUp.addActionListener(e -> {
-            AudioManager.playOnce(AudioManager.SNAKE_UP_VOICE);
-            AudioManager.enableMusicAfterDelay();
             try {
                 String userUser = usernameField.getText();
                 if (userUser.length() == 0) {
@@ -200,6 +198,8 @@ public class ScreenLogin extends JPanel implements Screen {
                 Main.loginUser = UserDB.login(userUser, userPassword);
                 message.setText(" ");
                 ScreenManager.getInstance().showScreen(ScreenManager.MAIN_MENU);
+                AudioManager.playOnce(AudioManager.SNAKE_UP_VOICE);
+                AudioManager.enableMusicAfterDelay();
             } catch (Exception er) {
                 message.setText("Error: " + er.getMessage());
             }

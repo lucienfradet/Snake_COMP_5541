@@ -226,3 +226,4 @@ target/
 out/
 data/db/snake_game.db
 target/
+dependency-reduced-pom.xml

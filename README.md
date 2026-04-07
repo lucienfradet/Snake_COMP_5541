@@ -24,29 +24,12 @@ As well as SQLite with a Login system to keep track of past games.
 * Run it
 * Start playing with the arrows keys or `WASD`
 
-### Developper Notes:
+Run with double pixel density:
+```bash
+java -Dsun.java2d.uiScale=2.0 -jar [.jar FILE]
+```
 
-#### using sqlite
-```
-project/
-├── lib/
-│   └── sqlite-jdbc-3.45.0.0.jar  ← Put the downloaded JAR here
-├── db/
-│   └── UserDB.java
-└── Main.java
-```
-Compile:
-```bash
-javac -cp "lib/sqlite-jdbc-3.45.0.0.jar" db/UserDB.java Main.java
-```
-Run:
-```bash
-java -cp ".:lib/sqlite-jdbc-3.45.0.0.jar" Main
-```
-on Windows:
-```bash
-java -cp ".;lib/sqlite-jdbc-3.45.0.0.jar" Main
-```
+### Developper Notes:
 
 #### Using Maeven Test
 - Run all tests:
