@@ -8,8 +8,8 @@ import javazoom.jl.player.advanced.AdvancedPlayer;
 
 public final class AudioManager {
 
-  public static final String MENU_MUSIC = "/audio/jaunty_gumption.mp3";
-  public static final String GAME_MUSIC = "/audio/jaunty_gumption.mp3";
+  public static final String MENU_MUSIC = "/data/audio/jaunty_gumption.mp3";
+  public static final String GAME_MUSIC = "/data/audio/jaunty_gumption.mp3";
 
   private static Thread playbackThread;
   private static AdvancedPlayer currentPlayer;
