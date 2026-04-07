@@ -33,7 +33,7 @@ import screens.UI.FontPalette;
 public class ScreenAdminStats extends JPanel implements Screen {
 
     private static final String[] COLUMN_NAMES = { "User", "ID", "Lvl", "Maze", "Score", "Time", "Moves" };
-    private static final Font SMALL_FONT = FontPalette.TEXT.deriveFont(12f);
+    private static final Font SMALL_FONT = FontPalette.TEXT.deriveFont(13f);
 
     private final DefaultTableModel statsTableModel;
     private final JTable statsTable;

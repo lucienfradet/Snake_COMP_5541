@@ -3,6 +3,7 @@ package screens;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -30,6 +31,7 @@ import screens.UI.FontPalette;
 public class ScreenStats extends JPanel implements Screen {
 
     private static final String[] COLUMN_NAMES = { "ID", "Lvl", "Maze", "Score", "Time", "Moves" };
+    private static final Font SMALL_FONT = FontPalette.TEXT.deriveFont(13f);
     private final DefaultTableModel statsTableModel;
     private final JTable statsTable;
     private final JPanel loginInfoPanel;
@@ -40,17 +42,16 @@ public class ScreenStats extends JPanel implements Screen {
     public ScreenStats() {
 
         super();
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setBackground(ColorPalette.BLACK);
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setBackground(ColorPalette.BLACK);
+        this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         topPanel.setBackground(ColorPalette.BLACK);
-        topPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JPanel middlePanel = new JPanel();
         middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
-        middlePanel.setBackground(ColorPalette.BLACK);
-        middlePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        middlePanel.setBackground(ColorPalette.BLACK); 
 
         JButton back = new Button("Back");
         back.setPreferredSize(new Dimension(140, 40));
@@ -70,7 +71,7 @@ public class ScreenStats extends JPanel implements Screen {
         };
 
         statsTable = new JTable(statsTableModel);
-        statsTable.setFont(FontPalette.TEXT);
+        statsTable.setFont(SMALL_FONT);
         statsTable.setForeground(ColorPalette.RED);
         statsTable.setBackground(ColorPalette.WHITE);
         statsTable.setSelectionBackground(ColorPalette.WHITE);
@@ -83,13 +84,12 @@ public class ScreenStats extends JPanel implements Screen {
         statsTable.setFocusable(false);
         statsTable.setRowSelectionAllowed(false);
         statsTable.setBorder(null);
-        statsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         statsTable.getColumnModel().getColumn(0).setPreferredWidth(38);
         statsTable.getColumnModel().getColumn(1).setPreferredWidth(90);
         statsTable.getColumnModel().getColumn(2).setPreferredWidth(69);
         statsTable.getColumnModel().getColumn(3).setPreferredWidth(80);
         statsTable.getColumnModel().getColumn(4).setPreferredWidth(75);
-        statsTable.getColumnModel().getColumn(5).setPreferredWidth(86);
+        statsTable.getColumnModel().getColumn(5).setPreferredWidth(80);
 
         DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
         cellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -134,9 +134,9 @@ public class ScreenStats extends JPanel implements Screen {
 
         JScrollPane tableScrollPane = new JScrollPane(statsTable);
         tableScrollPane.setAlignmentX(CENTER_ALIGNMENT);
-        tableScrollPane.setPreferredSize(new Dimension(450, 220));
-        tableScrollPane.setMaximumSize(new Dimension(450, 220));
-        tableScrollPane.setMinimumSize(new Dimension(450, 220));
+        tableScrollPane.setPreferredSize(new Dimension(450, 180));
+        tableScrollPane.setMaximumSize(new Dimension(450, 200));
+        tableScrollPane.setMinimumSize(new Dimension(450, 200));
         tableScrollPane.setBackground(ColorPalette.WHITE);
         tableScrollPane.getViewport().setBackground(ColorPalette.WHITE);
         tableScrollPane.setBorder(BorderFactory.createLineBorder(ColorPalette.WHITE, 6, true));
@@ -150,14 +150,13 @@ public class ScreenStats extends JPanel implements Screen {
         JPanel tablePanel = new JPanel(new BorderLayout());
         tablePanel.setAlignmentX(CENTER_ALIGNMENT);
         tablePanel.setBackground(ColorPalette.BLACK);
-        tablePanel.setPreferredSize(new Dimension(450, 300));
-        tablePanel.setMaximumSize(new Dimension(450, 300));
+        tablePanel.setPreferredSize(new Dimension(450, 250));
+        tablePanel.setMaximumSize(new Dimension(450, 250));
         tablePanel.add(tableScrollPane, BorderLayout.CENTER);
 
-        middlePanel.add(Box.createVerticalStrut(2));
         middlePanel.add(pastGames);
-        middlePanel.add(Box.createVerticalStrut(8));
         middlePanel.add(tablePanel);
+        middlePanel.add(Box.createVerticalGlue()); // pushes content up
 
         loginInfoPanel = ScreenManager.displayUserInfo(Main.loginUser.getUsername());
         loginInfoPanel.setAlignmentX(LEFT_ALIGNMENT);
@@ -170,6 +169,7 @@ public class ScreenStats extends JPanel implements Screen {
 
         this.add(topPanel);
         this.add(middlePanel);
+        this.add(Box.createVerticalGlue()); // add before bottomPanel
         this.add(bottomPanel);
 
         try {
