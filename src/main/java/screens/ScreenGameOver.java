@@ -1,12 +1,16 @@
 package screens;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 
+import javax.swing.AbstractAction;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
 import screens.UI.Button;
 import screens.UI.ColorPalette;
@@ -30,6 +34,15 @@ public class ScreenGameOver extends JPanel implements Screen{
         restart.addActionListener(e -> {
             ScreenManager.getInstance().refreshScreen(ScreenManager.GAME);
             ScreenManager.getInstance().showScreen(ScreenManager.GAME);
+        });
+
+        restart.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ENTER"), "restart");
+
+        restart.getActionMap().put("restart", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                restart.doClick();
+            }
         });
 
         JButton exit = new Button("Exit");
@@ -57,5 +70,4 @@ public class ScreenGameOver extends JPanel implements Screen{
         this.add(buttonPanel);
         this.add(Box.createVerticalGlue());
     }
-
 }
