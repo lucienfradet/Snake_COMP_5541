@@ -1,9 +1,6 @@
 package app;
-import java.awt.event.KeyListener;
 import javax.swing.JFrame;
-import screens.UI.ColorPalette;
 import screens.ScreenGame;
-import game.*;
 
 public class Window extends JFrame{
 

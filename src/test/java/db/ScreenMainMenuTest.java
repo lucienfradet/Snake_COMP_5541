@@ -2,7 +2,6 @@ package db;
 
 import org.junit.jupiter.api.*;
 import java.nio.file.*;
-import java.sql.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
