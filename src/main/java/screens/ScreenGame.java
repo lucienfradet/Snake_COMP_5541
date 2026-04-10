@@ -14,6 +14,8 @@ public class ScreenGame extends JPanel{
     private int rows = 20;
     private int columns = 20;
     private int cellSize;
+    private int maxCellSize = 50;
+    private int minCellSize = 1;
     /*private int maxRows = 30;
     private int minRows = 10;
     private int maxColumns = 30;
@@ -98,7 +100,6 @@ public class ScreenGame extends JPanel{
     protected void paintComponent(Graphics g)
     {
         super.paintComponent(g);
-        //System.out.println("Panel size: " + getWidth() + " x " + getHeight());
 
         //Flush Background
         for(int i = 0; i < rows; i++){
