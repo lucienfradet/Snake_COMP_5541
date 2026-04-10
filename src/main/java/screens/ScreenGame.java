@@ -94,7 +94,6 @@ public class ScreenGame extends JPanel{
     protected void paintComponent(Graphics g)
     {
         super.paintComponent(g);
-        //System.out.println("Panel size: " + getWidth() + " x " + getHeight());
 
         //Flush Background
         for(int i = 0; i < rows; i++){
